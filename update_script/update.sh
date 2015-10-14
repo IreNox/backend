@@ -1,7 +1,7 @@
 #!/bin/sh
 cd ..
+git checkout .
 
-# check for git updates
 check_for_update() {
 	git fetch origin
 	git_diff=`git diff origin/master | grep diff`
@@ -17,7 +17,6 @@ function update_data() {
 	forever stop server.js
 	cd ..
 
-	git checkout .
 	git merge origin/master
 
 	cd server
