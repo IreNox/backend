@@ -22,6 +22,12 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="models.js" />
+    <Content Include="models\model.test.js" />
+    <Content Include="models\model.user.js" />
+    <Content Include="pages.js" />
+    <Content Include="pages\page.login.js" />
+    <Content Include="pages\page.test.js" />
     <Content Include="server.js" />
   </ItemGroup>
   <PropertyGroup>
