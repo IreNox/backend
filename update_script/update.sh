@@ -4,7 +4,7 @@ cd ..
 # check for git updates
 check_for_update() {
 	git fetch origin
-	git_diff=`git diff origin/master`
+	git_diff=`git diff origin/master | grep diff`
 	if [ -n "$git_diff" ]
 		then return 1
 	fi
