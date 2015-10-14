@@ -5,6 +5,13 @@ module.exports = {
 	run: function(data, callback) {
 	    var obj = { result: "Unknown" };
 
+	    if (!data.username || (!data.login_token && !data.password)) {
+	    	obj.result = "InvalidCall";
+	    	callback(200, obj);
+
+	    	return;
+	    }
+
 	    models.user.findOne({ username: data.username }, function (err, result) {
 	        if (err || !result) {
 		        obj.result = "NotFound";
