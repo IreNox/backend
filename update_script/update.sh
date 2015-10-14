@@ -17,6 +17,7 @@ function update_data() {
 	forever stop server.js
 	cd ..
 
+	git checkout .
 	git merge origin/master
 
 	cd server
