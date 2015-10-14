@@ -25,8 +25,10 @@ function update_data() {
 	cd ..
 }
 
-update=check_for_update
-if [ $update ]
+check_for_update
+update=$?
+
+if [ $update = 1 ] ;
 	then update_data
 fi
 
