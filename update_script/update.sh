@@ -29,3 +29,4 @@ if [ check_for_update ]
 fi
 
 cd update_script
+chmod +x ./update.sh
