@@ -1,5 +1,2 @@
-
-module.exports = {
-	user: require('./models/model.user.js'),
-	test: require('./models/model.test.js')
-}
+var core = require('./core');
+module.exports = core.includeDirectory('./models');

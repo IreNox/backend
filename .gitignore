@@ -27,6 +27,7 @@ build/Release
 node_modules
 
 .vs
+bin
 obj
 
 /data

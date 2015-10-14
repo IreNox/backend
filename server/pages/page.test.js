@@ -1,10 +1,8 @@
 
 module.exports =
 {
-	run: function(req, obj)
+	run: function(req, callback)
 	{
-		obj.test = "Hello World!";
-	
-		return 200;
+	    callback(200, { test: "Hello World!" });
 	}
 };
