@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/server');
 
 var models = require('./models.js');
-var pages = include('./pages.js');
+var pages = require('./pages.js');
 
 var requestFunc = function (req, res)
 {	
