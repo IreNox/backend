@@ -6,7 +6,7 @@ module.exports = {
 		var obj = { result: "Unknown" };
 
 		if (sessionData.user) {
-			obj.result = "AlreadLoggedin";
+			obj.result = "AlreadyLoggedin";
 	    	callback(200, obj);
 		}
 		else if (!inputData.username || (!inputData.login_token && !inputData.password))

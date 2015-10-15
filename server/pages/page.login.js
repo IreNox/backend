@@ -6,7 +6,7 @@ module.exports = {
 	    var obj = { result: "Unknown" };
 
 		if (sessionData.user) {
-			obj.result = "AlreadLoggedin";
+			obj.result = "AlreadyLoggedin";
 			obj.user_id = sessionData.user._id;
 			callback(200, obj);
 		}

@@ -11,6 +11,7 @@ var models = require('./models.js');
 var pages = require('./pages.js');
 
 var app = express();
+app.use('/client', express.static('../client'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
