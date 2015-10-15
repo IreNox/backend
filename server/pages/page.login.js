@@ -2,32 +2,37 @@ var models = require("../models.js");
 var sdk = require('../sdk.js');
 
 module.exports = {
-	run: function(data, callback) {
+	run: function(inputData, sessionData, callback) {
 	    var obj = { result: "Unknown" };
 
-	    if (!data.username || (!data.login_token && !data.password)) {
+		if (sessionData.user) {
+			obj.result = "AlreadLoggedin";
+	    	callback(200, obj);
+		}
+		else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
 	    	obj.result = "InvalidCall";
 	    	callback(200, obj);
-
-	    	return;
 	    }
+		else {
+			models.user.findOne({ username: inputData.username }, function (err, result) {
+				if (err || !result) {
+					obj.result = "NotFound";
+				}
+				else if (inputData.login_token && inputData.login_token != result.login_token) {
+					obj.result = "InvalidToken";
+				}
+				else if (sdk.crypt.salt(inputData.password, result.password_salt) != result.password) {
+					obj.result = "InvalidPassword";
+				}
+				else {
+					obj.result = "Ok";
+					obj.name = result.username;
+					
+					sessionData.user = result;					
+				}
 
-	    models.user.findOne({ username: data.username }, function (err, result) {
-	        if (err || !result) {
-		        obj.result = "NotFound";
-	        }
-	        else if (data.login_token && data.login_token != result.login_token) {
-	        	obj.result = "InvalidToken";
-	        }
-	        else if (sdk.crypt.salt(data.password, result.password_salt) != result.password) {
-	        	obj.result = "InvalidPassword";
-	        }
-		    else {
-		        obj.result = "NoError";
-		        obj.name = result.username;
-	        }
-
-		    callback(200, obj);
-		});
+				callback(200, obj);
+			});
+		}
 	}
 };

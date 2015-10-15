@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -27,10 +27,13 @@
     <Content Include="models\model.test.js" />
     <Content Include="models\model.user.js" />
     <Content Include="pages.js" />
+    <Content Include="pages\page.finduser.js" />
+    <Content Include="pages\page.getuser.js" />
     <Content Include="pages\page.login.js" />
-    <Content Include="pages\page.test.js" />
+    <Content Include="pages\page.logout.js" />
     <Content Include="sdk.js" />
     <Content Include="sdk\sdk.crypt.js" />
+    <Content Include="sdk\sdk.user.js" />
     <Content Include="server.js" />
   </ItemGroup>
   <ItemGroup>
@@ -48,15 +51,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2516</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2516/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:8080</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

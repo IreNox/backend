@@ -2,48 +2,57 @@
 var sdk = require('../sdk.js');
 
 module.exports = {
-	run: function (data, callback) {
+	run: function (inputData, sessionData, callback) {
 		var obj = { result: "Unknown" };
 
-		if (!data.username || (!data.login_token && !data.password))
+		if (sessionData.user) {
+			obj.result = "AlreadLoggedin";
+	    	callback(200, obj);
+		}
+		else if (!inputData.username || (!inputData.login_token && !inputData.password))
 		{
 			obj.result = "InvalidCall";
 			callback(200, obj);
-
-			return;
 		}
-
-		models.user.findOne({ username: data.username }, function (err, result) {
-			if (err) {
-				obj.result = "DatabaseError";
-			}
-			else if (result) {
-				obj.result = "AlreadyInuse";
-			}
-			else {
-				obj.result = "NewUser";
-
-				var userData = { username: data.username };
-				if (data.password)
-				{
-					userData.password_salt = sdk.crypt.md5_salt();
-					userData.password = sdk.crypt.salt(data.password, userData.password_salt);
-				}
-
-				if (data.login_token)
-				{
-					userData.login_token = data.login_token;
-				}
-
-				user = new models.user(userData);
-				user.save(function (err) {
+		else {
+			models.user.findOne({ username: inputData.username }, function (err, result) {
+				if (err) {
 					obj.result = "DatabaseError";
-				});
+					callback(200, obj);
+				}
+				else if (result) {
+					obj.result = "AlreadyInuse";
+					callback(200, obj);
+				}
+				else {
+					obj.result = "Ok";
 
-				obj.name = user.username;
-			}
+					var userData = { username: inputData.username };
+					if (inputData.password)
+					{
+						userData.password_salt = sdk.crypt.md5_salt();
+						userData.password = sdk.crypt.salt(inputData.password, userData.password_salt);
+					}
 
-			callback(200, obj);
-		});
+					if (inputData.login_token)
+					{
+						userData.login_token = inputData.login_token;
+					}
+
+					user = new models.user(userData);
+					user.save(function (err) {
+						if (err) {
+							obj.result = "DatabaseError";
+						}
+						else {
+							obj.name = user.username;
+							sessionData.user = user;
+
+							callback(200, obj);
+						}
+					});
+				}
+			});
+		}
 	}
 };
