@@ -45,7 +45,7 @@ module.exports = {
 							obj.result = "DatabaseError";
 						}
 						else {
-							obj.name = user.username;
+							obj.user_id = user._id;
 							sessionData.user = user;
 
 							callback(200, obj);

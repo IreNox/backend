@@ -7,7 +7,8 @@ module.exports = {
 
 		if (sessionData.user) {
 			obj.result = "AlreadLoggedin";
-	    	callback(200, obj);
+			obj.user_id = sessionData.user._id;
+			callback(200, obj);
 		}
 		else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
 	    	obj.result = "InvalidCall";
@@ -26,7 +27,7 @@ module.exports = {
 				}
 				else {
 					obj.result = "Ok";
-					obj.name = result.username;
+					obj.user_id = result._id;
 					
 					sessionData.user = result;					
 				}
