@@ -28,6 +28,7 @@
     <Content Include="models\model.user.js" />
     <Content Include="pages.js" />
     <Content Include="pages\page.finduser.js" />
+    <Content Include="pages\page.friends.js" />
     <Content Include="pages\page.getuser.js" />
     <Content Include="pages\page.login.js" />
     <Content Include="pages\page.logout.js" />

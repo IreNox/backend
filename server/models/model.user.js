@@ -5,8 +5,9 @@ var userSchema = mongoose.Schema({
     login_token: String,
     username: { type: String, unique: true },
     password: String,
-	password_salt: String,
-	points:	Number
+    password_salt: String,
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+    points: Number
 });
 
 module.exports = mongoose.model('user', userSchema);

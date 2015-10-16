@@ -25,8 +25,11 @@
     <Content Include="code\main.js" />
     <Content Include="code\state.login.js" />
     <Content Include="code\state.overview.js" />
+    <Content Include="code\state.userinfo.js" />
     <Content Include="html\login.html" />
     <Content Include="html\overview.html" />
+    <Content Include="html\userinfo.html" />
+    <Content Include="img\ajax-loader.gif" />
     <Content Include="index.html" />
     <Content Include="thirdparty\jquery-2.1.4\jquery-2.1.4.min.js" />
     <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />

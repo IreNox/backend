@@ -24,7 +24,12 @@ module.exports = {
 
         			obj.users = [];
         			for (var index in result) {
-        				obj.users.push(sdk.user.exportUser(result[index]));
+        				var user = result[index];
+        				if (user._id == sessionData.user._id) {
+        					continue;
+        				}
+
+        				obj.users.push(sdk.user.exportUser(user));
         			}
         		}
 
