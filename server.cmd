@@ -22,7 +22,7 @@ GOTO:EOF
 
 :stop
 echo Stop Server...
-call forenver stop server.js
+call forever stop server.js
 GOTO:EOF
 
 :end
