@@ -1,13 +1,18 @@
-var LoginData = (function () {
-    function LoginData(_username, _password) {
+﻿
+class LoginData {
+    public username: string;
+    public password: string;
+
+    constructor(_username: string, _password: string) {
         this.username = _username;
         this.password = _password;
     }
-    return LoginData;
-})();
+}
+
 var global = {
     user_id: ""
 };
+
 var sdk = {
     setLoading: function () {
         $('#content').html('<img src="img/ajax-loader.gif" />');
@@ -34,8 +39,10 @@ var sdk = {
     },
     parseResult: function (data, acceptedResults, callback) {
         acceptedResults.push('Ok');
+
         if ($.inArray(data.result, acceptedResults) < 0) {
             $('#error').html(data.result);
+
             callback(false);
         }
         else {
@@ -43,11 +50,11 @@ var sdk = {
         }
     }
 };
+
 var user = {
-    login: function (username, password) {
-        if (username === void 0) { username = ""; }
-        if (password === void 0) { password = ""; }
-        var loginData = new LoginData(username, password);
+    login: function (username: string = "", password: string = "") {
+        var loginData: LoginData = new LoginData(username, password);
+
         sdk.serverPost('login', loginData, function (data) {
             sdk.parseResult(data, ['AlreadyLoggedin'], function (ok) {
                 if (ok) {
@@ -66,8 +73,8 @@ var user = {
         });
     }
 };
+
 $(document).ready(function () {
     sdk.setLoading();
     user.login();
 });
-//# sourceMappingURL=main.js.map
