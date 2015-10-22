@@ -1,15 +1,35 @@
-﻿
+﻿/// <reference path="../thirdparty/history/history.d.ts"/>
+
 module sdk {
+    export function init() {
+        Historyjs.Adapter.bind(window, 'statechange', function () {
+            var state: HistoryState = Historyjs.getState();
+            var context: StateContext = state.data;
+
+            console.log(state);
+
+            activateState(context)
+        });
+    }
+
     export function setLoading() {
         $('#content').html('<img src="img/ajax-loader.gif" />');
     }
 
-    export function changeState(stateName: string, data: any = null) {
-        sdk.setLoading();
-        global.stateContext = data;
-        $.getScript('code/states/state.' + stateName + '.js');
-    }
+    export function changeState(stateName: string, stateData: any = null) {
+        var context: StateContext = new StateContext();
+        context.stateName = stateName;
+        context.stateData = stateData;
 
+        var url: string = "?/" + stateName;
+
+        for (var key in stateData) {
+            
+        }
+
+        Historyjs.pushState(context, document.title, );
+    }
+    
     export function serverGet(url: string, callback: RestCallback) {
         $.ajax({
             url: '../' + url,
@@ -37,11 +57,26 @@ module sdk {
             }
             else {
                 $('#error').html(data.result);
-                callback(false);
             }
+            callback(false);
         }
         else {
             callback(true);
         }
+    }
+
+    export function encodeUrl(fileName: string, query: any): string {
+        var url: string = "?/" + fileName;
+
+        for (var key in stateData) {
+
+        }
+
+        return url;
+    }
+
+    export function activateState(context: StateContext) {
+        sdk.setLoading();
+        $.getScript('code/states/state.' + context.stateName + '.js');
     }
 }

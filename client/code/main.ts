@@ -1,10 +1,11 @@
-﻿
+﻿var Historyjs: Historyjs = <any>History;
+
 module global {
     export var userId: string = "";
-    export var stateContext: any = null;
 }
 
 $(document).ready(function () {
+    sdk.init();
     sdk.setLoading();
     user.login();
 });

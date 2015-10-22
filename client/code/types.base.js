@@ -1,3 +1,8 @@
+var StateContext = (function () {
+    function StateContext() {
+    }
+    return StateContext;
+})();
 var User = (function () {
     function User() {
     }

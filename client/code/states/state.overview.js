@@ -1,4 +1,4 @@
-/// <reference path="../../thirdparty/dep/jqueryui/jqueryui.d.ts"/>
+/// <reference path="../../thirdparty/jqueryui/jqueryui.d.ts"/>
 $('#content').load('html/overview.html', function () {
     sdk.serverGet('getuser', function (data) {
         sdk.parseResult(data, [], function (ok) {

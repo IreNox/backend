@@ -22,31 +22,34 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="html\loading.html" />
     <Content Include="html\login.html" />
     <Content Include="html\overview.html" />
     <Content Include="html\userinfo.html" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="index.html" />
-    <Content Include="thirdparty\jquery-2.1.4\jquery-2.1.4.min.js" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_flat_10_000000_40x100.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_glass_100_f6f6f6_1x400.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_glass_100_fdf5ce_1x400.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-icons_222222_256x240.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-icons_228ef1_256x240.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-icons_ef8c08_256x240.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-icons_ffd27a_256x240.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\jquery-ui.css" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\jquery-ui.min.css" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\jquery-ui.min.js" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\jquery-ui.structure.min.css" />
-    <Content Include="thirdparty\jquery-ui-1.11.4\jquery-ui.theme.min.css" />
+    <Content Include="thirdparty\history\jquery.history.js" />
+    <Content Include="thirdparty\jquery\jquery.min.js" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-icons_222222_256x240.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="thirdparty\jqueryui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="thirdparty\jqueryui\jquery-ui.css" />
+    <Content Include="thirdparty\jqueryui\jquery-ui.min.css" />
+    <Content Include="thirdparty\jqueryui\jquery-ui.min.js" />
+    <Content Include="thirdparty\jqueryui\jquery-ui.structure.min.css" />
+    <Content Include="thirdparty\jqueryui\jquery-ui.theme.min.css" />
+    <Content Include="thirdparty\urijs\URI.min.js" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="code\module.sdk.ts" />
@@ -57,8 +60,10 @@
     <TypeScriptCompile Include="code\states\state.overview.ts" />
     <TypeScriptCompile Include="code\states\state.userinfo.ts" />
     <TypeScriptCompile Include="code\types.rest.ts" />
-    <TypeScriptCompile Include="thirdparty\dep\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="thirdparty\dep\jqueryui\jqueryui.d.ts" />
+    <TypeScriptCompile Include="thirdparty\history\history.d.ts" />
+    <TypeScriptCompile Include="thirdparty\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="thirdparty\jqueryui\jqueryui.d.ts" />
+    <TypeScriptCompile Include="thirdparty\urijs\URIjs.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
