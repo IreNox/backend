@@ -1,33 +1,37 @@
 ﻿/// <reference path="../thirdparty/history/history.d.ts"/>
+/// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 
 module sdk {
+    var loadingHtml: string = 'Loading...';
+
     export function init() {
+        $.ajax({
+            url: 'html/loading.html',
+            async: false,
+            success: function (data: string) {
+                loadingHtml = data;
+            }
+        });
+
         Historyjs.Adapter.bind(window, 'statechange', function () {
-            var state: HistoryState = Historyjs.getState();
-            var context: StateContext = state.data;
-
-            console.log(state);
-
-            activateState(context)
+            sdk.activateState();
         });
     }
 
     export function setLoading() {
-        $('#content').html('<img src="img/ajax-loader.gif" />');
+        $('#content').html(loadingHtml);
     }
 
     export function changeState(stateName: string, stateData: any = null) {
-        var context: StateContext = new StateContext();
-        context.stateName = stateName;
-        context.stateData = stateData;
+        var url: string = encodeUrl({ state_name: stateName }, stateData);
+        Historyjs.pushState(null, document.title, url);
+    }
 
-        var url: string = "?/" + stateName;
+    export function getStateData(): any {
+        var state: HistoryState = Historyjs.getState();
+        var context: StateContext = state.data;
 
-        for (var key in stateData) {
-            
-        }
-
-        Historyjs.pushState(context, document.title, );
+        return context.stateData;
     }
     
     export function serverGet(url: string, callback: RestCallback) {
@@ -65,18 +69,37 @@ module sdk {
         }
     }
 
-    export function encodeUrl(fileName: string, query: any): string {
-        var url: string = "?/" + fileName;
-
-        for (var key in stateData) {
-
-        }
-
-        return url;
+    export function encodeUrl(firstQuery: any, secondQuery: any): string {
+        var url: uri.URI = new URI("").addQuery(firstQuery).addQuery(secondQuery);
+        return url.href();
     }
 
-    export function activateState(context: StateContext) {
+    export function decodeUrl(url: string): any {
+        var query: uri.URI = new URI(url);
+        return query.search(true);
+    }
+
+    export function activateState(): boolean {
+        var state: HistoryState = Historyjs.getState();
+
+        var stateData: any = decodeUrl(state.url);
+        var stateName: string = stateData.state_name;
+        delete stateData.state_name;
+
+        if (!stateName) {
+            return false;
+        }
+
+        var context: StateContext = new StateContext();
+        context.stateName = stateName;
+        context.stateData = stateData;
+
+        global.stateName = stateName;
+        global.stateData = stateData;
+
         sdk.setLoading();
         $.getScript('code/states/state.' + context.stateName + '.js');
+
+        return true;
     }
 }

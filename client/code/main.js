@@ -3,7 +3,7 @@ var global;
 (function (global) {
     global.userId = "";
     global.stateName = "";
-    global.stateContext = null;
+    global.stateData = null;
 })(global || (global = {}));
 $(document).ready(function () {
     sdk.init();

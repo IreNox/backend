@@ -5,7 +5,10 @@ module user {
             sdk.parseResult(data, ['AlreadyLoggedin'], function (ok) {
                 if (ok) {
                     global.userId = data.user_id;
-                    sdk.changeState('overview');
+                    
+                    if (!sdk.activateState()) {
+                        sdk.changeState('overview');
+                    }
                 }
                 else {
                     sdk.changeState('login');

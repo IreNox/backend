@@ -1,29 +1,37 @@
 /// <reference path="../thirdparty/history/history.d.ts"/>
+/// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 var sdk;
 (function (sdk) {
+    var loadingHtml = 'Loading...';
     function init() {
+        $.ajax({
+            url: 'html/loading.html',
+            async: false,
+            success: function (data) {
+                loadingHtml = data;
+            }
+        });
         Historyjs.Adapter.bind(window, 'statechange', function () {
-            var state = Historyjs.getState();
-            console.log(state);
+            sdk.activateState();
         });
     }
     sdk.init = init;
     function setLoading() {
-        $('#content').html('<img src="img/ajax-loader.gif" />');
+        $('#content').html(loadingHtml);
     }
     sdk.setLoading = setLoading;
-    function changeState(stateName, data) {
-        if (data === void 0) { data = null; }
-        var context = new StateContext();
-        context.stateName = stateName;
-        context.stateData = data;
-        Historyjs.pushState(context, document.title, "?/" + stateName);
-        sdk.setLoading();
-        global.stateName = stateName;
-        global.stateContext = data;
-        $.getScript('code/states/state.' + stateName + '.js');
+    function changeState(stateName, stateData) {
+        if (stateData === void 0) { stateData = null; }
+        var url = encodeUrl({ state_name: stateName }, stateData);
+        Historyjs.pushState(null, document.title, url);
     }
     sdk.changeState = changeState;
+    function getStateData() {
+        var state = Historyjs.getState();
+        var context = state.data;
+        return context.stateData;
+    }
+    sdk.getStateData = getStateData;
     function serverGet(url, callback) {
         $.ajax({
             url: '../' + url,
@@ -58,5 +66,33 @@ var sdk;
         }
     }
     sdk.parseResult = parseResult;
+    function encodeUrl(firstQuery, secondQuery) {
+        var url = new URI("").addQuery(firstQuery).addQuery(secondQuery);
+        return url.href();
+    }
+    sdk.encodeUrl = encodeUrl;
+    function decodeUrl(url) {
+        var query = new URI(url);
+        return query.search(true);
+    }
+    sdk.decodeUrl = decodeUrl;
+    function activateState() {
+        var state = Historyjs.getState();
+        var stateData = decodeUrl(state.url);
+        var stateName = stateData.state_name;
+        delete stateData.state_name;
+        if (!stateName) {
+            return false;
+        }
+        var context = new StateContext();
+        context.stateName = stateName;
+        context.stateData = stateData;
+        global.stateName = stateName;
+        global.stateData = stateData;
+        sdk.setLoading();
+        $.getScript('code/states/state.' + context.stateName + '.js');
+        return true;
+    }
+    sdk.activateState = activateState;
 })(sdk || (sdk = {}));
 //# sourceMappingURL=module.sdk.js.map
