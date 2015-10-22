@@ -22,7 +22,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="code\state.login.js" />
     <Content Include="html\login.html" />
     <Content Include="html\overview.html" />
     <Content Include="html\userinfo.html" />
@@ -50,9 +49,14 @@
     <Content Include="thirdparty\jquery-ui-1.11.4\jquery-ui.theme.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="code\module.sdk.ts" />
+    <TypeScriptCompile Include="code\module.user.ts" />
+    <TypeScriptCompile Include="code\types.base.ts" />
     <TypeScriptCompile Include="code\main.ts" />
-    <TypeScriptCompile Include="code\state.overview.ts" />
-    <TypeScriptCompile Include="code\state.userinfo.ts" />
+    <TypeScriptCompile Include="code\states\state.login.ts" />
+    <TypeScriptCompile Include="code\states\state.overview.ts" />
+    <TypeScriptCompile Include="code\states\state.userinfo.ts" />
+    <TypeScriptCompile Include="code\types.rest.ts" />
     <TypeScriptCompile Include="thirdparty\dep\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="thirdparty\dep\jqueryui\jqueryui.d.ts" />
   </ItemGroup>

@@ -1,7 +1,7 @@
-﻿/// <reference path="../thirdparty/dep/jqueryui/jqueryui.d.ts"/>
+﻿/// <reference path="../../thirdparty/dep/jqueryui/jqueryui.d.ts"/>
 
 $('#content').load('html/overview.html', function () {
-	sdk.serverGet('getuser', function (data) {
+    sdk.serverGet('getuser', function (data: RestGetUserResult) {
 		sdk.parseResult(data, [], function (ok) {
 			if (ok) {
 				$('#username').html(data.user.username);
@@ -17,7 +17,7 @@ $('#content').load('html/overview.html', function () {
 		var obj: any = {};
 		obj.username = $('#friends_name').val();
 		
-		sdk.serverPost('finduser', obj, function (data) {
+        sdk.serverPost('finduser', obj, function (data: RestFindUserResult) {
 			sdk.parseResult(data, [], function (ok) {
 				if (ok) {
 					var html = '<ul id="friends_list">';
@@ -30,7 +30,8 @@ $('#content').load('html/overview.html', function () {
 					$("#friends_list").menu().on("menuselect", function (selectEvent: JQueryEventObject, ui: JQueryUI.AutocompleteUIParams) {
 						var item_id = $(ui.item).prop('id');
 						var user_id = /friend_([0-9a-fA-F]+)/.exec(item_id)[1];
-						console.log(user_id);
+
+                        sdk.changeState("userinfo", { user_id: user_id });
 					});
 				}
 			});
