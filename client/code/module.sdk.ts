@@ -2,16 +2,10 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 
 module sdk {
-    var loadingHtml: string = 'Loading...';
-
+    var preloadedHtml: { [s: string]: string; } = {};
+    
     export function init() {
-        $.ajax({
-            url: 'html/loading.html',
-            async: false,
-            success: function (data: string) {
-                loadingHtml = data;
-            }
-        });
+        preloadHtml('html/loading.html');
 
         Historyjs.Adapter.bind(window, 'statechange', function () {
             sdk.activateState();
@@ -19,7 +13,7 @@ module sdk {
     }
 
     export function setLoading() {
-        $('#content').html(loadingHtml);
+        $('#content').html(preloadHtml('html/loading.html'));
     }
 
     export function changeState(stateName: string, stateData: any = null) {
@@ -37,6 +31,7 @@ module sdk {
     export function serverGet(url: string, callback: RestCallback) {
         $.ajax({
             url: '../' + url,
+            async: true,
             dataType: 'json',
             success: callback
         });
@@ -46,10 +41,25 @@ module sdk {
         $.ajax({
             type: "POST",
             url: '../' + url,
+            async: true,
             data: data,
             dataType: 'json',
             success: callback
         });
+    }
+
+    export function preloadHtml(fileName: string): string {
+        if (!(fileName in preloadedHtml)) {
+            $.ajax({
+                url: fileName,
+                async: false,
+                success: function (data: string) {
+                    preloadedHtml[fileName] = data;
+                }
+            });
+        }
+
+        return preloadedHtml[fileName];
     }
 
     export function parseResult(data: RestResult, acceptedResults: string[], callback) {
@@ -77,6 +87,15 @@ module sdk {
     export function decodeUrl(url: string): any {
         var query: uri.URI = new URI(url);
         return query.search(true);
+    }
+
+    export function formatString(text: string, data: any): string {
+        var result: string = text;
+        for (var key in data) {
+            result = result.replace('{' + key + '}', data[key]);
+        }
+
+        return result;
     }
 
     export function activateState(): boolean {

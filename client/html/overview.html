@@ -1,13 +1,27 @@
-﻿Name: <span id="username"></span> <button id="logout">Logout</button><br />
-<br />
-<div>
-    Friends search:<br />
-    <div id="friends"> 
-
-    </div>
+﻿<div style="position: fixed; right: 0px;">
+    <button id="logout">Logout</button>
 </div>
-<form action="#" id="friends_form">
-    <div id="error" style="color: red;"></div>
-    <input type="text" id="friends_name" />
-    <input type="button" id="friends_button" value="Find..." />
-</form>
+Name: <span id="username"></span>
+<br />
+<table>
+    <tr>
+        <td style="border: 1px dashed black; padding-right: 10px;">
+            <div>
+                Friends list:<br />
+                <div id="friends_list"></div>
+            </div>
+        </td>
+        <td style="border: 1px dashed black;">
+            <div>
+                Friends search:<br />
+                <div id="friends_search_list"></div>
+            </div>
+            <br />
+            <form action="#" id="friends_search_form">
+                <div id="error" style="color: red;"></div>
+                <input type="text" id="friends_search_name" />
+                <input type="button" id="friends_search_button" value="Find..." />
+            </form>
+        </td>
+    </tr>
+</table>

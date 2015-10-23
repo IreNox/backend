@@ -5,8 +5,13 @@ module user {
             sdk.parseResult(data, ['AlreadyLoggedin'], function (ok) {
                 if (ok) {
                     global.userId = data.user_id;
-                    
-                    if (!sdk.activateState()) {
+
+                    var hasValidState: boolean = sdk.activateState();
+                    if (hasValidState && global.stateName == 'login') {
+                        hasValidState = false;
+                    }
+
+                    if (!hasValidState) {
                         sdk.changeState('overview');
                     }
                 }

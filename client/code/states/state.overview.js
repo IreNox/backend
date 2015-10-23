@@ -4,25 +4,31 @@ $('#content').load('html/overview.html', function () {
         sdk.parseResult(data, [], function (ok) {
             if (ok) {
                 $('#username').html(data.user.username);
+                var html = sdk.formatString(sdk.preloadHtml('html/general_list_begin.html'), { id: 'friends_menu' });
+                for (var index in data.user.friends) {
+                    html += sdk.formatString(sdk.preloadHtml('html/general_list_entry.html'), data.user.friends[index]);
+                }
+                html += sdk.preloadHtml('html/general_list_end.html');
+                $('#friends_list').html(html);
             }
         });
     });
     $('#logout').button().click(function () {
         user.logout();
     });
-    $('#friends_form').submit(function (submitEvent) {
+    $('#friends_search_form').submit(function (submitEvent) {
         var obj = {};
-        obj.username = $('#friends_name').val();
+        obj.username = $('#friends_search_name').val();
         sdk.serverPost('finduser', obj, function (data) {
             sdk.parseResult(data, [], function (ok) {
                 if (ok) {
-                    var html = '<ul id="friends_list">';
+                    var html = sdk.formatString(sdk.preloadHtml('html/general_list_begin.html'), { id: 'friends_search_menu' });
                     for (var index in data.users) {
-                        html += '<li id="friend_' + data.users[index]._id + '">' + data.users[index].username + '</li>';
+                        html += sdk.formatString(sdk.preloadHtml('html/overview_friends_list_entry.html'), data.users[index]);
                     }
-                    html += '</ul>';
-                    $('#friends').html(html);
-                    $("#friends_list").menu().on("menuselect", function (selectEvent, ui) {
+                    html += sdk.preloadHtml('html/general_list_end.html');
+                    $('#friends_search_list').html(html);
+                    $("#friends_search_menu").menu().on("menuselect", function (selectEvent, ui) {
                         var item_id = $(ui.item).prop('id');
                         var user_id = /friend_([0-9a-fA-F]+)/.exec(item_id)[1];
                         sdk.changeState("userinfo", { user_id: user_id });
@@ -32,8 +38,8 @@ $('#content').load('html/overview.html', function () {
         });
         submitEvent.preventDefault();
     });
-    $('#friends_button').button().click(function () {
-        $('#friends_form').submit();
+    $('#friends_search_button').button().click(function () {
+        $('#friends_search_form').submit();
     });
 });
 //# sourceMappingURL=state.overview.js.map

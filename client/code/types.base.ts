@@ -7,4 +7,5 @@ class StateContext {
 class User {
     public _id: string;
     public username: string;
+    public friends: User[];
 }

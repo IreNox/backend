@@ -22,9 +22,14 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\main.css" />
+    <Content Include="html\general_list_begin.html" />
+    <Content Include="html\general_list_end.html" />
+    <Content Include="html\general_list_entry.html" />
     <Content Include="html\loading.html" />
     <Content Include="html\login.html" />
     <Content Include="html\overview.html" />
+    <Content Include="html\overview_friends_list_entry.html" />
     <Content Include="html\userinfo.html" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="index.html" />

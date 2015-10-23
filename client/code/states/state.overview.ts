@@ -4,7 +4,15 @@ $('#content').load('html/overview.html', function () {
     sdk.serverGet('getuser', function (data: RestGetUserResult) {
 		sdk.parseResult(data, [], function (ok) {
 			if (ok) {
-				$('#username').html(data.user.username);
+                $('#username').html(data.user.username);
+
+                var html: string = sdk.formatString(sdk.preloadHtml('html/general_list_begin.html'), { id: 'friends_menu' });
+                for (var index in data.user.friends) {
+                    html += sdk.formatString(sdk.preloadHtml('html/general_list_entry.html'), data.user.friends[index]);
+                }
+                html += sdk.preloadHtml('html/general_list_end.html');
+
+                $('#friends_list').html(html);
 			}
 		});
 	});
@@ -13,21 +21,21 @@ $('#content').load('html/overview.html', function () {
 		user.logout();
 	});
 
-	$('#friends_form').submit(function (submitEvent) {
+	$('#friends_search_form').submit(function (submitEvent) {
 		var obj: any = {};
-		obj.username = $('#friends_name').val();
+		obj.username = $('#friends_search_name').val();
 		
         sdk.serverPost('finduser', obj, function (data: RestFindUserResult) {
 			sdk.parseResult(data, [], function (ok) {
-				if (ok) {
-					var html = '<ul id="friends_list">';
-					for (var index in data.users) {
-						html += '<li id="friend_' + data.users[index]._id + '">' + data.users[index].username + '</li>';
-					}
-					html += '</ul>';
+                if (ok) {
+                    var html: string = sdk.formatString(sdk.preloadHtml('html/general_list_begin.html'), { id: 'friends_search_menu' });
+                    for (var index in data.users) {
+                        html += sdk.formatString(sdk.preloadHtml('html/overview_friends_list_entry.html'), data.users[index]);
+                    }
+                    html += sdk.preloadHtml('html/general_list_end.html');
 
-					$('#friends').html(html);
-					$("#friends_list").menu().on("menuselect", function (selectEvent: JQueryEventObject, ui: JQueryUI.AutocompleteUIParams) {
+					$('#friends_search_list').html(html);
+                    $("#friends_search_menu").menu().on("menuselect", function (selectEvent: JQueryEventObject, ui: JQueryUI.AutocompleteUIParams) {
 						var item_id = $(ui.item).prop('id');
 						var user_id = /friend_([0-9a-fA-F]+)/.exec(item_id)[1];
 
@@ -39,7 +47,7 @@ $('#content').load('html/overview.html', function () {
 
 		submitEvent.preventDefault();
 	});
-	$('#friends_button').button().click(function () {
-		$('#friends_form').submit();
+	$('#friends_search_button').button().click(function () {
+        $('#friends_search_form').submit();
 	});
 });

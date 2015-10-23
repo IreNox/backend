@@ -2,22 +2,16 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 var sdk;
 (function (sdk) {
-    var loadingHtml = 'Loading...';
+    var preloadedHtml = {};
     function init() {
-        $.ajax({
-            url: 'html/loading.html',
-            async: false,
-            success: function (data) {
-                loadingHtml = data;
-            }
-        });
+        preloadHtml('html/loading.html');
         Historyjs.Adapter.bind(window, 'statechange', function () {
             sdk.activateState();
         });
     }
     sdk.init = init;
     function setLoading() {
-        $('#content').html(loadingHtml);
+        $('#content').html(preloadHtml('html/loading.html'));
     }
     sdk.setLoading = setLoading;
     function changeState(stateName, stateData) {
@@ -35,6 +29,7 @@ var sdk;
     function serverGet(url, callback) {
         $.ajax({
             url: '../' + url,
+            async: true,
             dataType: 'json',
             success: callback
         });
@@ -44,12 +39,26 @@ var sdk;
         $.ajax({
             type: "POST",
             url: '../' + url,
+            async: true,
             data: data,
             dataType: 'json',
             success: callback
         });
     }
     sdk.serverPost = serverPost;
+    function preloadHtml(fileName) {
+        if (!(fileName in preloadedHtml)) {
+            $.ajax({
+                url: fileName,
+                async: false,
+                success: function (data) {
+                    preloadedHtml[fileName] = data;
+                }
+            });
+        }
+        return preloadedHtml[fileName];
+    }
+    sdk.preloadHtml = preloadHtml;
     function parseResult(data, acceptedResults, callback) {
         acceptedResults.push('Ok');
         if ($.inArray(data.result, acceptedResults) < 0) {
@@ -76,6 +85,14 @@ var sdk;
         return query.search(true);
     }
     sdk.decodeUrl = decodeUrl;
+    function formatString(text, data) {
+        var result = text;
+        for (var key in data) {
+            result = result.replace('{' + key + '}', data[key]);
+        }
+        return result;
+    }
+    sdk.formatString = formatString;
     function activateState() {
         var state = Historyjs.getState();
         var stateData = decodeUrl(state.url);
