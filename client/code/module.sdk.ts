@@ -5,7 +5,7 @@ module sdk {
     var preloadedHtml: { [s: string]: string; } = {};
     
     export function init() {
-        preloadHtml('html/loading.html');
+        preloadHtml('loading');
 
         Historyjs.Adapter.bind(window, 'statechange', function () {
             sdk.activateState();
@@ -13,7 +13,7 @@ module sdk {
     }
 
     export function setLoading() {
-        $('#content').html(preloadHtml('html/loading.html'));
+        $('#content').html(preloadHtml('loading'));
     }
 
     export function changeState(stateName: string, stateData: any = null) {
@@ -51,7 +51,7 @@ module sdk {
     export function preloadHtml(fileName: string): string {
         if (!(fileName in preloadedHtml)) {
             $.ajax({
-                url: fileName,
+                url: 'html/' + fileName + '.html',
                 async: false,
                 success: function (data: string) {
                     preloadedHtml[fileName] = data;
@@ -62,7 +62,7 @@ module sdk {
         return preloadedHtml[fileName];
     }
 
-    export function parseResult(data: RestResult, acceptedResults: string[], callback) {
+    export function parseResult(data: RestResult, acceptedResults: string[], callback: ResultCallback) {
         acceptedResults.push('Ok');
 
         if ($.inArray(data.result, acceptedResults) < 0) {

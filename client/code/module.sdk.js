@@ -4,14 +4,14 @@ var sdk;
 (function (sdk) {
     var preloadedHtml = {};
     function init() {
-        preloadHtml('html/loading.html');
+        preloadHtml('loading');
         Historyjs.Adapter.bind(window, 'statechange', function () {
             sdk.activateState();
         });
     }
     sdk.init = init;
     function setLoading() {
-        $('#content').html(preloadHtml('html/loading.html'));
+        $('#content').html(preloadHtml('loading'));
     }
     sdk.setLoading = setLoading;
     function changeState(stateName, stateData) {
@@ -49,7 +49,7 @@ var sdk;
     function preloadHtml(fileName) {
         if (!(fileName in preloadedHtml)) {
             $.ajax({
-                url: fileName,
+                url: 'html/' + fileName + '.html',
                 async: false,
                 success: function (data) {
                     preloadedHtml[fileName] = data;

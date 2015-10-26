@@ -9,3 +9,11 @@ class User {
     public username: string;
     public friends: User[];
 }
+
+interface BaseCallback {
+    (): void;
+}
+
+interface ResultCallback {
+    (ok: boolean): void;
+}

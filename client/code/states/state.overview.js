@@ -4,11 +4,11 @@ $('#content').load('html/overview.html', function () {
         sdk.parseResult(data, [], function (ok) {
             if (ok) {
                 $('#username').html(data.user.username);
-                var html = sdk.formatString(sdk.preloadHtml('html/general_list_begin.html'), { id: 'friends_menu' });
+                var html = sdk.formatString(sdk.preloadHtml('general_list_begin'), { id: 'friends_menu' });
                 for (var index in data.user.friends) {
-                    html += sdk.formatString(sdk.preloadHtml('html/general_list_entry.html'), data.user.friends[index]);
+                    html += sdk.formatString(sdk.preloadHtml('general_list_entry'), data.user.friends[index]);
                 }
-                html += sdk.preloadHtml('html/general_list_end.html');
+                html += sdk.preloadHtml('general_list_end');
                 $('#friends_list').html(html);
             }
         });
@@ -22,16 +22,24 @@ $('#content').load('html/overview.html', function () {
         sdk.serverPost('finduser', obj, function (data) {
             sdk.parseResult(data, [], function (ok) {
                 if (ok) {
-                    var html = sdk.formatString(sdk.preloadHtml('html/general_list_begin.html'), { id: 'friends_search_menu' });
+                    var html = sdk.preloadHtml('overview_friends_list_begin');
                     for (var index in data.users) {
-                        html += sdk.formatString(sdk.preloadHtml('html/overview_friends_list_entry.html'), data.users[index]);
+                        html += sdk.formatString(sdk.preloadHtml('overview_friends_list_entry'), data.users[index]);
                     }
-                    html += sdk.preloadHtml('html/general_list_end.html');
+                    html += sdk.preloadHtml('overview_friends_list_end');
                     $('#friends_search_list').html(html);
-                    $("#friends_search_menu").menu().on("menuselect", function (selectEvent, ui) {
-                        var item_id = $(ui.item).prop('id');
+                    $("#friends_search_list > div").children('button').click(function (clickEvent) {
+                        var item_id = $(clickEvent.target).parent().prop('id');
+                        var user_id = /friend_([0-9a-fA-F]+)/.exec(item_id)[1];
+                        user.addFriend(user_id, function (ok) {
+                            $('#status').html(sdk.preloadHtml('overview_friends_added')).show(0).fadeOut(2000);
+                        });
+                    });
+                    $("#friends_search_list > div").children('a').click(function (clickEvent) {
+                        var item_id = $(clickEvent.target).parent().prop('id');
                         var user_id = /friend_([0-9a-fA-F]+)/.exec(item_id)[1];
                         sdk.changeState("userinfo", { user_id: user_id });
+                        clickEvent.preventDefault();
                     });
                 }
             });

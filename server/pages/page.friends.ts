@@ -1,14 +1,15 @@
-var sdk = require('../sdk');
-var typesRest = require('../types/types.rest');
-var FriendsActions;
-(function (FriendsActions) {
-    FriendsActions[FriendsActions["Add"] = 0] = "Add";
-    FriendsActions[FriendsActions["Remove"] = 1] = "Remove";
-})(FriendsActions || (FriendsActions = {}));
-var FriendsPage = (function () {
-    function FriendsPage() {
-    }
-    FriendsPage.prototype.run = function (inputData, sessionData, callback) {
+﻿import models = require('../models');
+import sdk = require('../sdk');
+import typesRest = require('../types/types.rest')
+import typesPage = require('../types/types.page')
+
+enum FriendsActions {
+    Add,
+    Remove
+}
+
+export class FriendsPage implements typesPage.Page {
+    run(inputData: any, sessionData: any, callback: typesPage.RestCallback): void {
         if (!inputData.action || !inputData.user_id) {
             callback(200, new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
@@ -24,8 +25,9 @@ var FriendsPage = (function () {
         else {
             callback(200, new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
-    };
-    FriendsPage.prototype.addFriend = function (userId, sessionData, callback) {
+    }
+
+    private addFriend(userId: string, sessionData: any, callback: typesPage.RestCallback): void {
         sdk.user.findUser(sessionData.user._id, function (err, currentUser) {
             if (err || !currentUser) {
                 callback(200, { result: 'DatabaseError' });
@@ -43,16 +45,18 @@ var FriendsPage = (function () {
                                 break;
                             }
                         }
+
                         if (containsFriend) {
                             callback(200, { result: 'AlreadyInList' });
                         }
                         else {
                             currentUser.friends.push(friendUser._id);
-                            sdk.user.saveUser(currentUser, sessionData, function (result) {
-                                var obj = new typesRest.RestFriendsResult(result, friendUser._id);
+                            sdk.user.saveUser(currentUser, sessionData, function (result: typesRest.RestResultType) {
+                                var obj: typesRest.RestFriendsResult = new typesRest.RestFriendsResult(result, friendUser._id);
                                 if (result == typesRest.RestResultType.Ok) {
                                     obj.user_id = friendUser._id;
                                 }
+
                                 callback(200, obj);
                             });
                         }
@@ -60,8 +64,9 @@ var FriendsPage = (function () {
                 });
             }
         });
-    };
-    FriendsPage.prototype.removeFriend = function (userId, sessionData, callback) {
+    }
+
+    private removeFriend(userId: string, sessionData: any, callback: typesPage.RestCallback) {
         sdk.user.findUser(sessionData.user._id, function (err, currentUser) {
             if (err || !currentUser) {
                 callback(200, { result: 'DatabaseError' });
@@ -75,6 +80,7 @@ var FriendsPage = (function () {
                         break;
                     }
                 }
+
                 if (containsFriend) {
                     callback(200, { result: 'Ok' });
                 }
@@ -83,10 +89,9 @@ var FriendsPage = (function () {
                 }
             }
         });
-    };
-    return FriendsPage;
-})();
-exports.FriendsPage = FriendsPage;
+    }
+}
+
 module.exports = {
     run: function (inputData, sessionData, callback) {
         if (!inputData.action || !inputData.user_id) {
@@ -113,16 +118,18 @@ module.exports = {
                                     break;
                                 }
                             }
+
                             if (containsFriend) {
                                 callback(200, { result: 'AlreadyInList' });
                             }
                             else {
                                 currentUser.friends.push(friendUser._id);
-                                sdk.user.saveUser(currentUser, sessionData, function (result) {
-                                    var obj = new typesRest.RestFriendsResult(result);
+                                sdk.user.saveUser(currentUser, sessionData, function (result: typesRest.RestResultType) {
+                                    var obj: typesRest.RestFriendsResult = new typesRest.RestFriendsResult(result);
                                     if (result == typesRest.RestResultType.Ok) {
                                         obj.user_id = friendUser._id;
                                     }
+
                                     callback(200, obj);
                                 });
                             }
@@ -145,6 +152,7 @@ module.exports = {
                             break;
                         }
                     }
+
                     if (containsFriend) {
                         callback(200, { result: 'Ok' });
                     }
@@ -159,4 +167,3 @@ module.exports = {
         }
     }
 };
-//# sourceMappingURL=page.friends.js.map

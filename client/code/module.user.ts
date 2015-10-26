@@ -27,4 +27,11 @@ module user {
             sdk.changeState('login');
         });
     }
+
+    export function addFriend(userId: string, callback: ResultCallback) {
+        var request: RestFriendsRequest = new RestFriendsRequest(RestFriendsActions.Add, userId);
+        sdk.serverPost('friends', request, function (result: RestFriendsResult) {
+            sdk.parseResult(result, [], callback);
+        });
+    }
 }

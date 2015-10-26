@@ -22,6 +22,22 @@ class RestGetUserRequest extends RestRequest {
     }
 }
 
+enum RestFriendsActions {
+    Add,
+    Remove
+}
+
+class RestFriendsRequest extends RestRequest {
+    public action: string;
+    public user_id: string;
+
+    constructor(_action: RestFriendsActions, _user_id: string) {
+        super();
+        this.action = RestFriendsActions[_action];
+        this.user_id = _user_id;
+    }
+}
+
 class RestResult {
     public result: string;
 }
@@ -36,6 +52,10 @@ class RestGetUserResult extends RestResult {
 
 class RestFindUserResult extends RestResult {
     public users: User[];
+}
+
+class RestFriendsResult extends RestResult {
+    public user_id: string;
 }
 
 interface RestCallback {

@@ -25,6 +25,20 @@ var RestGetUserRequest = (function (_super) {
     }
     return RestGetUserRequest;
 })(RestRequest);
+var RestFriendsActions;
+(function (RestFriendsActions) {
+    RestFriendsActions[RestFriendsActions["Add"] = 0] = "Add";
+    RestFriendsActions[RestFriendsActions["Remove"] = 1] = "Remove";
+})(RestFriendsActions || (RestFriendsActions = {}));
+var RestFriendsRequest = (function (_super) {
+    __extends(RestFriendsRequest, _super);
+    function RestFriendsRequest(_action, _user_id) {
+        _super.call(this);
+        this.action = RestFriendsActions[_action];
+        this.user_id = _user_id;
+    }
+    return RestFriendsRequest;
+})(RestRequest);
 var RestResult = (function () {
     function RestResult() {
     }
@@ -50,5 +64,12 @@ var RestFindUserResult = (function (_super) {
         _super.apply(this, arguments);
     }
     return RestFindUserResult;
+})(RestResult);
+var RestFriendsResult = (function (_super) {
+    __extends(RestFriendsResult, _super);
+    function RestFriendsResult() {
+        _super.apply(this, arguments);
+    }
+    return RestFriendsResult;
 })(RestResult);
 //# sourceMappingURL=types.rest.js.map

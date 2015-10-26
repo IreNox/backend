@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
-
-var userSchema = mongoose.Schema({
+var userSchema = new mongoose.Schema({
     name: String,
     login_token: String,
     username: { type: String, unique: true },
@@ -9,5 +8,5 @@ var userSchema = mongoose.Schema({
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
     points: Number
 });
-
-module.exports = mongoose.model('user', userSchema);
+exports.modelUser = mongoose.model('user', userSchema);
+//# sourceMappingURL=model.user.js.map

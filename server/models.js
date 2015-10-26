@@ -1,2 +1,3 @@
-var core = require('./core');
-module.exports = core.includeDirectory('./models');
+var modelUser = require('./models/model.user');
+exports.user = modelUser.modelUser;
+//# sourceMappingURL=models.js.map

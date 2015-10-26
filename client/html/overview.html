@@ -1,24 +1,25 @@
-﻿<div style="position: fixed; right: 0px;">
+﻿<div style="position: absolute; right: 10px;">
     <button id="logout">Logout</button>
 </div>
-Name: <span id="username"></span>
+<h2>Name: <span id="username"></span></h2>
 <br />
 <table>
     <tr>
-        <td style="border: 1px dashed black; padding-right: 10px;">
+        <td style="border: 1px dashed black; margin: 10px 0px 0px 20px;">
             <div>
                 Friends list:<br />
                 <div id="friends_list"></div>
             </div>
         </td>
         <td style="border: 1px dashed black;">
+            <div id="status" style="color: green;"></div>
+            <div id="error" style="color: red;"></div>
             <div>
                 Friends search:<br />
                 <div id="friends_search_list"></div>
             </div>
             <br />
             <form action="#" id="friends_search_form">
-                <div id="error" style="color: red;"></div>
                 <input type="text" id="friends_search_name" />
                 <input type="button" id="friends_search_button" value="Find..." />
             </form>

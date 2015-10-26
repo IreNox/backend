@@ -26,5 +26,12 @@ var user;
         });
     }
     user.logout = logout;
+    function addFriend(userId, callback) {
+        var request = new RestFriendsRequest(RestFriendsActions.Add, userId);
+        sdk.serverPost('friends', request, function (result) {
+            sdk.parseResult(result, [], callback);
+        });
+    }
+    user.addFriend = addFriend;
 })(user || (user = {}));
 //# sourceMappingURL=module.user.js.map
