@@ -1,10 +1,12 @@
-var sdk = require("../sdk");
-var modelUser = require("../models/model.user");
-var FindUserPage = (function () {
-    function FindUserPage() {
-    }
-    FindUserPage.prototype.run = function (inputData, sessionData, callback) {
-        var obj = { result: "Unknown" };
+﻿import sdk = require("../sdk");
+import modelUser = require("../models/model.user");
+import typesRest = require('../types/types.rest')
+import typesPage = require('../types/types.page')
+
+class FindUserPage implements typesPage.Page {
+    run(inputData: any, sessionData: any, callback: typesPage.RestCallback): void {
+        var obj: any = { result: "Unknown" };
+
         if (!inputData.username) {
             obj.result = "InvalidCall";
             callback(200, obj);
@@ -15,26 +17,27 @@ var FindUserPage = (function () {
         }
         else {
             var regex = new RegExp(inputData.username);
-            modelUser.model.find({ username: regex }, function (err, result) {
+            modelUser.model.find({ username: regex }, function (err, result: modelUser.User[]) {
                 if (err || !result) {
                     obj.result = "NotFound";
                 }
                 else {
                     obj.result = "Ok";
+
                     obj.users = [];
                     for (var index in result) {
                         var user = result[index];
                         if (user._id == sessionData.user._id) {
                             continue;
                         }
+
                         obj.users.push(sdk.user.exportUser(user));
                     }
                 }
+
                 callback(200, obj);
             });
         }
-    };
-    return FindUserPage;
-})();
-module.exports = FindUserPage;
-//# sourceMappingURL=page.finduser.js.map
+    }
+}
+export = FindUserPage;

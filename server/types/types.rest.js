@@ -7,6 +7,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     RestResultType[RestResultType["Ok"] = 0] = "Ok";
     RestResultType[RestResultType["InvalidCall"] = 1] = "InvalidCall";
     RestResultType[RestResultType["DatabaseError"] = 2] = "DatabaseError";
+    RestResultType[RestResultType["NotLoggedin"] = 3] = "NotLoggedin";
 })(exports.RestResultType || (exports.RestResultType = {}));
 var RestResultType = exports.RestResultType;
 var RestResult = (function () {

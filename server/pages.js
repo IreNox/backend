@@ -14,9 +14,16 @@ var Pages = (function () {
             var fileParts = file.split('.');
             var moduleName = fileParts[1];
             var fileName = './' + path.join('./pages', file);
-            this.pages[moduleName] = require(fileName);
+            var page = require(fileName);
+            this.pages[moduleName] = new page();
         }
     }
+    Pages.prototype.getRequestHandler = function () {
+        var pageManager = this;
+        return function (req, res, next) {
+            pageManager.runRequest(req, res);
+        };
+    };
     Pages.prototype.runRequest = function (request, response) {
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {

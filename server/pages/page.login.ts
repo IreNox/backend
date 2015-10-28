@@ -1,10 +1,12 @@
-var sdk = require('../sdk');
-var modelUser = require('../models/model.user');
-var LoginPage = (function () {
-    function LoginPage() {
-    }
-    LoginPage.prototype.run = function (inputData, sessionData, callback) {
-        var obj = { result: "Unknown" };
+﻿import sdk = require('../sdk');
+import modelUser = require('../models/model.user');
+import typesRest = require('../types/types.rest')
+import typesPage = require('../types/types.page')
+
+class LoginPage implements typesPage.Page {
+    run(inputData: any, sessionData: any, callback: typesPage.RestCallback): void {
+        var obj: any = { result: "Unknown" };
+
         if (sessionData.user) {
             obj.result = "AlreadyLoggedin";
             obj.user_id = sessionData.user._id;
@@ -15,7 +17,7 @@ var LoginPage = (function () {
             callback(200, obj);
         }
         else {
-            modelUser.model.findOne({ username: inputData.username }, function (err, result) {
+            modelUser.model.findOne({ username: inputData.username }, function (err, result: modelUser.User) {
                 if (err || !result) {
                     obj.result = "NotFound";
                 }
@@ -28,13 +30,13 @@ var LoginPage = (function () {
                 else {
                     obj.result = "Ok";
                     obj.user_id = result._id;
+
                     sessionData.user = result;
                 }
+
                 callback(200, obj);
             });
         }
-    };
-    return LoginPage;
-})();
-module.exports = LoginPage;
-//# sourceMappingURL=page.login.js.map
+    }
+}
+export = LoginPage;

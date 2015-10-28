@@ -8,5 +8,5 @@ var userSchema = new mongoose.Schema({
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
     points: Number
 });
-exports.modelUser = mongoose.model('user', userSchema);
+exports.model = mongoose.model('user', userSchema);
 //# sourceMappingURL=model.user.js.map

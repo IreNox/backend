@@ -1,5 +1,4 @@
-﻿import models = require('../models');
-import sdk = require('../sdk');
+﻿import sdk = require('../sdk');
 import typesRest = require('../types/types.rest')
 import typesPage = require('../types/types.page')
 
