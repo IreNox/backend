@@ -60,6 +60,7 @@
     <Content Include="thirdparty\urijs\URI.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="client.ts" />
     <TypeScriptCompile Include="code\module.sdk.ts" />
     <TypeScriptCompile Include="code\module.user.ts" />
     <TypeScriptCompile Include="code\types.base.ts" />
@@ -68,6 +69,7 @@
     <TypeScriptCompile Include="code\states\state.overview.ts" />
     <TypeScriptCompile Include="code\states\state.userinfo.ts" />
     <TypeScriptCompile Include="code\types.rest.ts" />
+    <TypeScriptCompile Include="thirdparty\express\express.d.ts" />
     <TypeScriptCompile Include="thirdparty\history\history.d.ts" />
     <TypeScriptCompile Include="thirdparty\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="thirdparty\jqueryui\jqueryui.d.ts" />

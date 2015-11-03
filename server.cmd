@@ -1,7 +1,5 @@
 @ECHO OFF
 
-echo %~dp0
-
 cd server
 
 IF "%1"=="start" (
