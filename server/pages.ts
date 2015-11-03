@@ -1,15 +1,10 @@
 ﻿import core = require('./core');
+import express = require('express');
 import fs = require('fs');
 import path = require('path');
 import typesPage = require('./types/types.page');
 import url = require('url');
 import http = require('http');
-
-interface ExpressRequest extends http.ServerRequest {
-    body: any;
-    query: any;
-    session: any;
-}
 
 class Pages {
     private pages: { [s: string]: typesPage.Page; } = {};
@@ -27,11 +22,20 @@ class Pages {
             var moduleName: string = fileParts[1];
             var fileName: string = './' + path.join('./pages', file);
 
-            this.pages[moduleName] = require(fileName);
+            var page = require(fileName);
+            this.pages[moduleName] = new page();
         }
     }
 
-    runRequest(request: ExpressRequest, response: http.ServerResponse): void {
+	public getRequestHandler(): express.RequestHandler {
+		var pageManager: Pages = this;
+
+		return function (req: express.Request, res: express.Response, next: Function): any {
+			pageManager.runRequest(req, res);
+		};
+	}
+
+    private runRequest(request: express.Request, response: http.ServerResponse): void {
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {
             var inputData: any = {};

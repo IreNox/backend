@@ -2,7 +2,8 @@
 export enum RestResultType {
     Ok,
     InvalidCall,
-    DatabaseError
+    DatabaseError,
+	NotLoggedin
 }
 
 export interface RestResultTypeCallback {

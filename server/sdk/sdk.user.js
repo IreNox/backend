@@ -1,4 +1,4 @@
-var models = require('../models');
+var modelUser = require('../models/model.user');
 var typesRest = require('../types/types.rest');
 var validFields = [
     '_id',
@@ -8,7 +8,7 @@ var SdkUser = (function () {
     function SdkUser() {
     }
     SdkUser.prototype.findUser = function (user_id, callback) {
-        models.user.findById(user_id).populate('friends').exec(callback);
+        modelUser.model.findById(user_id).populate('friends').exec(callback);
     };
     SdkUser.prototype.saveUser = function (user, sessionData, callback) {
         if (user._id != sessionData.user._id) {
@@ -32,8 +32,8 @@ var SdkUser = (function () {
             var key = validFields[index];
             result[key] = user[key];
         }
-        for (var index in user.firends) {
-            result.friends.push(module.exports.exportUser(user.friends[index]));
+        for (var index in user.friends) {
+            result.friends.push(this.exportUser(user.friends[index]));
         }
         return result;
     };

@@ -11,13 +11,13 @@ var userSchema = new mongoose.Schema({
 });
 
 export interface User extends mongoose.Document {
-    name: String;
-    login_token: String;
-    username: String;
-    password: String;
-    password_salt: String;
-    friends: mongoose.Types.ObjectId[];
+    name: string;
+    login_token: string;
+    username: string;
+    password: string;
+    password_salt: string;
+    friends: User[];
     points: Number;
 }
 
-export var modelUser = mongoose.model('user', userSchema);
+export var model = mongoose.model('user', userSchema);

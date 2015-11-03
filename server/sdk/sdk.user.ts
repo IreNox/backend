@@ -1,5 +1,4 @@
-﻿import models = require('../models');
-import modelUser = require('../models/model.user');
+﻿import modelUser = require('../models/model.user');
 import typesRest = require('../types/types.rest');
 
 var validFields = [
@@ -9,7 +8,7 @@ var validFields = [
 
 class SdkUser {
     findUser(user_id: string, callback) {
-        models.user.findById(user_id).populate('friends').exec(callback);
+        modelUser.model.findById(user_id).populate('friends').exec(callback);
     }
 
     saveUser(user: modelUser.User, sessionData: any, callback: typesRest.RestResultTypeCallback) {
@@ -29,7 +28,7 @@ class SdkUser {
         }
     }
 
-    exportUser(user) {
+    exportUser(user: modelUser.User) {
         var result: any = { friends: [] };
 
         for (var index in validFields) {
@@ -37,8 +36,8 @@ class SdkUser {
             result[key] = user[key];
         }
 
-        for (var index in user.firends) {
-            result.friends.push(module.exports.exportUser(user.friends[index]));
+        for (var index in user.friends) {
+            result.friends.push(this.exportUser(user.friends[index]));
         }
 
         return result;
