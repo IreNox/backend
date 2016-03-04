@@ -4,10 +4,10 @@ module user {
         sdk.serverPost('login', loginData, function (data: RestLoginResult) {
             sdk.parseResult(data, ['AlreadyLoggedin'], function (ok) {
                 if (ok) {
-                    global.userId = data.user_id;
+                    Global.userId = data.user_id;
 
                     var hasValidState: boolean = sdk.activateState();
-                    if (hasValidState && global.stateName == 'login') {
+                    if (hasValidState && Global.stateName == 'login') {
                         hasValidState = false;
                     }
 

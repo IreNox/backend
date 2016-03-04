@@ -35,7 +35,11 @@ class Pages {
 		};
 	}
 
-    private runRequest(request: express.Request, response: http.ServerResponse): void {
+    private runRequest(request: express.Request, response: express.Response): void {
+        //if (request.hostname != "localhost") {
+        //    return;
+        //}
+
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {
             var inputData: any = {};
@@ -50,9 +54,11 @@ class Pages {
             }
 
             this.pages[pageName].run(inputData, request.session, function (code, obj) {
-                response.writeHead(code, { 'Content-Type': 'application/json' });
-                response.write(JSON.stringify(obj))
-                response.end();
+                // response.writeHead(code, { 'Content-Type': 'application/json' });
+                // response.write(JSON.stringify(obj))
+                // response.end();
+
+                response.jsonp(obj);
             });
         }
         else {

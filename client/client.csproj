@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -73,6 +73,9 @@
     <TypeScriptCompile Include="thirdparty\history\history.d.ts" />
     <TypeScriptCompile Include="thirdparty\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="thirdparty\jqueryui\jqueryui.d.ts" />
+    <TypeScriptCompile Include="thirdparty\mime\mime.d.ts" />
+    <TypeScriptCompile Include="thirdparty\node\node.d.ts" />
+    <TypeScriptCompile Include="thirdparty\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="thirdparty\urijs\URIjs.d.ts" />
   </ItemGroup>
   <PropertyGroup>

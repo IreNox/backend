@@ -1,10 +1,10 @@
 var Historyjs = History;
-var global;
-(function (global) {
-    global.userId = "";
-    global.stateName = "";
-    global.stateData = null;
-})(global || (global = {}));
+var Global;
+(function (Global) {
+    Global.userId = "";
+    Global.stateName = "";
+    Global.stateData = null;
+})(Global || (Global = {}));
 $(document).ready(function () {
     sdk.init();
     sdk.setLoading();

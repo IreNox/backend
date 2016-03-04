@@ -1,5 +1,5 @@
 $('#content').load('html/userinfo.html', function () {
-    var getuserData = new RestGetUserRequest(global.stateData.user_id);
+    var getuserData = new RestGetUserRequest(Global.stateData.user_id);
     sdk.serverPost('getuser', getuserData, function (data) {
         sdk.parseResult(data, [], function (ok) {
             if (ok) {

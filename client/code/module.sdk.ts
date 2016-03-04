@@ -2,6 +2,7 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 
 module sdk {
+    var serverUrl: string = 'http://localhost:8080/';
     var preloadedHtml: { [s: string]: string; } = {};
     
     export function init() {
@@ -30,8 +31,7 @@ module sdk {
     
     export function serverGet(url: string, callback: RestCallback) {
         $.ajax({
-            url: '../' + url,
-            async: true,
+            url: serverUrl + url,
             dataType: 'json',
             success: callback
         });
@@ -40,8 +40,7 @@ module sdk {
     export function serverPost(url: string, data: any, callback: RestCallback) {
         $.ajax({
             type: "POST",
-            url: '../' + url,
-            async: true,
+            url: serverUrl + url,
             data: data,
             dataType: 'json',
             success: callback
@@ -113,8 +112,8 @@ module sdk {
         context.stateName = stateName;
         context.stateData = stateData;
 
-        global.stateName = stateName;
-        global.stateData = stateData;
+        Global.stateName = stateName;
+        Global.stateData = stateData;
 
         sdk.setLoading();
         $.getScript('code/states/state.' + context.stateName + '.js');

@@ -25,6 +25,9 @@ var Pages = (function () {
         };
     };
     Pages.prototype.runRequest = function (request, response) {
+        //if (request.hostname != "localhost") {
+        //    return;
+        //}
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {
             var inputData = {};
@@ -37,9 +40,10 @@ var Pages = (function () {
                 inputData[key] = request.query[key];
             }
             this.pages[pageName].run(inputData, request.session, function (code, obj) {
-                response.writeHead(code, { 'Content-Type': 'application/json' });
-                response.write(JSON.stringify(obj));
-                response.end();
+                // response.writeHead(code, { 'Content-Type': 'application/json' });
+                // response.write(JSON.stringify(obj))
+                // response.end();
+                response.jsonp(obj);
             });
         }
         else {

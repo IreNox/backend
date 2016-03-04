@@ -2,6 +2,7 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 var sdk;
 (function (sdk) {
+    var serverUrl = 'http://localhost:8080/';
     var preloadedHtml = {};
     function init() {
         preloadHtml('loading');
@@ -28,8 +29,7 @@ var sdk;
     sdk.getStateData = getStateData;
     function serverGet(url, callback) {
         $.ajax({
-            url: '../' + url,
-            async: true,
+            url: serverUrl + url,
             dataType: 'json',
             success: callback
         });
@@ -38,8 +38,7 @@ var sdk;
     function serverPost(url, data, callback) {
         $.ajax({
             type: "POST",
-            url: '../' + url,
-            async: true,
+            url: serverUrl + url,
             data: data,
             dataType: 'json',
             success: callback
@@ -104,8 +103,8 @@ var sdk;
         var context = new StateContext();
         context.stateName = stateName;
         context.stateData = stateData;
-        global.stateName = stateName;
-        global.stateData = stateData;
+        Global.stateName = stateName;
+        Global.stateData = stateData;
         sdk.setLoading();
         $.getScript('code/states/state.' + context.stateName + '.js');
         return true;
