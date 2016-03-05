@@ -1,8 +1,8 @@
 var modelUser = require('../models/model.user');
 var typesRest = require('../types/types.rest');
 var validFields = [
-    '_id',
-    'username'
+    'username',
+    'points'
 ];
 var SdkUser = (function () {
     function SdkUser() {
@@ -27,14 +27,12 @@ var SdkUser = (function () {
         }
     };
     SdkUser.prototype.exportUser = function (user) {
-        var result = { friends: [] };
-        for (var index in validFields) {
-            var key = validFields[index];
+        var result;
+        validFields.forEach(function (key) {
             result[key] = user[key];
-        }
-        for (var index in user.friends) {
-            result.friends.push(this.exportUser(user.friends[index]));
-        }
+        });
+        result.id = new typesRest.RestUserId(user._id.toHexString());
+        result.friends = user.friends.map(function (value) { return new typesRest.RestUserId(value._id.toHexString()); });
         return result;
     };
     return SdkUser;

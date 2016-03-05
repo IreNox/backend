@@ -25,9 +25,6 @@ var Pages = (function () {
         };
     };
     Pages.prototype.runRequest = function (request, response) {
-        //if (request.hostname != "localhost") {
-        //    return;
-        //}
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {
             var inputData = {};

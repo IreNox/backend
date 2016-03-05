@@ -3,10 +3,12 @@ var cookieParser = require('cookie-parser');
 var express = require('express');
 var mongoose = require('mongoose');
 var session = require('express-session');
+var https = require('https');
+var fs = require('fs');
 var pages = require('./pages');
 mongoose.connect('mongodb://localhost/server');
 var app = express();
-app.use('/client', express.static('../client'));
+app.use('/', express.static('../client'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -18,5 +20,9 @@ app.use(session({
 }));
 var pageManager = new pages();
 app.use(pageManager.getRequestHandler());
-app.listen(8080);
+var httpsOptions;
+httpsOptions.key = fs.readFileSync('private/ssl.key', 'utf8');
+httpsOptions.cert = fs.readFileSync('private/ssl.cer', 'utf8');
+var httpsServer = https.createServer(httpsOptions, app);
+httpsServer.listen(443);
 //# sourceMappingURL=server.js.map

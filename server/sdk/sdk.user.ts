@@ -2,8 +2,8 @@
 import typesRest = require('../types/types.rest');
 
 var validFields = [
-    '_id',
-    'username'
+    'username',
+    'points'
 ];
 
 class SdkUser {
@@ -28,17 +28,15 @@ class SdkUser {
         }
     }
 
-    exportUser(user: modelUser.User) {
-        var result: any = { friends: [] };
+    exportUser(user: modelUser.User): typesRest.RestUser {
+        var result: typesRest.RestUser;
 
-        for (var index in validFields) {
-            var key = validFields[index];
-            result[key] = user[key];
-        }
+		validFields.forEach(function (key: string) {
+			result[key] = user[key];
+		});
 
-        for (var index in user.friends) {
-            result.friends.push(this.exportUser(user.friends[index]));
-        }
+		result.id = new typesRest.RestUserId(user._id.toHexString());
+		result.friends = user.friends.map((value: modelUser.User) => new typesRest.RestUserId(value._id.toHexString()));
 
         return result;
     }

@@ -36,10 +36,6 @@ class Pages {
 	}
 
     private runRequest(request: express.Request, response: express.Response): void {
-        //if (request.hostname != "localhost") {
-        //    return;
-        //}
-
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {
             var inputData: any = {};

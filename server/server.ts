@@ -4,12 +4,14 @@ import express = require('express');
 import mongoose = require('mongoose');
 import session = require('express-session')
 import url = require('url');
+import https = require('https');
+import fs = require('fs');
 import pages = require('./pages');
 
 mongoose.connect('mongodb://localhost/server');
 
 var app = express();
-app.use('/client', express.static('../client'));
+app.use('/', express.static('../client'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -24,4 +26,10 @@ app.use(session({
 var pageManager = new pages();
 app.use(pageManager.getRequestHandler());
 
-app.listen(8080);
+
+var httpsOptions: https.ServerOptions;
+httpsOptions.key = fs.readFileSync('private/ssl.key', 'utf8');
+httpsOptions.cert = fs.readFileSync('private/ssl.cer', 'utf8');
+
+var httpsServer = https.createServer(httpsOptions, app);
+httpsServer.listen(443);

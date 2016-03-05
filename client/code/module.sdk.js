@@ -2,7 +2,7 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 var sdk;
 (function (sdk) {
-    var serverUrl = 'http://localhost:8080/';
+    var serverUrl = 'http://localhost/';
     var preloadedHtml = {};
     function init() {
         preloadHtml('loading');

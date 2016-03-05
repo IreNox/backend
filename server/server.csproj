@@ -46,10 +46,15 @@
     <TypeScriptCompile Include="thirdparty\node\node.d.ts" />
     <TypeScriptCompile Include="thirdparty\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="types\types.base.ts" />
+    <TypeScriptCompile Include="types\types.db.ts" />
     <TypeScriptCompile Include="types\types.page.ts" />
     <TypeScriptCompile Include="types\types.rest.ts" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="private\ssl.cer" />
+    <Content Include="private\ssl.key" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
