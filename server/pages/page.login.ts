@@ -1,10 +1,10 @@
 ﻿import sdk = require('../sdk');
 import modelUser = require('../models/model.user');
-import typesRest = require('../types/types.rest');
+import typesRest = require('../../shared/types/types.rest');
 import typesPage = require('../types/types.page');
 
 class LoginPage implements typesPage.Page {
-    run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
+    run(inputData: typesRest.RestLoginRequest, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (sessionData.user) {
             callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
         }
@@ -31,7 +31,7 @@ class LoginPage implements typesPage.Page {
                 else {
                     resultType = typesRest.RestResultType.Ok;
 
-					sessionData.user_id = typesRest.RestUserId.fromDatabase(result);
+					sessionData.user_id = sdk.user.getIdFromDatabase(result);
                     sessionData.user = sdk.user.exportUser(result);
                 }
 

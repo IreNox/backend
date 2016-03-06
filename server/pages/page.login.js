@@ -1,6 +1,6 @@
 var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
-var typesRest = require('../types/types.rest');
+var typesRest = require('../../shared/types/types.rest');
 var LoginPage = (function () {
     function LoginPage() {
     }
@@ -28,7 +28,7 @@ var LoginPage = (function () {
                 }
                 else {
                     resultType = typesRest.RestResultType.Ok;
-                    sessionData.user_id = typesRest.RestUserId.fromDatabase(result);
+                    sessionData.user_id = sdk.user.getIdFromDatabase(result);
                     sessionData.user = sdk.user.exportUser(result);
                 }
                 callback(new typesRest.RestLoginResult(resultType, sessionData.user_id));

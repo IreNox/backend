@@ -17,6 +17,23 @@ module user {
 		});
     }
 
+	export function signUp(loginData: RestLoginRequest) {
+		sdk.serverPostAndParse('signup', loginData, [], function (data: RestLoginResult) {
+            Global.userId = data.user_id;
+
+            var hasValidState: boolean = sdk.activateState();
+            if (hasValidState && Global.stateName == 'login') {
+                hasValidState = false;
+            }
+
+            if (!hasValidState) {
+                sdk.changeState('overview');
+            }
+        }, function () {
+			sdk.changeState('login');
+		});
+	}
+
     export function logout() {
         sdk.serverGet('logout', function () {
             sdk.changeState('login');

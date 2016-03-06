@@ -80,6 +80,12 @@
     <TypeScriptCompile Include="thirdparty\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="thirdparty\urijs\URIjs.d.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\shared\shared.csproj">
+      <Project>{4838c814-1df1-4ddd-a4a3-a7c37a82fc7a}</Project>
+      <Name>shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,6 +1,6 @@
 var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
-var typesRest = require('../types/types.rest');
+var typesRest = require('../../shared/types/types.rest');
 var validFields = [
     'username',
     'points'
@@ -35,6 +35,9 @@ var SdkUser = (function () {
         result.id = user._id.toHexString();
         result.friends = user.friends.map(function (value) { return value.toHexString(); });
         return result;
+    };
+    SdkUser.prototype.getIdFromDatabase = function (value) {
+        return new typesRest.RestUserId(value._id.toHexString());
     };
     return SdkUser;
 })();

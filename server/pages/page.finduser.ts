@@ -1,6 +1,6 @@
 ﻿import sdk = require("../sdk");
 import modelUser = require("../models/model.user");
-import typesRest = require('../types/types.rest')
+import typesRest = require('../../shared/types/types.rest')
 import typesPage = require('../types/types.page')
 
 class FindUserPage implements typesPage.Page {

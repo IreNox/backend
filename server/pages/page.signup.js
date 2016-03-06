@@ -1,30 +1,25 @@
 var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
+var typesRest = require('../../shared/types/types.rest');
 var SignupPage = (function () {
     function SignupPage() {
     }
     SignupPage.prototype.run = function (inputData, sessionData, callback) {
-        var obj = { result: "Unknown" };
         if (sessionData.user) {
-            obj.result = "AlreadyLoggedin";
-            callback(obj);
+            callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin));
         }
         else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
-            obj.result = "InvalidCall";
-            callback(obj);
+            callback(new typesRest.RestLoginResult(typesRest.RestResultType.InvalidCall));
         }
         else {
             modelUser.model.findOne({ username: inputData.username }, function (err, result) {
                 if (err) {
-                    obj.result = "DatabaseError";
-                    callback(obj);
+                    callback(new typesRest.RestLoginResult(typesRest.RestResultType.DatabaseError));
                 }
                 else if (result) {
-                    obj.result = "AlreadyInuse";
-                    callback(obj);
+                    callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyInUse));
                 }
                 else {
-                    obj.result = "Ok";
                     var user = new modelUser.model();
                     user.username = inputData.username;
                     if (inputData.password) {
@@ -36,12 +31,12 @@ var SignupPage = (function () {
                     }
                     user.save(function (err) {
                         if (err) {
-                            obj.result = "DatabaseError";
+                            callback(new typesRest.RestLoginResult(typesRest.RestResultType.DatabaseError));
                         }
                         else {
-                            obj.user_id = user._id;
-                            sessionData.user = user;
-                            callback(obj);
+                            sessionData.user_id = sdk.user.getIdFromDatabase(user);
+                            sessionData.user = sdk.user.exportUser(user);
+                            callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user_id));
                         }
                     });
                 }

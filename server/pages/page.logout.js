@@ -1,4 +1,4 @@
-var typesRest = require('../types/types.rest');
+var typesRest = require('../../shared/types/types.rest');
 var LogoutPage = (function () {
     function LogoutPage() {
     }

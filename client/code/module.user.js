@@ -15,6 +15,21 @@ var user;
         });
     }
     user.login = login;
+    function signUp(loginData) {
+        sdk.serverPostAndParse('signup', loginData, [], function (data) {
+            Global.userId = data.user_id;
+            var hasValidState = sdk.activateState();
+            if (hasValidState && Global.stateName == 'login') {
+                hasValidState = false;
+            }
+            if (!hasValidState) {
+                sdk.changeState('overview');
+            }
+        }, function () {
+            sdk.changeState('login');
+        });
+    }
+    user.signUp = signUp;
     function logout() {
         sdk.serverGet('logout', function () {
             sdk.changeState('login');

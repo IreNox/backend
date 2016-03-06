@@ -1,6 +1,7 @@
-﻿import sdk = require('../sdk');
+﻿import mongoose = require('mongoose');
+import sdk = require('../sdk');
 import modelUser = require('../models/model.user');
-import typesRest = require('../types/types.rest');
+import typesRest = require('../../shared/types/types.rest');
 
 var validFields = [
     'username',
@@ -41,5 +42,10 @@ class SdkUser {
 
         return result;
     }
+
+
+	getIdFromDatabase(value: mongoose.Document): typesRest.RestUserId {
+		return new typesRest.RestUserId(value._id.toHexString());
+	}
 }
 export = SdkUser;

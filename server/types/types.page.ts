@@ -1,4 +1,4 @@
-﻿import typesRest = require('./types.rest');
+﻿import typesRest = require('../../shared/types/types.rest');
 
 export class SessionData {
 	public user_id: typesRest.RestUserId;

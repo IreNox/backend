@@ -1,5 +1,5 @@
-﻿import typesRest = require('../types/types.rest')
-import typesPage = require('../types/types.page')
+﻿import typesRest = require('../../shared/types/types.rest');
+import typesPage = require('../types/types.page');
 
 class LogoutPage implements typesPage.Page {
     run(inputData: any, sessionData: any, callback: typesPage.RestCallback): void {

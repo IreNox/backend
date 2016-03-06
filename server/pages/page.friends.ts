@@ -1,7 +1,7 @@
 ﻿import sdk = require('../sdk');
 import modelUser = require('../models/model.user');
-import typesRest = require('../types/types.rest')
-import typesPage = require('../types/types.page')
+import typesRest = require('../../shared/types/types.rest');
+import typesPage = require('../types/types.page');
 
 class FriendsPage implements typesPage.Page {
     run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
@@ -23,7 +23,7 @@ class FriendsPage implements typesPage.Page {
     }
 
     private addFriend(userId: string, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
-        sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
+        sdk.user.findUser(sessionData.user.id, function (err, currentUser: modelUser.User) {
             if (err || !currentUser) {
                 callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
             }
@@ -34,15 +34,14 @@ class FriendsPage implements typesPage.Page {
                     }
                     else {
                         var containsFriend = false;
-                        for (var index in currentUser.friends) {
-                            if (friendUser._id.equals(currentUser.friends[index])) {
+						currentUser.friends.forEach(function (friendId) {
+                            if (friendUser._id.equals(friendId)) {
                                 containsFriend = true;
-                                break;
                             }
-                        }
+						});
 
                         if (containsFriend) {
-                            callback(new typesRest.RestFriendsResult(typesRest.RestResultType.AlreadyInList, typesRest.RestUserId.fromDatabase(friendUser)));
+                            callback(new typesRest.RestFriendsResult(typesRest.RestResultType.AlreadyInList, sdk.user.getIdFromDatabase(friendUser)));
                         }
                         else {
                             currentUser.friends.push(friendUser._id);

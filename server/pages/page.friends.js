@@ -1,5 +1,5 @@
 var sdk = require('../sdk');
-var typesRest = require('../types/types.rest');
+var typesRest = require('../../shared/types/types.rest');
 var FriendsPage = (function () {
     function FriendsPage() {
     }
@@ -32,14 +32,13 @@ var FriendsPage = (function () {
                     }
                     else {
                         var containsFriend = false;
-                        for (var index in currentUser.friends) {
-                            if (friendUser._id.equals(currentUser.friends[index])) {
+                        currentUser.friends.forEach(function (friendId) {
+                            if (friendUser._id.equals(friendId)) {
                                 containsFriend = true;
-                                break;
                             }
-                        }
+                        });
                         if (containsFriend) {
-                            callback(new typesRest.RestFriendsResult(typesRest.RestResultType.AlreadyInList, typesRest.RestUserId.fromDatabase(friendUser)));
+                            callback(new typesRest.RestFriendsResult(typesRest.RestResultType.AlreadyInList, sdk.user.getIdFromDatabase(friendUser)));
                         }
                         else {
                             currentUser.friends.push(friendUser._id);

@@ -11,10 +11,15 @@ var LoginState = (function (_super) {
     LoginState.prototype.onActivate = function () {
         $('#content').load('html/login.html', function () {
             $('#login_form').submit(function (eventObject) {
-                user.login(new RestLoginRequest($('#username').val(), $('#password').val()));
+                user.login(new RestLoginRequest($('#login_username').val(), $('#login_password').val()));
                 eventObject.preventDefault();
             });
             $('#login_button').button();
+            $('#signup_form').submit(function (eventObject) {
+                user.signUp(new RestLoginRequest($('#signup_username').val(), $('#signup_password').val()));
+                eventObject.preventDefault();
+            });
+            $('#signup_button').button();
         });
     };
     return LoginState;

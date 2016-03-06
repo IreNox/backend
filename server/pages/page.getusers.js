@@ -1,6 +1,6 @@
 var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
-var typesRest = require('../types/types.rest');
+var typesRest = require('../../shared/types/types.rest');
 var GetUsersPage = (function () {
     function GetUsersPage() {
     }

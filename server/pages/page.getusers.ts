@@ -1,7 +1,7 @@
 ﻿import sdk = require('../sdk');
 import modelUser = require('../models/model.user');
-import typesRest = require('../types/types.rest')
-import typesPage = require('../types/types.page')
+import typesRest = require('../../shared/types/types.rest');
+import typesPage = require('../types/types.page');
 
 class GetUsersPage implements typesPage.Page {
     run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
