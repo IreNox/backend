@@ -103,6 +103,23 @@ export class RestMessageRequest extends RestRequest {
 	}
 }
 
+export enum RestHighscoreActions {
+	GetList,
+	Get,
+	Send
+}
+
+export class RestHighscoreRequest extends RestRequest {
+	public action: string;
+	public id: string;
+
+	constructor(_action: RestMessageActions, _id?: string) {
+		super();
+		this.action = RestHighscoreActions[_action];
+		this.id = _id;
+	}
+}
+
 //////////
 // Results
 

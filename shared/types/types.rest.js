@@ -101,6 +101,22 @@ var RestMessageRequest = (function (_super) {
     return RestMessageRequest;
 })(RestRequest);
 exports.RestMessageRequest = RestMessageRequest;
+(function (RestHighscoreActions) {
+    RestHighscoreActions[RestHighscoreActions["GetList"] = 0] = "GetList";
+    RestHighscoreActions[RestHighscoreActions["Get"] = 1] = "Get";
+    RestHighscoreActions[RestHighscoreActions["Send"] = 2] = "Send";
+})(exports.RestHighscoreActions || (exports.RestHighscoreActions = {}));
+var RestHighscoreActions = exports.RestHighscoreActions;
+var RestHighscoreRequest = (function (_super) {
+    __extends(RestHighscoreRequest, _super);
+    function RestHighscoreRequest(_action, _id) {
+        _super.call(this);
+        this.action = RestHighscoreActions[_action];
+        this.id = _id;
+    }
+    return RestHighscoreRequest;
+})(RestRequest);
+exports.RestHighscoreRequest = RestHighscoreRequest;
 //////////
 // Results
 (function (RestResultType) {
