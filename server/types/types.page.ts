@@ -1,9 +1,14 @@
-﻿import rest = require('./types.rest');
+﻿import typesRest = require('./types.rest');
+
+export class SessionData {
+	public user_id: typesRest.RestUserId;
+	public user: typesRest.RestUser;
+}
 
 export interface RestCallback {
-    (code: number, data: rest.RestResult): void;
+    (data: typesRest.RestResult): void;
 }
 
 export interface Page {
-    run(inputData: any, sessionData: any, callback: RestCallback): void;
+    run(inputData: any, sessionData: SessionData, callback: RestCallback): void;
 }

@@ -10,10 +10,10 @@ var FriendsPage = (function () {
     }
     FriendsPage.prototype.run = function (inputData, sessionData, callback) {
         if (!inputData.action || !inputData.user_id) {
-            callback(200, new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
+            callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
         else if (!sessionData.user) {
-            callback(200, { result: 'NotLoggedin' });
+            callback(new typesRest.RestFriendsResult(typesRest.RestResultType.NotLoggedin));
         }
         else if (inputData.action == 'add') {
             this.addFriend(inputData.user_id, sessionData, callback);
@@ -22,18 +22,19 @@ var FriendsPage = (function () {
             this.removeFriend(inputData.user_id, sessionData, callback);
         }
         else {
-            callback(200, new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
+            console.log(inputData.action);
+            callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
     };
     FriendsPage.prototype.addFriend = function (userId, sessionData, callback) {
-        sdk.user.findUser(sessionData.user._id, function (err, currentUser) {
+        sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
             if (err || !currentUser) {
-                callback(200, { result: 'DatabaseError' });
+                callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
             }
             else {
                 sdk.user.findUser(userId, function (err, friendUser) {
                     if (err || !friendUser) {
-                        callback(200, { result: 'DatabaseError' });
+                        callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
                     }
                     else {
                         var containsFriend = false;
@@ -44,16 +45,17 @@ var FriendsPage = (function () {
                             }
                         }
                         if (containsFriend) {
-                            callback(200, { result: 'AlreadyInList' });
+                            callback(new typesRest.RestFriendsResult(typesRest.RestResultType.AlreadyInList, typesRest.RestUserId.fromDatabase(friendUser)));
                         }
                         else {
                             currentUser.friends.push(friendUser._id);
                             sdk.user.saveUser(currentUser, sessionData, function (result) {
-                                var obj = new typesRest.RestFriendsResult(result, friendUser._id);
+                                console.log("test7" + result);
+                                var obj = new typesRest.RestFriendsResult(result);
                                 if (result == typesRest.RestResultType.Ok) {
-                                    obj.user_id = friendUser._id;
+                                    obj.user_id = friendUser._id.toHexString();
                                 }
-                                callback(200, obj);
+                                callback(obj);
                             });
                         }
                     }
@@ -62,9 +64,9 @@ var FriendsPage = (function () {
         });
     };
     FriendsPage.prototype.removeFriend = function (userId, sessionData, callback) {
-        sdk.user.findUser(sessionData.user._id, function (err, currentUser) {
+        sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
             if (err || !currentUser) {
-                callback(200, { result: 'DatabaseError' });
+                callback({ result: 'DatabaseError' });
             }
             else {
                 var containsFriend = false;
@@ -76,10 +78,10 @@ var FriendsPage = (function () {
                     }
                 }
                 if (containsFriend) {
-                    callback(200, { result: 'Ok' });
+                    callback({ result: 'Ok' });
                 }
                 else {
-                    callback(200, { result: 'NotInList' });
+                    callback({ result: 'NotInList' });
                 }
             }
         });

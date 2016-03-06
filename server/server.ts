@@ -8,6 +8,10 @@ import https = require('https');
 import fs = require('fs');
 import pages = require('./pages');
 
+require('source-map-support').install({
+	environment: 'node'
+});
+
 mongoose.connect('mongodb://localhost/server');
 
 var app = express();
@@ -27,7 +31,7 @@ var pageManager = new pages();
 app.use(pageManager.getRequestHandler());
 
 
-var httpsOptions: https.ServerOptions;
+var httpsOptions: https.ServerOptions = {};
 httpsOptions.key = fs.readFileSync('private/ssl.key', 'utf8');
 httpsOptions.cert = fs.readFileSync('private/ssl.cer', 'utf8');
 

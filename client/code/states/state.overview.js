@@ -1,15 +1,18 @@
 /// <reference path="../../thirdparty/jqueryui/jqueryui.d.ts"/>
 $('#content').load('html/overview.html', function () {
-    sdk.serverGet('getuser', function (data) {
-        sdk.parseResult(data, [], function (ok) {
+    sdk.serverGet('getuser', function (getUserData) {
+        sdk.parseResult(getUserData, [], function (ok) {
             if (ok) {
-                $('#username').html(data.user.username);
-                var html = sdk.formatString(sdk.preloadHtml('general_list_begin'), { id: 'friends_menu' });
-                for (var index in data.user.friends) {
-                    html += sdk.formatString(sdk.preloadHtml('general_list_entry'), data.user.friends[index]);
-                }
-                html += sdk.preloadHtml('general_list_end');
-                $('#friends_list').html(html);
+                $('#username').html(getUserData.user.username);
+                sdk.setLoading('friends_list');
+                sdk.serverPostAndParse('getusers', new RestGetUsersRequest(getUserData.user.friends), [], function (friendsData) {
+                    var html = sdk.formatString(sdk.preloadHtml('general_list_begin'), { id: 'friends_menu' });
+                    friendsData.users.forEach(function (friend) {
+                        html += sdk.formatString(sdk.preloadHtml('general_list_entry'), friend);
+                    });
+                    html += sdk.preloadHtml('general_list_end');
+                    $('#friends_list').html(html);
+                });
             }
         });
     });
@@ -23,16 +26,18 @@ $('#content').load('html/overview.html', function () {
             sdk.parseResult(data, [], function (ok) {
                 if (ok) {
                     var html = sdk.preloadHtml('overview_friends_list_begin');
-                    for (var index in data.users) {
-                        html += sdk.formatString(sdk.preloadHtml('overview_friends_list_entry'), data.users[index]);
-                    }
+                    data.users.forEach(function (user) {
+                        html += sdk.formatString(sdk.preloadHtml('overview_friends_list_entry'), user);
+                    });
                     html += sdk.preloadHtml('overview_friends_list_end');
                     $('#friends_search_list').html(html);
                     $("#friends_search_list > div").children('button').click(function (clickEvent) {
                         var item_id = $(clickEvent.target).parent().prop('id');
                         var user_id = /friend_([0-9a-fA-F]+)/.exec(item_id)[1];
                         user.addFriend(user_id, function (ok) {
-                            $('#status').html(sdk.preloadHtml('overview_friends_added')).show(0).fadeOut(2000);
+                            if (ok) {
+                                $('#status').html(sdk.preloadHtml('overview_friends_added')).show(0).fadeOut(2000);
+                            }
                         });
                     });
                     $("#friends_search_list > div").children('a').click(function (clickEvent) {

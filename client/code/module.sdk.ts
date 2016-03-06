@@ -2,7 +2,7 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 
 module sdk {
-    var serverUrl: string = 'http://localhost/';
+    var serverUrl: string = 'https://localhost/';
     var preloadedHtml: { [s: string]: string; } = {};
     
     export function init() {
@@ -13,8 +13,8 @@ module sdk {
         });
     }
 
-    export function setLoading() {
-        $('#content').html(preloadHtml('loading'));
+    export function setLoading(id: string = "content") {
+        $('#' + id).html(preloadHtml('loading'));
     }
 
     export function changeState(stateName: string, stateData: any = null) {
@@ -38,14 +38,31 @@ module sdk {
     }
 
     export function serverPost(url: string, data: any, callback: RestCallback) {
-        $.ajax({
-            type: "POST",
+		if (data && data.constructor) {
+			data.constructor = undefined;
+		}
+
+		$.ajax({
+            method: "POST",
             url: serverUrl + url,
-            data: data,
-            dataType: 'json',
+            contentType: 'application/json',
+			data: JSON.stringify(data),
             success: callback
         });
     }
+
+	export function serverPostAndParse(url: string, data: any, acceptedResults: string[], okCallback: RestCallback, failedCallback?: RestCallback) {
+		serverPost(url, data, function (data: RestResult) {
+			parseResult(data, acceptedResults, function (ok: boolean) {
+				if (ok) {
+					okCallback(data);
+				}
+				else if (failedCallback) {
+					failedCallback(data);
+				}
+			});
+		});
+	}
 
     export function preloadHtml(fileName: string): string {
         if (!(fileName in preloadedHtml)) {

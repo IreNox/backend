@@ -4,38 +4,28 @@ import typesRest = require('../types/types.rest')
 import typesPage = require('../types/types.page')
 
 class FindUserPage implements typesPage.Page {
-    run(inputData: any, sessionData: any, callback: typesPage.RestCallback): void {
-        var obj: any = { result: "Unknown" };
-
+    run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (!inputData.username) {
-            obj.result = "InvalidCall";
-            callback(200, obj);
+            callback(new typesRest.RestFindUserResult(typesRest.RestResultType.InvalidCall));
         }
         else if (!sessionData.user) {
-            obj.result = "NotLoggedin";
-            callback(200, obj);
+            callback(new typesRest.RestFindUserResult(typesRest.RestResultType.NotLoggedin));
         }
         else {
-            var regex = new RegExp(inputData.username);
+            var regex = new RegExp(inputData.username, "i");
             modelUser.model.find({ username: regex }, function (err, result: modelUser.User[]) {
                 if (err || !result) {
-                    obj.result = "NotFound";
+					callback(new typesRest.RestFindUserResult(typesRest.RestResultType.NotFound));
                 }
                 else {
-                    obj.result = "Ok";
-
-                    obj.users = [];
-                    for (var index in result) {
-                        var user = result[index];
-                        if (user._id == sessionData.user._id) {
-                            continue;
-                        }
-
-                        obj.users.push(sdk.user.exportUser(user));
-                    }
+					var userId: string = sessionData.user_id.toString(); 
+					callback(
+						new typesRest.RestFindUserResult(
+							typesRest.RestResultType.Ok,
+							result.filter(value => value._id.toHexString() != userId).map(value => sdk.user.exportUser(value))
+						)
+					);
                 }
-
-                callback(200, obj);
             });
         }
     }

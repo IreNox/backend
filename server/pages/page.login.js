@@ -6,13 +6,14 @@ var LoginPage = (function () {
     }
     LoginPage.prototype.run = function (inputData, sessionData, callback) {
         if (sessionData.user) {
-            callback(200, new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
+            callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
         }
         else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
-            callback(200, new typesRest.RestLoginResult(typesRest.RestResultType.InvalidCall, typesRest.InvalidUserId));
+            callback(new typesRest.RestLoginResult(typesRest.RestResultType.InvalidCall, typesRest.InvalidUserId));
         }
         else {
-            modelUser.model.findOne({ username: inputData.username }, function (err, result) {
+            var regex = new RegExp(inputData.username, "i");
+            modelUser.model.findOne({ username: regex }, function (err, result) {
                 var resultType = typesRest.RestResultType.InvalidCall;
                 sessionData.user_id = typesRest.InvalidUserId;
                 sessionData.user = null;
@@ -28,9 +29,9 @@ var LoginPage = (function () {
                 else {
                     resultType = typesRest.RestResultType.Ok;
                     sessionData.user_id = new typesRest.RestUserId(result._id.toHexString());
-                    sessionData.user = result;
+                    sessionData.user = sdk.user.exportUser(result);
                 }
-                callback(200, new typesRest.RestLoginResult(resultType, sessionData.user_id));
+                callback(new typesRest.RestLoginResult(resultType, sessionData.user_id));
             });
         }
     };

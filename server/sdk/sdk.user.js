@@ -8,10 +8,10 @@ var SdkUser = (function () {
     function SdkUser() {
     }
     SdkUser.prototype.findUser = function (user_id, callback) {
-        modelUser.model.findById(user_id).populate('friends').exec(callback);
+        modelUser.model.findById(user_id).exec(callback);
     };
     SdkUser.prototype.saveUser = function (user, sessionData, callback) {
-        if (user._id != sessionData.user._id) {
+        if (user._id.toHexString() != sessionData.user.id) {
             callback(typesRest.RestResultType.InvalidCall);
         }
         else {
@@ -27,12 +27,13 @@ var SdkUser = (function () {
         }
     };
     SdkUser.prototype.exportUser = function (user) {
-        var result;
+        var result = new typesRest.RestUser();
         validFields.forEach(function (key) {
             result[key] = user[key];
         });
-        result.id = new typesRest.RestUserId(user._id.toHexString());
-        result.friends = user.friends.map(function (value) { return new typesRest.RestUserId(value._id.toHexString()); });
+        result.id = user._id.toHexString();
+        console.log(user.friends);
+        result.friends = user.friends.map(function (value) { return value.toHexString(); });
         return result;
     };
     return SdkUser;

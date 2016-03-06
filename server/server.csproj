@@ -29,6 +29,7 @@
     <TypeScriptCompile Include="pages\page.finduser.ts" />
     <TypeScriptCompile Include="pages\page.friends.ts" />
     <TypeScriptCompile Include="pages\page.getuser.ts" />
+    <TypeScriptCompile Include="pages\page.getusers.ts" />
     <TypeScriptCompile Include="pages\page.login.ts" />
     <TypeScriptCompile Include="pages\page.logout.ts" />
     <TypeScriptCompile Include="pages\page.signup.ts" />
@@ -45,7 +46,6 @@
     <TypeScriptCompile Include="thirdparty\mongoose\mongoose.d.ts" />
     <TypeScriptCompile Include="thirdparty\node\node.d.ts" />
     <TypeScriptCompile Include="thirdparty\serve-static\serve-static.d.ts" />
-    <TypeScriptCompile Include="types\types.base.ts" />
     <TypeScriptCompile Include="types\types.db.ts" />
     <TypeScriptCompile Include="types\types.page.ts" />
     <TypeScriptCompile Include="types\types.rest.ts" />

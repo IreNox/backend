@@ -1,4 +1,5 @@
-﻿
+﻿import mongoose = require('mongoose');
+
 export enum RestResultType {
     Ok,
     InvalidCall,
@@ -8,6 +9,7 @@ export enum RestResultType {
 	NotFound,
 	InvalidToken,
 	InvalidPassword,
+	AlreadyInList,
 
 	Unknown
 }
@@ -22,15 +24,19 @@ export class RestUserId {
 	public toString(): string {
 		return this.id;
 	}
+
+	public static fromDatabase(value: mongoose.Document): RestUserId {
+		return new RestUserId(value._id.toHexString());
+	}
 }
 
 export var InvalidUserId: RestUserId = new RestUserId("");
 
 export class RestUser {
-	public id: RestUserId;
+	public id: string;
     public name: string;
     public username: string;
-    public friends: RestUserId[];
+    public friends: string[];
     public points: Number;
 }
 
@@ -55,22 +61,40 @@ export class RestLoginResult extends RestResult {
 	}
 }
 
-export class RestFindUserResult extends RestResult {
-    public users: string[];
+export class RestGetUserResult extends RestResult {
+	public user: RestUser;
 
-    constructor(_result: RestResultType, _users: RestUserId[]) {
+	constructor(_result: RestResultType, _user?: RestUser) {
+		super(_result);
+		this.user = _user;
+	}
+}
+
+export class RestGetUsersResult extends RestResult {
+	public users: RestUser[];
+
+	constructor(_result: RestResultType, _users?: RestUser[]) {
+		super(_result);
+		this.users = _users;
+	}
+}
+
+export class RestFindUserResult extends RestResult {
+    public users: RestUser[];
+
+    constructor(_result: RestResultType, _users?: RestUser[]) {
         super(_result);
-        this.users = _users.map(function (value: RestUserId): string {
-			return value.toString();
-		});
+        this.users = _users;
     }
 }
 
 export class RestFriendsResult extends RestResult {
     public user_id: string;
 
-    constructor(_result: RestResultType, _user_id: RestUserId) {
+    constructor(_result: RestResultType, _user_id?: RestUserId) {
         super(_result);
-        this.user_id = _user_id.toString();
+		if (_user_id) {
+			this.user_id = _user_id.toString();
+		}
     }
 }

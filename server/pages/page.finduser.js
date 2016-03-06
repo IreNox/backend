@@ -1,36 +1,26 @@
 var sdk = require("../sdk");
 var modelUser = require("../models/model.user");
+var typesRest = require('../types/types.rest');
 var FindUserPage = (function () {
     function FindUserPage() {
     }
     FindUserPage.prototype.run = function (inputData, sessionData, callback) {
-        var obj = { result: "Unknown" };
         if (!inputData.username) {
-            obj.result = "InvalidCall";
-            callback(200, obj);
+            callback(new typesRest.RestFindUserResult(typesRest.RestResultType.InvalidCall));
         }
         else if (!sessionData.user) {
-            obj.result = "NotLoggedin";
-            callback(200, obj);
+            callback(new typesRest.RestFindUserResult(typesRest.RestResultType.NotLoggedin));
         }
         else {
-            var regex = new RegExp(inputData.username);
+            var regex = new RegExp(inputData.username, "i");
             modelUser.model.find({ username: regex }, function (err, result) {
                 if (err || !result) {
-                    obj.result = "NotFound";
+                    callback(new typesRest.RestFindUserResult(typesRest.RestResultType.NotFound));
                 }
                 else {
-                    obj.result = "Ok";
-                    obj.users = [];
-                    for (var index in result) {
-                        var user = result[index];
-                        if (user._id == sessionData.user._id) {
-                            continue;
-                        }
-                        obj.users.push(sdk.user.exportUser(user));
-                    }
+                    var userId = sessionData.user_id.toString();
+                    callback(new typesRest.RestFindUserResult(typesRest.RestResultType.Ok, result.filter(function (value) { return value._id.toHexString() != userId; }).map(function (value) { return sdk.user.exportUser(value); })));
                 }
-                callback(200, obj);
             });
         }
     };

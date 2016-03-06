@@ -5,10 +5,10 @@ var LogoutPage = (function () {
     LogoutPage.prototype.run = function (inputData, sessionData, callback) {
         if (sessionData.user) {
             sessionData.user = null;
-            callback(200, new typesRest.RestResult(typesRest.RestResultType.Ok));
+            callback(new typesRest.RestResult(typesRest.RestResultType.Ok));
         }
         else {
-            callback(200, new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
+            callback(new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
         }
     };
     return LogoutPage;

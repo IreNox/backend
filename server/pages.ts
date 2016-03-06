@@ -2,9 +2,9 @@
 import express = require('express');
 import fs = require('fs');
 import path = require('path');
-import typesPage = require('./types/types.page');
 import url = require('url');
 import http = require('http');
+import typesPage = require('./types/types.page');
 
 class Pages {
     private pages: { [s: string]: typesPage.Page; } = {};
@@ -49,12 +49,13 @@ class Pages {
                 inputData[key] = request.query[key];
             }
 
-            this.pages[pageName].run(inputData, request.session, function (code, obj) {
-                // response.writeHead(code, { 'Content-Type': 'application/json' });
-                // response.write(JSON.stringify(obj))
-                // response.end();
+			if (!request.session["data"]) {
+				request.session["data"] = {};
+			}
+			var sessionData: typesPage.SessionData = request.session["data"];
 
-                response.jsonp(obj);
+            this.pages[pageName].run(inputData, sessionData, function (obj) {
+				response.json(obj);
             });
         }
         else {

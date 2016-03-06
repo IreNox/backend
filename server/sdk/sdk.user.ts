@@ -8,11 +8,11 @@ var validFields = [
 
 class SdkUser {
     findUser(user_id: string, callback) {
-        modelUser.model.findById(user_id).populate('friends').exec(callback);
+        modelUser.model.findById(user_id).exec(callback);
     }
 
     saveUser(user: modelUser.User, sessionData: any, callback: typesRest.RestResultTypeCallback) {
-        if (user._id != sessionData.user._id) {
+        if (user._id.toHexString() != sessionData.user.id) {
             callback(typesRest.RestResultType.InvalidCall);
         }
         else {
@@ -29,14 +29,16 @@ class SdkUser {
     }
 
     exportUser(user: modelUser.User): typesRest.RestUser {
-        var result: typesRest.RestUser;
+        var result: typesRest.RestUser = new typesRest.RestUser();
 
 		validFields.forEach(function (key: string) {
 			result[key] = user[key];
 		});
 
-		result.id = new typesRest.RestUserId(user._id.toHexString());
-		result.friends = user.friends.map((value: modelUser.User) => new typesRest.RestUserId(value._id.toHexString()));
+		result.id = user._id.toHexString();
+
+		console.log(user.friends);
+		result.friends = user.friends.map(value => value.toHexString());
 
         return result;
     }

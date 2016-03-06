@@ -7,21 +7,21 @@ var SignupPage = (function () {
         var obj = { result: "Unknown" };
         if (sessionData.user) {
             obj.result = "AlreadyLoggedin";
-            callback(200, obj);
+            callback(obj);
         }
         else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
             obj.result = "InvalidCall";
-            callback(200, obj);
+            callback(obj);
         }
         else {
             modelUser.model.findOne({ username: inputData.username }, function (err, result) {
                 if (err) {
                     obj.result = "DatabaseError";
-                    callback(200, obj);
+                    callback(obj);
                 }
                 else if (result) {
                     obj.result = "AlreadyInuse";
-                    callback(200, obj);
+                    callback(obj);
                 }
                 else {
                     obj.result = "Ok";
@@ -41,7 +41,7 @@ var SignupPage = (function () {
                         else {
                             obj.user_id = user._id;
                             sessionData.user = user;
-                            callback(200, obj);
+                            callback(obj);
                         }
                     });
                 }

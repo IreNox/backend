@@ -25,6 +25,14 @@ var RestGetUserRequest = (function (_super) {
     }
     return RestGetUserRequest;
 })(RestRequest);
+var RestGetUsersRequest = (function (_super) {
+    __extends(RestGetUsersRequest, _super);
+    function RestGetUsersRequest(_user_ids) {
+        _super.call(this);
+        this.user_ids = _user_ids;
+    }
+    return RestGetUsersRequest;
+})(RestRequest);
 var RestFriendsActions;
 (function (RestFriendsActions) {
     RestFriendsActions[RestFriendsActions["Add"] = 0] = "Add";
@@ -34,7 +42,7 @@ var RestFriendsRequest = (function (_super) {
     __extends(RestFriendsRequest, _super);
     function RestFriendsRequest(_action, _user_id) {
         _super.call(this);
-        this.action = RestFriendsActions[_action];
+        this.action = RestFriendsActions[_action].toLowerCase();
         this.user_id = _user_id;
     }
     return RestFriendsRequest;
@@ -57,6 +65,13 @@ var RestGetUserResult = (function (_super) {
         _super.apply(this, arguments);
     }
     return RestGetUserResult;
+})(RestResult);
+var RestGetUsersResult = (function (_super) {
+    __extends(RestGetUsersResult, _super);
+    function RestGetUsersResult() {
+        _super.apply(this, arguments);
+    }
+    return RestGetUsersResult;
 })(RestResult);
 var RestFindUserResult = (function (_super) {
     __extends(RestFindUserResult, _super);

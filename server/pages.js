@@ -36,11 +36,12 @@ var Pages = (function () {
             for (var key in request.query) {
                 inputData[key] = request.query[key];
             }
-            this.pages[pageName].run(inputData, request.session, function (code, obj) {
-                // response.writeHead(code, { 'Content-Type': 'application/json' });
-                // response.write(JSON.stringify(obj))
-                // response.end();
-                response.jsonp(obj);
+            if (!request.session["data"]) {
+                request.session["data"] = {};
+            }
+            var sessionData = request.session["data"];
+            this.pages[pageName].run(inputData, sessionData, function (obj) {
+                response.json(obj);
             });
         }
         else {

@@ -2,7 +2,7 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 var sdk;
 (function (sdk) {
-    var serverUrl = 'http://localhost/';
+    var serverUrl = 'https://localhost/';
     var preloadedHtml = {};
     function init() {
         preloadHtml('loading');
@@ -11,8 +11,9 @@ var sdk;
         });
     }
     sdk.init = init;
-    function setLoading() {
-        $('#content').html(preloadHtml('loading'));
+    function setLoading(id) {
+        if (id === void 0) { id = "content"; }
+        $('#' + id).html(preloadHtml('loading'));
     }
     sdk.setLoading = setLoading;
     function changeState(stateName, stateData) {
@@ -36,15 +37,31 @@ var sdk;
     }
     sdk.serverGet = serverGet;
     function serverPost(url, data, callback) {
+        if (data && data.constructor) {
+            data.constructor = undefined;
+        }
         $.ajax({
-            type: "POST",
+            method: "POST",
             url: serverUrl + url,
-            data: data,
-            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
             success: callback
         });
     }
     sdk.serverPost = serverPost;
+    function serverPostAndParse(url, data, acceptedResults, okCallback, failedCallback) {
+        serverPost(url, data, function (data) {
+            parseResult(data, acceptedResults, function (ok) {
+                if (ok) {
+                    okCallback(data);
+                }
+                else if (failedCallback) {
+                    failedCallback(data);
+                }
+            });
+        });
+    }
+    sdk.serverPostAndParse = serverPostAndParse;
     function preloadHtml(fileName) {
         if (!(fileName in preloadedHtml)) {
             $.ajax({

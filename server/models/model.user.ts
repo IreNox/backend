@@ -16,7 +16,7 @@ export interface User extends mongoose.Document {
     username: string;
     password: string;
     password_salt: string;
-    friends: User[];
+    friends: mongoose.Types.ObjectId[];
     points: Number;
 }
 
