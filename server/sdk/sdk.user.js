@@ -1,3 +1,4 @@
+var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
 var typesRest = require('../types/types.rest');
 var validFields = [
@@ -20,7 +21,7 @@ var SdkUser = (function () {
                     callback(typesRest.RestResultType.DatabaseError);
                 }
                 else {
-                    sessionData.user = user;
+                    sessionData.user = sdk.user.exportUser(user);
                     callback(typesRest.RestResultType.Ok);
                 }
             });
@@ -32,7 +33,6 @@ var SdkUser = (function () {
             result[key] = user[key];
         });
         result.id = user._id.toHexString();
-        console.log(user.friends);
         result.friends = user.friends.map(function (value) { return value.toHexString(); });
         return result;
     };

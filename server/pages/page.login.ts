@@ -31,7 +31,7 @@ class LoginPage implements typesPage.Page {
                 else {
                     resultType = typesRest.RestResultType.Ok;
 
-					sessionData.user_id = new typesRest.RestUserId(result._id.toHexString());
+					sessionData.user_id = typesRest.RestUserId.fromDatabase(result);
                     sessionData.user = sdk.user.exportUser(result);
                 }
 

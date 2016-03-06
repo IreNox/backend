@@ -13,16 +13,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     RestResultType[RestResultType["InvalidToken"] = 6] = "InvalidToken";
     RestResultType[RestResultType["InvalidPassword"] = 7] = "InvalidPassword";
     RestResultType[RestResultType["AlreadyInList"] = 8] = "AlreadyInList";
-    RestResultType[RestResultType["Unknown"] = 9] = "Unknown";
+    RestResultType[RestResultType["NotInList"] = 9] = "NotInList";
+    RestResultType[RestResultType["Unknown"] = 10] = "Unknown";
 })(exports.RestResultType || (exports.RestResultType = {}));
 var RestResultType = exports.RestResultType;
 var RestUserId = (function () {
     function RestUserId(_id) {
         this.id = _id;
     }
-    RestUserId.prototype.toString = function () {
-        return this.id;
-    };
     RestUserId.fromDatabase = function (value) {
         return new RestUserId(value._id.toHexString());
     };
@@ -47,7 +45,7 @@ var RestLoginResult = (function (_super) {
     __extends(RestLoginResult, _super);
     function RestLoginResult(_result, _user_id) {
         _super.call(this, _result);
-        this.user_id = _user_id.toString();
+        this.user_id = _user_id.id;
     }
     return RestLoginResult;
 })(RestResult);
@@ -84,7 +82,7 @@ var RestFriendsResult = (function (_super) {
     function RestFriendsResult(_result, _user_id) {
         _super.call(this, _result);
         if (_user_id) {
-            this.user_id = _user_id.toString();
+            this.user_id = _user_id.id;
         }
     }
     return RestFriendsResult;

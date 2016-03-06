@@ -1,22 +1,17 @@
 var user;
 (function (user) {
     function login(loginData) {
-        sdk.serverPost('login', loginData, function (data) {
-            sdk.parseResult(data, ['AlreadyLoggedin'], function (ok) {
-                if (ok) {
-                    Global.userId = data.user_id;
-                    var hasValidState = sdk.activateState();
-                    if (hasValidState && Global.stateName == 'login') {
-                        hasValidState = false;
-                    }
-                    if (!hasValidState) {
-                        sdk.changeState('overview');
-                    }
-                }
-                else {
-                    sdk.changeState('login');
-                }
-            });
+        sdk.serverPostAndParse('login', loginData, ['AlreadyLoggedin'], function (data) {
+            Global.userId = data.user_id;
+            var hasValidState = sdk.activateState();
+            if (hasValidState && Global.stateName == 'login') {
+                hasValidState = false;
+            }
+            if (!hasValidState) {
+                sdk.changeState('overview');
+            }
+        }, function () {
+            sdk.changeState('login');
         });
     }
     user.login = login;
@@ -26,12 +21,15 @@ var user;
         });
     }
     user.logout = logout;
-    function addFriend(userId, callback) {
+    function addFriend(userId, okCallback, failedCallback) {
         var request = new RestFriendsRequest(RestFriendsActions.Add, userId);
-        sdk.serverPost('friends', request, function (result) {
-            sdk.parseResult(result, [], callback);
-        });
+        sdk.serverPostAndParse('friends', request, [], okCallback, failedCallback);
     }
     user.addFriend = addFriend;
+    function removeFriend(userId, okCallback, failedCallback) {
+        var request = new RestFriendsRequest(RestFriendsActions.Remove, userId);
+        sdk.serverPostAndParse('friends', request, [], okCallback, failedCallback);
+    }
+    user.removeFriend = removeFriend;
 })(user || (user = {}));
 //# sourceMappingURL=module.user.js.map

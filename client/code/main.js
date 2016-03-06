@@ -4,6 +4,7 @@ var Global;
     Global.userId = "";
     Global.stateName = "";
     Global.stateData = null;
+    Global.stateObject = null;
 })(Global || (Global = {}));
 $(document).ready(function () {
     sdk.init();

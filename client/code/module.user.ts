@@ -1,25 +1,20 @@
 ﻿
 module user {
     export function login(loginData?: RestLoginRequest) {
-        sdk.serverPost('login', loginData, function (data: RestLoginResult) {
-            sdk.parseResult(data, ['AlreadyLoggedin'], function (ok) {
-                if (ok) {
-                    Global.userId = data.user_id;
+        sdk.serverPostAndParse('login', loginData, ['AlreadyLoggedin'], function (data: RestLoginResult) {
+            Global.userId = data.user_id;
 
-                    var hasValidState: boolean = sdk.activateState();
-                    if (hasValidState && Global.stateName == 'login') {
-                        hasValidState = false;
-                    }
+            var hasValidState: boolean = sdk.activateState();
+            if (hasValidState && Global.stateName == 'login') {
+                hasValidState = false;
+            }
 
-                    if (!hasValidState) {
-                        sdk.changeState('overview');
-                    }
-                }
-                else {
-                    sdk.changeState('login');
-                }
-            });
-        });
+            if (!hasValidState) {
+                sdk.changeState('overview');
+            }
+        }, function () {
+			sdk.changeState('login');
+		});
     }
 
     export function logout() {
@@ -28,10 +23,13 @@ module user {
         });
     }
 
-    export function addFriend(userId: string, callback: ResultCallback) {
+    export function addFriend(userId: string, okCallback: RestCallback, failedCallback?: RestCallback) {
         var request: RestFriendsRequest = new RestFriendsRequest(RestFriendsActions.Add, userId);
-        sdk.serverPost('friends', request, function (result: RestFriendsResult) {
-            sdk.parseResult(result, [], callback);
-        });
+        sdk.serverPostAndParse('friends', request, [], okCallback, failedCallback);
     }
+
+	export function removeFriend(userId: string, okCallback: RestCallback, failedCallback?: RestCallback) {
+        var request: RestFriendsRequest = new RestFriendsRequest(RestFriendsActions.Remove, userId);
+        sdk.serverPostAndParse('friends', request, [], okCallback, failedCallback);
+	}
 }

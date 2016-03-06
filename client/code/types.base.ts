@@ -1,9 +1,4 @@
 ﻿
-class StateContext {
-    public stateName: string;
-    public stateData: any;
-}
-
 class User {
     public id: string;
     public username: string;

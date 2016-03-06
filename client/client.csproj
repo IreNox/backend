@@ -29,10 +29,12 @@
     <Content Include="html\loading.html" />
     <Content Include="html\login.html" />
     <Content Include="html\overview.html" />
-    <Content Include="html\overview_friends_added.html" />
-    <Content Include="html\overview_friends_list_begin.html" />
-    <Content Include="html\overview_friends_list_end.html" />
-    <Content Include="html\overview_friends_list_entry.html" />
+    <Content Include="html\overview_friend_removed.html" />
+    <Content Include="html\overview_friend_added.html" />
+    <Content Include="html\overview_friend_list_entry.html" />
+    <Content Include="html\overview_friend_seach_list_begin.html" />
+    <Content Include="html\overview_friend_seach_list_end.html" />
+    <Content Include="html\overview_friend_seach_list_entry.html" />
     <Content Include="html\userinfo.html" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="index.html" />
@@ -60,7 +62,6 @@
     <Content Include="thirdparty\urijs\URI.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="client.ts" />
     <TypeScriptCompile Include="code\module.sdk.ts" />
     <TypeScriptCompile Include="code\module.user.ts" />
     <TypeScriptCompile Include="code\types.base.ts" />
@@ -69,6 +70,7 @@
     <TypeScriptCompile Include="code\states\state.overview.ts" />
     <TypeScriptCompile Include="code\states\state.userinfo.ts" />
     <TypeScriptCompile Include="code\types.rest.ts" />
+    <TypeScriptCompile Include="code\types.state.ts" />
     <TypeScriptCompile Include="thirdparty\express\express.d.ts" />
     <TypeScriptCompile Include="thirdparty\history\history.d.ts" />
     <TypeScriptCompile Include="thirdparty\jquery\jquery.d.ts" />

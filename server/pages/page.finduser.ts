@@ -18,7 +18,7 @@ class FindUserPage implements typesPage.Page {
 					callback(new typesRest.RestFindUserResult(typesRest.RestResultType.NotFound));
                 }
                 else {
-					var userId: string = sessionData.user_id.toString(); 
+					var userId: string = sessionData.user.id;
 					callback(
 						new typesRest.RestFindUserResult(
 							typesRest.RestResultType.Ok,

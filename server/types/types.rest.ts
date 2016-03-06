@@ -10,6 +10,7 @@ export enum RestResultType {
 	InvalidToken,
 	InvalidPassword,
 	AlreadyInList,
+	NotInList,
 
 	Unknown
 }
@@ -19,10 +20,6 @@ export class RestUserId {
 
 	constructor(_id: string) {
 		this.id = _id;
-	}
-
-	public toString(): string {
-		return this.id;
 	}
 
 	public static fromDatabase(value: mongoose.Document): RestUserId {
@@ -57,7 +54,7 @@ export class RestLoginResult extends RestResult {
 
 	constructor(_result: RestResultType, _user_id: RestUserId) {
 		super(_result);
-		this.user_id = _user_id.toString();
+		this.user_id = _user_id.id;
 	}
 }
 
@@ -94,7 +91,7 @@ export class RestFriendsResult extends RestResult {
     constructor(_result: RestResultType, _user_id?: RestUserId) {
         super(_result);
 		if (_user_id) {
-			this.user_id = _user_id.toString();
+			this.user_id = _user_id.id;
 		}
     }
 }

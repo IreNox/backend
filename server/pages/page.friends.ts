@@ -3,11 +3,6 @@ import modelUser = require('../models/model.user');
 import typesRest = require('../types/types.rest')
 import typesPage = require('../types/types.page')
 
-enum FriendsActions {
-    Add,
-    Remove
-}
-
 class FriendsPage implements typesPage.Page {
     run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (!inputData.action || !inputData.user_id) {
@@ -23,7 +18,6 @@ class FriendsPage implements typesPage.Page {
             this.removeFriend(inputData.user_id, sessionData, callback);
         }
         else {
-			console.log(inputData.action);
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
     }
@@ -41,7 +35,7 @@ class FriendsPage implements typesPage.Page {
                     else {
                         var containsFriend = false;
                         for (var index in currentUser.friends) {
-                            if (friendUser._id.equals(currentUser.friends[index]._id)) {
+                            if (friendUser._id.equals(currentUser.friends[index])) {
                                 containsFriend = true;
                                 break;
                             }
@@ -53,7 +47,6 @@ class FriendsPage implements typesPage.Page {
                         else {
                             currentUser.friends.push(friendUser._id);
                             sdk.user.saveUser(currentUser, sessionData, function (result: typesRest.RestResultType) {
-								console.log("test7" + result);
                                 var obj: typesRest.RestFriendsResult = new typesRest.RestFriendsResult(result);
                                 if (result == typesRest.RestResultType.Ok) {
                                     obj.user_id = friendUser._id.toHexString();
@@ -69,14 +62,14 @@ class FriendsPage implements typesPage.Page {
     }
 
     private removeFriend(userId: string, sessionData: typesPage.SessionData, callback: typesPage.RestCallback) {
-        sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
+        sdk.user.findUser(sessionData.user.id, function (err, currentUser: modelUser.User) {
             if (err || !currentUser) {
-                callback({ result: 'DatabaseError' });
+                callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
             }
             else {
                 var containsFriend = false;
                 for (var index in currentUser.friends) {
-                    if (currentUser.friends[index]._id.equals(userId)) {
+                    if (currentUser.friends[index].toHexString() == userId) {
                         containsFriend = true;
                         currentUser.friends.splice(index, 1);
                         break;
@@ -84,10 +77,12 @@ class FriendsPage implements typesPage.Page {
                 }
 
                 if (containsFriend) {
-                    callback({ result: 'Ok' });
-                }
+					sdk.user.saveUser(currentUser, sessionData, function (result: typesRest.RestResultType) {
+						callback(new typesRest.RestFriendsResult(result));
+					});
+				}
                 else {
-                    callback({ result: 'NotInList' });
+                    callback(new typesRest.RestFriendsResult(typesRest.RestResultType.NotInList));
                 }
             }
         });

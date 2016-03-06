@@ -1,4 +1,5 @@
-﻿import modelUser = require('../models/model.user');
+﻿import sdk = require('../sdk');
+import modelUser = require('../models/model.user');
 import typesRest = require('../types/types.rest');
 
 var validFields = [
@@ -21,7 +22,7 @@ class SdkUser {
                     callback(typesRest.RestResultType.DatabaseError);
                 }
                 else {
-                    sessionData.user = user;
+                    sessionData.user = sdk.user.exportUser(user);
                     callback(typesRest.RestResultType.Ok);
                 }
             });
@@ -36,8 +37,6 @@ class SdkUser {
 		});
 
 		result.id = user._id.toHexString();
-
-		console.log(user.friends);
 		result.friends = user.friends.map(value => value.toHexString());
 
         return result;

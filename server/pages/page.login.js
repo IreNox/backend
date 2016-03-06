@@ -28,7 +28,7 @@ var LoginPage = (function () {
                 }
                 else {
                     resultType = typesRest.RestResultType.Ok;
-                    sessionData.user_id = new typesRest.RestUserId(result._id.toHexString());
+                    sessionData.user_id = typesRest.RestUserId.fromDatabase(result);
                     sessionData.user = sdk.user.exportUser(result);
                 }
                 callback(new typesRest.RestLoginResult(resultType, sessionData.user_id));

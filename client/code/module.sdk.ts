@@ -4,6 +4,7 @@
 module sdk {
     var serverUrl: string = 'https://localhost/';
     var preloadedHtml: { [s: string]: string; } = {};
+	var states: { [s: string]: State } = {};
     
     export function init() {
         preloadHtml('loading');
@@ -19,16 +20,28 @@ module sdk {
 
     export function changeState(stateName: string, stateData: any = null) {
         var url: string = encodeUrl({ state_name: stateName }, stateData);
-        Historyjs.pushState(null, document.title, url);
+		var currentUrl: string = '?' + new URI(Historyjs.getState().url).query();
+
+		if (url == currentUrl) {
+			sdk.activateState();
+		}
+		else {
+			Historyjs.pushState(null, document.title, url);
+		}
     }
 
-    export function getStateData(): any {
-        var state: HistoryState = Historyjs.getState();
-        var context: StateContext = state.data;
+	export function showStatusMessage(message: string) {
+		if (Global.stateObject) {
+			Global.stateObject.onStatusMessage(message);
+		}
+	}
 
-        return context.stateData;
-    }
-    
+	export function showErrorMessage(message: string) {
+		if (Global.stateObject) {
+			Global.stateObject.onErrorMessage(message);
+		}
+	}
+
     export function serverGet(url: string, callback: RestCallback) {
         $.ajax({
             url: serverUrl + url,
@@ -50,6 +63,19 @@ module sdk {
             success: callback
         });
     }
+
+	export function serverGetAndParse(url: string, acceptedResults: string[], okCallback: RestCallback, failedCallback?: RestCallback) {
+		serverGet(url, function (data: RestResult) {
+			parseResult(data, acceptedResults, function (ok: boolean) {
+				if (ok) {
+					okCallback(data);
+				}
+				else if (failedCallback) {
+					failedCallback(data);
+				}
+			});
+		});
+	}
 
 	export function serverPostAndParse(url: string, data: any, acceptedResults: string[], okCallback: RestCallback, failedCallback?: RestCallback) {
 		serverPost(url, data, function (data: RestResult) {
@@ -86,7 +112,7 @@ module sdk {
                 sdk.changeState("login")
             }
             else {
-                $('#error').html(data.result);
+				sdk.showErrorMessage(data.result);
             }
             callback(false);
         }
@@ -108,11 +134,16 @@ module sdk {
     export function formatString(text: string, data: any): string {
         var result: string = text;
         for (var key in data) {
-            result = result.replace('{' + key + '}', data[key]);
+			var regex = new RegExp('\\{' + key + '\\}', 'g');
+            result = result.replace(regex, data[key]);
         }
 
         return result;
     }
+
+	export function registerState(stateName: string, stateObject: State): void {
+		states[stateName] = stateObject;
+	}
 
     export function activateState(): boolean {
         var state: HistoryState = Historyjs.getState();
@@ -125,15 +156,37 @@ module sdk {
             return false;
         }
 
-        var context: StateContext = new StateContext();
-        context.stateName = stateName;
-        context.stateData = stateData;
+		if (Global.stateObject) {
+			Global.stateObject.onDeactivate();
+		}
 
-        Global.stateName = stateName;
-        Global.stateData = stateData;
+		sdk.setLoading();
 
-        sdk.setLoading();
-        $.getScript('code/states/state.' + context.stateName + '.js');
+		var startState = function () {
+			if (stateName in states) {
+				var stateObject: State = states[stateName];
+
+				Global.stateName = stateName;
+				Global.stateData = stateData;
+				Global.stateObject = stateObject;
+
+				stateObject.onActivate(stateData);
+			}
+		}
+
+		if (!(stateName in states)) {
+			$.ajax({
+				url: 'code/states/state.' + stateName + '.js',
+				dataType: 'script',
+				success: function (data: string) {
+					eval(data);
+					startState();
+				}
+			});
+		}
+		else {
+			startState();
+		}
 
         return true;
     }

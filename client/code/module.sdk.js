@@ -4,6 +4,7 @@ var sdk;
 (function (sdk) {
     var serverUrl = 'https://localhost/';
     var preloadedHtml = {};
+    var states = {};
     function init() {
         preloadHtml('loading');
         Historyjs.Adapter.bind(window, 'statechange', function () {
@@ -19,15 +20,27 @@ var sdk;
     function changeState(stateName, stateData) {
         if (stateData === void 0) { stateData = null; }
         var url = encodeUrl({ state_name: stateName }, stateData);
-        Historyjs.pushState(null, document.title, url);
+        var currentUrl = '?' + new URI(Historyjs.getState().url).query();
+        if (url == currentUrl) {
+            sdk.activateState();
+        }
+        else {
+            Historyjs.pushState(null, document.title, url);
+        }
     }
     sdk.changeState = changeState;
-    function getStateData() {
-        var state = Historyjs.getState();
-        var context = state.data;
-        return context.stateData;
+    function showStatusMessage(message) {
+        if (Global.stateObject) {
+            Global.stateObject.onStatusMessage(message);
+        }
     }
-    sdk.getStateData = getStateData;
+    sdk.showStatusMessage = showStatusMessage;
+    function showErrorMessage(message) {
+        if (Global.stateObject) {
+            Global.stateObject.onErrorMessage(message);
+        }
+    }
+    sdk.showErrorMessage = showErrorMessage;
     function serverGet(url, callback) {
         $.ajax({
             url: serverUrl + url,
@@ -49,6 +62,19 @@ var sdk;
         });
     }
     sdk.serverPost = serverPost;
+    function serverGetAndParse(url, acceptedResults, okCallback, failedCallback) {
+        serverGet(url, function (data) {
+            parseResult(data, acceptedResults, function (ok) {
+                if (ok) {
+                    okCallback(data);
+                }
+                else if (failedCallback) {
+                    failedCallback(data);
+                }
+            });
+        });
+    }
+    sdk.serverGetAndParse = serverGetAndParse;
     function serverPostAndParse(url, data, acceptedResults, okCallback, failedCallback) {
         serverPost(url, data, function (data) {
             parseResult(data, acceptedResults, function (ok) {
@@ -82,7 +108,7 @@ var sdk;
                 sdk.changeState("login");
             }
             else {
-                $('#error').html(data.result);
+                sdk.showErrorMessage(data.result);
             }
             callback(false);
         }
@@ -104,11 +130,16 @@ var sdk;
     function formatString(text, data) {
         var result = text;
         for (var key in data) {
-            result = result.replace('{' + key + '}', data[key]);
+            var regex = new RegExp('\\{' + key + '\\}', 'g');
+            result = result.replace(regex, data[key]);
         }
         return result;
     }
     sdk.formatString = formatString;
+    function registerState(stateName, stateObject) {
+        states[stateName] = stateObject;
+    }
+    sdk.registerState = registerState;
     function activateState() {
         var state = Historyjs.getState();
         var stateData = decodeUrl(state.url);
@@ -117,13 +148,32 @@ var sdk;
         if (!stateName) {
             return false;
         }
-        var context = new StateContext();
-        context.stateName = stateName;
-        context.stateData = stateData;
-        Global.stateName = stateName;
-        Global.stateData = stateData;
+        if (Global.stateObject) {
+            Global.stateObject.onDeactivate();
+        }
         sdk.setLoading();
-        $.getScript('code/states/state.' + context.stateName + '.js');
+        var startState = function () {
+            if (stateName in states) {
+                var stateObject = states[stateName];
+                Global.stateName = stateName;
+                Global.stateData = stateData;
+                Global.stateObject = stateObject;
+                stateObject.onActivate(stateData);
+            }
+        };
+        if (!(stateName in states)) {
+            $.ajax({
+                url: 'code/states/state.' + stateName + '.js',
+                dataType: 'script',
+                success: function (data) {
+                    eval(data);
+                    startState();
+                }
+            });
+        }
+        else {
+            startState();
+        }
         return true;
     }
     sdk.activateState = activateState;

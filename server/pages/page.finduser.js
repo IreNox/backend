@@ -18,7 +18,7 @@ var FindUserPage = (function () {
                     callback(new typesRest.RestFindUserResult(typesRest.RestResultType.NotFound));
                 }
                 else {
-                    var userId = sessionData.user_id.toString();
+                    var userId = sessionData.user.id;
                     callback(new typesRest.RestFindUserResult(typesRest.RestResultType.Ok, result.filter(function (value) { return value._id.toHexString() != userId; }).map(function (value) { return sdk.user.exportUser(value); })));
                 }
             });
