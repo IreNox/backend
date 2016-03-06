@@ -25,13 +25,15 @@
     <TypeScriptCompile Include="core.ts" />
     <TypeScriptCompile Include="models\model.message.ts" />
     <TypeScriptCompile Include="models\model.payment.ts" />
-    <TypeScriptCompile Include="models\model.test.ts" />
+    <TypeScriptCompile Include="models\model.highscore.ts" />
+    <TypeScriptCompile Include="models\model.scorelist.ts" />
     <TypeScriptCompile Include="models\model.user.ts" />
     <TypeScriptCompile Include="pages.ts" />
     <TypeScriptCompile Include="pages\page.finduser.ts" />
     <TypeScriptCompile Include="pages\page.friends.ts" />
     <TypeScriptCompile Include="pages\page.getuser.ts" />
     <TypeScriptCompile Include="pages\page.getusers.ts" />
+    <TypeScriptCompile Include="pages\page.highscore.ts" />
     <TypeScriptCompile Include="pages\page.login.ts" />
     <TypeScriptCompile Include="pages\page.logout.ts" />
     <TypeScriptCompile Include="pages\page.message.ts" />
