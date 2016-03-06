@@ -1,13 +1,17 @@
 ﻿/// <reference path="../../thirdparty/jqueryui/jqueryui.d.ts"/>
 
 class OverviewState extends State {
-	public user: User;
+	public user: RestUser;
 
 	public onActivate(): void {
 		var stateObject = this;
 
 		$('#content').load('html/overview.html', function () {
 			stateObject.refreshUser();
+
+			$('#messages').button().click(function () {
+				sdk.changeState('message');
+			});
 
 			$('#logout').button().click(function () {
 				user.logout();
@@ -18,20 +22,14 @@ class OverviewState extends State {
 				obj.username = $('#friends_search_name').val();
 
 				sdk.serverPostAndParse('finduser', obj, [], function (data: RestFindUserResult) {
-					var html: string = sdk.preloadHtml('overview_friend_seach_list_begin');
-					data.users.forEach(function (user) {
-						html += sdk.formatString(sdk.preloadHtml('overview_friend_seach_list_entry'), user);
-					});
-					html += sdk.preloadHtml('overview_friend_seach_list_end');
-
-					var friendList = $('#friends_search_list').html(html);
+					var friendList = $('#friends_search_list').html(ui.formatFile('overview_friend_search_list', data));
 
 					friendList.find("button[id*='friend_add']").button().click(function (clickEvent: JQueryEventObject) {
 						var item_id = $(clickEvent.target).prop('id');
 						var user_id = /friend_add_([0-9a-fA-F]+)/.exec(item_id)[1];
 
 						user.addFriend(user_id, function (data: RestFriendsResult) {
-							sdk.showStatusMessage(sdk.preloadHtml('overview_friend_added'));
+							ui.showStatusMessage(ui.preloadHtml('overview_friend_added'));
 							stateObject.refreshUser();
 						});
 					});
@@ -62,27 +60,22 @@ class OverviewState extends State {
 			$('#username').html(getUserData.user.username);
 
 			stateObject.refreshFriendList();
+			stateObject.refreshMessages();
 		});
 	}
 
 	private refreshFriendList(): void {
 		var stateObject = this;
 
-		sdk.setLoading('friends_list');
-		sdk.serverPostAndParse('getusers', new RestGetUsersRequest(stateObject.user.friends), [], function (friendsData: RestGetUsersResult) {
-			var html: string = sdk.formatString(sdk.preloadHtml('general_list_begin'), { id: 'friends_menu' });
-			friendsData.users.forEach(function (friend: User) {
-				html += sdk.formatString(sdk.preloadHtml('overview_friend_list_entry'), friend);
-			});
-			html += sdk.preloadHtml('general_list_end');
-
-			var friendList = $('#friends_list').html(html);
+		ui.setLoading('friends_list');
+		user.getFriends(stateObject.user, function (friendsData: RestGetUsersResult) {
+			var friendList = $('#friends_list').html(ui.formatFile('overview_friend_list', friendsData));
 			friendList.find("button[id*='friend_remove']").button().click(function (clickEvent: JQueryEventObject) {
 				var item_id = $(clickEvent.target).prop('id');
 				var user_id = /friend_remove_([0-9a-fA-F]+)/.exec(item_id)[1];
 
 				user.removeFriend(user_id, function (data: RestFriendsResult) {
-					sdk.showStatusMessage(sdk.preloadHtml('overview_friend_removed'));
+					ui.showStatusMessage(ui.preloadHtml('overview_friend_removed'));
 					stateObject.refreshUser();
 				});				
 			});
@@ -93,6 +86,13 @@ class OverviewState extends State {
 
 				sdk.changeState("userinfo", { user_id: user_id });
 			});
+		});
+	}
+
+	private refreshMessages(): void {
+		var getUnreadCountRequest: RestMessageRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
+		sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData: RestMessageGetUnreadCountResult) {
+			$('#messages').button('option', 'label', ui.formatString(ui.preloadHtml('overview_message_count_button'), messageCoundData));
 		});
 	}
 }

@@ -1,2 +1,14 @@
-﻿<span id="username"></span><br />
-<br />
+﻿<h2>Userinfo</h2>
+<h2>Name: <span id="username"></span></h2>
+<div class="ui-widget-content ui-corner-all" style="padding: 20px; float: left;">
+	Friends:<br />
+	<div id="friends_list"></div>
+</div>
+<div class="ui-widget-content ui-corner-all" style="margin-left: 20px; padding: 20px; float: left;">
+	Write message:<br />
+	<form action="#" id="message_write_form">
+		Subject: <input type="text" id="message_write_subject" /><br />
+		<textarea id="message_write_message" rows="20" cols="100"></textarea><br />
+		<input type="submit" id="message_write_button" value="Send..." />
+	</form>
+</div>

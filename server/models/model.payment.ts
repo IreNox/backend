@@ -5,14 +5,14 @@ enum PaymentType {
 }
 
 enum PaymantRewardType {
-	Points
+	Gems
 }
 
 var paymentSchema = new mongoose.Schema({
-    type: PaymentType,
+    type: String,
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user }' },
 	value: Number,
-	rewardType: PaymantRewardType,
+	rewardType: String,
 	rewardValue: Number
 });
 
@@ -24,4 +24,4 @@ export interface Payment extends mongoose.Document {
 	rewardValue: Number
 }
 
-export var model = mongoose.model('user', paymentSchema);
+export var model = mongoose.model('payment', paymentSchema);

@@ -3,21 +3,14 @@
 
 module sdk {
     var serverUrl: string = 'https://localhost/';
-    var preloadedHtml: { [s: string]: string; } = {};
 	var states: { [s: string]: State } = {};
     
     export function init() {
-        preloadHtml('loading');
-
         Historyjs.Adapter.bind(window, 'statechange', function () {
             sdk.activateState();
         });
     }
-
-    export function setLoading(id: string = "content") {
-        $('#' + id).html(preloadHtml('loading'));
-    }
-
+	
     export function changeState(stateName: string, stateData: any = null) {
         var url: string = encodeUrl({ state_name: stateName }, stateData);
 		var currentUrl: string = '?' + new URI(Historyjs.getState().url).query();
@@ -29,18 +22,6 @@ module sdk {
 			Historyjs.pushState(null, document.title, url);
 		}
     }
-
-	export function showStatusMessage(message: string) {
-		if (Global.stateObject) {
-			Global.stateObject.onStatusMessage(message);
-		}
-	}
-
-	export function showErrorMessage(message: string) {
-		if (Global.stateObject) {
-			Global.stateObject.onErrorMessage(message);
-		}
-	}
 
     export function serverGet(url: string, callback: RestCallback) {
         $.ajax({
@@ -90,20 +71,6 @@ module sdk {
 		});
 	}
 
-    export function preloadHtml(fileName: string): string {
-        if (!(fileName in preloadedHtml)) {
-            $.ajax({
-                url: 'html/' + fileName + '.html',
-                async: false,
-                success: function (data: string) {
-                    preloadedHtml[fileName] = data;
-                }
-            });
-        }
-
-        return preloadedHtml[fileName];
-    }
-
     export function parseResult(data: RestResult, acceptedResults: string[], callback: ResultCallback) {
         acceptedResults.push('Ok');
 
@@ -112,7 +79,7 @@ module sdk {
                 sdk.changeState("login")
             }
             else {
-				sdk.showErrorMessage(data.result);
+				ui.showErrorMessage(data.result);
             }
             callback(false);
         }
@@ -120,7 +87,6 @@ module sdk {
             callback(true);
         }
     }
-
     export function encodeUrl(firstQuery: any, secondQuery: any): string {
         var url: uri.URI = new URI("").addQuery(firstQuery).addQuery(secondQuery);
         return url.href();
@@ -129,16 +95,6 @@ module sdk {
     export function decodeUrl(url: string): any {
         var query: uri.URI = new URI(url);
         return query.search(true);
-    }
-
-    export function formatString(text: string, data: any): string {
-        var result: string = text;
-        for (var key in data) {
-			var regex = new RegExp('\\{' + key + '\\}', 'g');
-            result = result.replace(regex, data[key]);
-        }
-
-        return result;
     }
 
 	export function registerState(stateName: string, stateObject: State): void {
@@ -160,7 +116,7 @@ module sdk {
 			Global.stateObject.onDeactivate();
 		}
 
-		sdk.setLoading();
+		ui.setLoading();
 
 		var startState = function () {
 			if (stateName in states) {

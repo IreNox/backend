@@ -7,8 +7,9 @@ var Global;
     Global.stateObject = null;
 })(Global || (Global = {}));
 $(document).ready(function () {
+    ui.init();
     sdk.init();
-    sdk.setLoading();
+    ui.setLoading();
     user.login();
 });
 //# sourceMappingURL=main.js.map

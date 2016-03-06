@@ -3,20 +3,13 @@
 var sdk;
 (function (sdk) {
     var serverUrl = 'https://localhost/';
-    var preloadedHtml = {};
     var states = {};
     function init() {
-        preloadHtml('loading');
         Historyjs.Adapter.bind(window, 'statechange', function () {
             sdk.activateState();
         });
     }
     sdk.init = init;
-    function setLoading(id) {
-        if (id === void 0) { id = "content"; }
-        $('#' + id).html(preloadHtml('loading'));
-    }
-    sdk.setLoading = setLoading;
     function changeState(stateName, stateData) {
         if (stateData === void 0) { stateData = null; }
         var url = encodeUrl({ state_name: stateName }, stateData);
@@ -29,18 +22,6 @@ var sdk;
         }
     }
     sdk.changeState = changeState;
-    function showStatusMessage(message) {
-        if (Global.stateObject) {
-            Global.stateObject.onStatusMessage(message);
-        }
-    }
-    sdk.showStatusMessage = showStatusMessage;
-    function showErrorMessage(message) {
-        if (Global.stateObject) {
-            Global.stateObject.onErrorMessage(message);
-        }
-    }
-    sdk.showErrorMessage = showErrorMessage;
     function serverGet(url, callback) {
         $.ajax({
             url: serverUrl + url,
@@ -88,19 +69,6 @@ var sdk;
         });
     }
     sdk.serverPostAndParse = serverPostAndParse;
-    function preloadHtml(fileName) {
-        if (!(fileName in preloadedHtml)) {
-            $.ajax({
-                url: 'html/' + fileName + '.html',
-                async: false,
-                success: function (data) {
-                    preloadedHtml[fileName] = data;
-                }
-            });
-        }
-        return preloadedHtml[fileName];
-    }
-    sdk.preloadHtml = preloadHtml;
     function parseResult(data, acceptedResults, callback) {
         acceptedResults.push('Ok');
         if ($.inArray(data.result, acceptedResults) < 0) {
@@ -108,7 +76,7 @@ var sdk;
                 sdk.changeState("login");
             }
             else {
-                sdk.showErrorMessage(data.result);
+                ui.showErrorMessage(data.result);
             }
             callback(false);
         }
@@ -127,15 +95,6 @@ var sdk;
         return query.search(true);
     }
     sdk.decodeUrl = decodeUrl;
-    function formatString(text, data) {
-        var result = text;
-        for (var key in data) {
-            var regex = new RegExp('\\{' + key + '\\}', 'g');
-            result = result.replace(regex, data[key]);
-        }
-        return result;
-    }
-    sdk.formatString = formatString;
     function registerState(stateName, stateObject) {
         states[stateName] = stateObject;
     }
@@ -151,7 +110,7 @@ var sdk;
         if (Global.stateObject) {
             Global.stateObject.onDeactivate();
         }
-        sdk.setLoading();
+        ui.setLoading();
         var startState = function () {
             if (stateName in states) {
                 var stateObject = states[stateName];

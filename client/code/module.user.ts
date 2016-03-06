@@ -49,4 +49,8 @@ module user {
         var request: RestFriendsRequest = new RestFriendsRequest(RestFriendsActions.Remove, userId);
         sdk.serverPostAndParse('friends', request, [], okCallback, failedCallback);
 	}
+
+	export function getFriends(user: RestUser, okCallback: RestCallback, failedCallback?: RestCallback) {
+		sdk.serverPostAndParse('getusers', new RestGetUsersRequest(user.friends), [], okCallback, failedCallback);
+	}
 }

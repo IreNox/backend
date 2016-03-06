@@ -1,0 +1,20 @@
+﻿<table>
+	<tr>
+		<td></td>
+		<td><b>Sender</b></td>
+		<td><b>Subject</b></td>
+		<td><b>Sent time</b></td>
+	</tr>
+	{{#each messages}}
+	{{#if read}}
+	<tr>
+	{{else}}
+	<tr style="background: #fff;">
+	{{/if}}
+		<td><button id="message_{{id}}">Show</button></td>
+		<td>{{sender.username}}</td>
+		<td>{{subject}}</td>
+		<td>{{sent_time}}</td>
+	</tr>
+	{{/each}}
+</table>

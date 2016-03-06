@@ -1,28 +1,22 @@
 ﻿<div style="position: absolute; right: 10px;">
+	<button id="messages">Messages</button>
     <button id="logout">Logout</button>
 </div>
+<h2>Overview</h2>
 <h2>Name: <span id="username"></span></h2>
 <br />
-<div id="status" style="color: green;"></div>
-<div id="error" style="color: red;"></div>
-<table>
-    <tr>
-        <td style="border: 1px dashed black; margin: 10px 0px 0px 20px;">
-            <div>
-                Friends list:<br />
-                <div id="friends_list"></div>
-            </div>
-        </td>
-        <td style="border: 1px dashed black;">
-            <div>
-                Friends search:<br />
-                <div id="friends_search_list"></div>
-            </div>
-            <br />
-            <form action="#" id="friends_search_form">
-                <input type="text" id="friends_search_name" />
-                <input type="submit" id="friends_search_button" value="Find..." />
-            </form>
-        </td>
-    </tr>
-</table>
+<div class="ui-widget-content ui-corner-all" style="padding: 20px; float: left;">
+	Friends list:<br />
+	<div id="friends_list"></div>
+</div>
+<div class="ui-widget-content ui-corner-all" style="margin-left: 20px; padding: 20px; float: left;">
+	<div>
+		Friends search:<br />
+		<div id="friends_search_list"></div>
+	</div>
+	<br />
+	<form action="#" id="friends_search_form">
+		<input type="text" id="friends_search_name" />
+		<input type="submit" id="friends_search_button" value="Find..." />
+	</form>
+</div>

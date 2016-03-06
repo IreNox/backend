@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="core.ts" />
+    <TypeScriptCompile Include="models\model.message.ts" />
     <TypeScriptCompile Include="models\model.payment.ts" />
     <TypeScriptCompile Include="models\model.test.ts" />
     <TypeScriptCompile Include="models\model.user.ts" />
@@ -33,10 +34,12 @@
     <TypeScriptCompile Include="pages\page.getusers.ts" />
     <TypeScriptCompile Include="pages\page.login.ts" />
     <TypeScriptCompile Include="pages\page.logout.ts" />
+    <TypeScriptCompile Include="pages\page.message.ts" />
     <TypeScriptCompile Include="pages\page.payment.ts" />
     <TypeScriptCompile Include="pages\page.signup.ts" />
     <TypeScriptCompile Include="sdk.ts" />
     <TypeScriptCompile Include="sdk\sdk.crypt.ts" />
+    <TypeScriptCompile Include="sdk\sdk.db.ts" />
     <TypeScriptCompile Include="sdk\sdk.user.ts" />
     <TypeScriptCompile Include="server.ts" />
     <TypeScriptCompile Include="thirdparty\body-parser\body-parser.d.ts" />

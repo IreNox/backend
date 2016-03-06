@@ -8,7 +8,8 @@ module Global {
 }
 
 $(document).ready(function () {
+	ui.init();
     sdk.init();
-    sdk.setLoading();
+    ui.setLoading();
     user.login();
 });

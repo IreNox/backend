@@ -5,14 +5,14 @@ var PaymentType;
 })(PaymentType || (PaymentType = {}));
 var PaymantRewardType;
 (function (PaymantRewardType) {
-    PaymantRewardType[PaymantRewardType["Points"] = 0] = "Points";
+    PaymantRewardType[PaymantRewardType["Gems"] = 0] = "Gems";
 })(PaymantRewardType || (PaymantRewardType = {}));
 var paymentSchema = new mongoose.Schema({
-    type: PaymentType,
+    type: String,
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user }' },
     value: Number,
-    rewardType: PaymantRewardType,
+    rewardType: String,
     rewardValue: Number
 });
-exports.model = mongoose.model('user', paymentSchema);
+exports.model = mongoose.model('payment', paymentSchema);
 //# sourceMappingURL=model.payment.js.map

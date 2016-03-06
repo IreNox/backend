@@ -7,6 +7,7 @@ var userSchema = new mongoose.Schema({
     password: String,
     password_salt: String,
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+	gems: Number,
     points: Number
 });
 

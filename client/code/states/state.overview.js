@@ -13,6 +13,9 @@ var OverviewState = (function (_super) {
         var stateObject = this;
         $('#content').load('html/overview.html', function () {
             stateObject.refreshUser();
+            $('#messages').button().click(function () {
+                sdk.changeState('message');
+            });
             $('#logout').button().click(function () {
                 user.logout();
             });
@@ -20,17 +23,12 @@ var OverviewState = (function (_super) {
                 var obj = {};
                 obj.username = $('#friends_search_name').val();
                 sdk.serverPostAndParse('finduser', obj, [], function (data) {
-                    var html = sdk.preloadHtml('overview_friend_seach_list_begin');
-                    data.users.forEach(function (user) {
-                        html += sdk.formatString(sdk.preloadHtml('overview_friend_seach_list_entry'), user);
-                    });
-                    html += sdk.preloadHtml('overview_friend_seach_list_end');
-                    var friendList = $('#friends_search_list').html(html);
+                    var friendList = $('#friends_search_list').html(ui.formatFile('overview_friend_search_list', data));
                     friendList.find("button[id*='friend_add']").button().click(function (clickEvent) {
                         var item_id = $(clickEvent.target).prop('id');
                         var user_id = /friend_add_([0-9a-fA-F]+)/.exec(item_id)[1];
                         user.addFriend(user_id, function (data) {
-                            sdk.showStatusMessage(sdk.preloadHtml('overview_friend_added'));
+                            ui.showStatusMessage(ui.preloadHtml('overview_friend_added'));
                             stateObject.refreshUser();
                         });
                     });
@@ -52,23 +50,19 @@ var OverviewState = (function (_super) {
             stateObject.user = getUserData.user;
             $('#username').html(getUserData.user.username);
             stateObject.refreshFriendList();
+            stateObject.refreshMessages();
         });
     };
     OverviewState.prototype.refreshFriendList = function () {
         var stateObject = this;
-        sdk.setLoading('friends_list');
-        sdk.serverPostAndParse('getusers', new RestGetUsersRequest(stateObject.user.friends), [], function (friendsData) {
-            var html = sdk.formatString(sdk.preloadHtml('general_list_begin'), { id: 'friends_menu' });
-            friendsData.users.forEach(function (friend) {
-                html += sdk.formatString(sdk.preloadHtml('overview_friend_list_entry'), friend);
-            });
-            html += sdk.preloadHtml('general_list_end');
-            var friendList = $('#friends_list').html(html);
+        ui.setLoading('friends_list');
+        user.getFriends(stateObject.user, function (friendsData) {
+            var friendList = $('#friends_list').html(ui.formatFile('overview_friend_list', friendsData));
             friendList.find("button[id*='friend_remove']").button().click(function (clickEvent) {
                 var item_id = $(clickEvent.target).prop('id');
                 var user_id = /friend_remove_([0-9a-fA-F]+)/.exec(item_id)[1];
                 user.removeFriend(user_id, function (data) {
-                    sdk.showStatusMessage(sdk.preloadHtml('overview_friend_removed'));
+                    ui.showStatusMessage(ui.preloadHtml('overview_friend_removed'));
                     stateObject.refreshUser();
                 });
             });
@@ -77,6 +71,12 @@ var OverviewState = (function (_super) {
                 var user_id = /friend_name_([0-9a-fA-F]+)/.exec(item_id)[1];
                 sdk.changeState("userinfo", { user_id: user_id });
             });
+        });
+    };
+    OverviewState.prototype.refreshMessages = function () {
+        var getUnreadCountRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
+        sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData) {
+            $('#messages').button('option', 'label', ui.formatString(ui.preloadHtml('overview_message_count_button'), messageCoundData));
         });
     };
     return OverviewState;
