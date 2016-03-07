@@ -1,10 +1,9 @@
-var sdk = require('../sdk');
-var modelUser = require('../models/model.user');
-var typesRest = require('../../shared/types/types.rest');
-var GetUserPage = (function () {
-    function GetUserPage() {
-    }
-    GetUserPage.prototype.run = function (inputData, sessionData, callback) {
+"use strict";
+const sdk = require('../sdk');
+const modelUser = require('../models/model.user');
+const typesRest = require('../../shared/types/types.rest');
+class GetUserPage {
+    run(inputData, sessionData, callback) {
         if (!sessionData.user) {
             callback(new typesRest.RestGetUserResult(typesRest.RestResultType.NotLoggedin));
         }
@@ -16,8 +15,7 @@ var GetUserPage = (function () {
         else {
             callback(new typesRest.RestGetUserResult(typesRest.RestResultType.Ok, sessionData.user));
         }
-    };
-    return GetUserPage;
-})();
+    }
+}
 module.exports = GetUserPage;
 //# sourceMappingURL=page.getuser.js.map

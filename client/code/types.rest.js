@@ -27,6 +27,16 @@ var RestMessage = (function (_super) {
     }
     return RestMessage;
 })(RestMessageHeader);
+var RestScoreList = (function () {
+    function RestScoreList() {
+    }
+    return RestScoreList;
+})();
+var RestHighscore = (function () {
+    function RestHighscore() {
+    }
+    return RestHighscore;
+})();
 ///////////
 // Requests
 var RestRequest = (function () {
@@ -90,6 +100,24 @@ var RestMessageRequest = (function (_super) {
         this.message = _message;
     }
     return RestMessageRequest;
+})(RestRequest);
+var RestHighscoreActions;
+(function (RestHighscoreActions) {
+    RestHighscoreActions[RestHighscoreActions["GetLists"] = 0] = "GetLists";
+    RestHighscoreActions[RestHighscoreActions["GetList"] = 1] = "GetList";
+    RestHighscoreActions[RestHighscoreActions["Get"] = 2] = "Get";
+    RestHighscoreActions[RestHighscoreActions["Send"] = 3] = "Send";
+})(RestHighscoreActions || (RestHighscoreActions = {}));
+var RestHighscoreRequest = (function (_super) {
+    __extends(RestHighscoreRequest, _super);
+    function RestHighscoreRequest(_action, _id, _maxCount) {
+        if (_maxCount === void 0) { _maxCount = 10; }
+        _super.call(this);
+        this.action = RestHighscoreActions[_action].toLowerCase();
+        this.id = _id;
+        this.maxCount = _maxCount;
+    }
+    return RestHighscoreRequest;
 })(RestRequest);
 //////////
 // Results
@@ -180,5 +208,22 @@ var RestMessageGetResult = (function (_super) {
         this.message = _message;
     }
     return RestMessageGetResult;
+})(RestResult);
+var RestHighscoreGetListsResult = (function (_super) {
+    __extends(RestHighscoreGetListsResult, _super);
+    function RestHighscoreGetListsResult(_lists) {
+        _super.call(this, RestResultType.Ok);
+        this.lists = _lists;
+    }
+    return RestHighscoreGetListsResult;
+})(RestResult);
+var RestHighscoreGetListResult = (function (_super) {
+    __extends(RestHighscoreGetListResult, _super);
+    function RestHighscoreGetListResult(_list, _highscores) {
+        _super.call(this, RestResultType.Ok);
+        this.list = _list;
+        this.highscores = _highscores;
+    }
+    return RestHighscoreGetListResult;
 })(RestResult);
 //# sourceMappingURL=types.rest.js.map

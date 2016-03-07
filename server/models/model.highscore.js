@@ -1,8 +1,9 @@
-var mongoose = require('mongoose');
+"use strict";
+const mongoose = require('mongoose');
 var highscoreSchema = new mongoose.Schema({
     points: Number,
-    list_id: { type: mongoose.Schema.Types.ObjectId, ref: 'scorelist' },
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    list: { type: mongoose.Schema.Types.ObjectId, ref: 'scorelist' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     time: Date
 });
 exports.model = mongoose.model('highscore', highscoreSchema);

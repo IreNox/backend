@@ -1,10 +1,9 @@
-var sdk = require("../sdk");
-var modelUser = require("../models/model.user");
-var typesRest = require('../../shared/types/types.rest');
-var FindUserPage = (function () {
-    function FindUserPage() {
-    }
-    FindUserPage.prototype.run = function (inputData, sessionData, callback) {
+"use strict";
+const sdk = require("../sdk");
+const modelUser = require("../models/model.user");
+const typesRest = require('../../shared/types/types.rest');
+class FindUserPage {
+    run(inputData, sessionData, callback) {
         if (!inputData.username) {
             callback(new typesRest.RestFindUserResult(typesRest.RestResultType.InvalidCall));
         }
@@ -19,12 +18,11 @@ var FindUserPage = (function () {
                 }
                 else {
                     var userId = sessionData.user.id;
-                    callback(new typesRest.RestFindUserResult(typesRest.RestResultType.Ok, result.filter(function (value) { return value._id.toHexString() != userId; }).map(function (value) { return sdk.user.exportUser(value); })));
+                    callback(new typesRest.RestFindUserResult(typesRest.RestResultType.Ok, result.filter(value => value._id.toHexString() != userId).map(value => sdk.user.exportUser(value))));
                 }
             });
         }
-    };
-    return FindUserPage;
-})();
+    }
+}
 module.exports = FindUserPage;
 //# sourceMappingURL=page.finduser.js.map

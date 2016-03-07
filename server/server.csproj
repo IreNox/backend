@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -44,17 +44,9 @@
     <TypeScriptCompile Include="sdk\sdk.db.ts" />
     <TypeScriptCompile Include="sdk\sdk.user.ts" />
     <TypeScriptCompile Include="server.ts" />
-    <TypeScriptCompile Include="thirdparty\body-parser\body-parser.d.ts" />
-    <TypeScriptCompile Include="thirdparty\cookie-parser\cookie-parser.d.ts" />
-    <TypeScriptCompile Include="thirdparty\express-session\express-session.d.ts" />
-    <TypeScriptCompile Include="thirdparty\express\express.d.ts" />
-    <TypeScriptCompile Include="thirdparty\md5\md5.d.ts" />
-    <TypeScriptCompile Include="thirdparty\mime\mime.d.ts" />
-    <TypeScriptCompile Include="thirdparty\mongoose\mongoose.d.ts" />
-    <TypeScriptCompile Include="thirdparty\node\node.d.ts" />
-    <TypeScriptCompile Include="thirdparty\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="types\types.db.ts" />
     <TypeScriptCompile Include="types\types.page.ts" />
+    <TypeScriptCompile Include="typings\main.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\shared\shared.csproj">
@@ -63,8 +55,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="private\ssl.cer" />
-    <Content Include="private\ssl.key" />
+    <Content Include="data\ssl.cer" />
+    <Content Include="data\ssl.key" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\shop_packages.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

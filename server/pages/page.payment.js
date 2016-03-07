@@ -1,9 +1,8 @@
-var modelPayment = require("../models/model.payment");
-var typesRest = require('../../shared/types/types.rest');
-var PaymentPage = (function () {
-    function PaymentPage() {
-    }
-    PaymentPage.prototype.run = function (inputData, sessionData, callback) {
+"use strict";
+const modelPayment = require("../models/model.payment");
+const typesRest = require('../../shared/types/types.rest');
+class PaymentPage {
+    run(inputData, sessionData, callback) {
         if (!inputData.action) {
             callback(new typesRest.RestFindUserResult(typesRest.RestResultType.InvalidCall));
         }
@@ -21,8 +20,7 @@ var PaymentPage = (function () {
                 });
             }
         }
-    };
-    return PaymentPage;
-})();
+    }
+}
 module.exports = PaymentPage;
 //# sourceMappingURL=page.payment.js.map

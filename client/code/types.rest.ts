@@ -18,6 +18,7 @@ class RestUser {
 }
 
 class RestMessageHeader {
+	public id: string;
 	public sender: RestUser;
 	public subject: string;
 	public read: boolean;
@@ -26,6 +27,16 @@ class RestMessageHeader {
 
 class RestMessage extends RestMessageHeader {
 	public message: string;
+}
+
+class RestScoreList {
+	public id: string;
+	public name: string;
+}
+
+class RestHighscore {
+	public user: RestUser;
+	public points: Number;
 }
 
 ///////////
@@ -99,6 +110,26 @@ class RestMessageRequest extends RestRequest {
 		this.id = _id;
 		this.subject = _subject;
 		this.message = _message;
+	}
+}
+
+enum RestHighscoreActions {
+	GetLists,
+	GetList,
+	Get,
+	Send
+}
+
+class RestHighscoreRequest extends RestRequest {
+	public action: string;
+	public id: string;
+	public maxCount: number;
+
+	constructor(_action: RestHighscoreActions, _id?: string, _maxCount: number = 10) {
+		super();
+		this.action = RestHighscoreActions[_action].toLowerCase();
+		this.id = _id;
+		this.maxCount = _maxCount;
 	}
 }
 
@@ -204,6 +235,26 @@ class RestMessageGetResult extends RestResult {
 	constructor(_message: RestMessage) {
 		super(RestResultType.Ok);
 		this.message = _message;
+	}
+}
+
+class RestHighscoreGetListsResult extends RestResult {
+	public lists: RestScoreList[];
+
+	constructor(_lists: RestScoreList[]) {
+		super(RestResultType.Ok);
+		this.lists = _lists;
+	}
+}
+
+class RestHighscoreGetListResult extends RestResult {
+	public list: RestScoreList;
+	public highscores: RestHighscore[];
+
+	constructor(_list: RestScoreList, _highscores: RestHighscore[]) {
+		super(RestResultType.Ok);
+		this.list = _list;
+		this.highscores = _highscores;
 	}
 }
 

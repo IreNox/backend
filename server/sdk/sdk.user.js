@@ -1,17 +1,16 @@
-var sdk = require('../sdk');
-var modelUser = require('../models/model.user');
-var typesRest = require('../../shared/types/types.rest');
+"use strict";
+const sdk = require('../sdk');
+const modelUser = require('../models/model.user');
+const typesRest = require('../../shared/types/types.rest');
 var validFields = [
     'username',
     'points'
 ];
-var SdkUser = (function () {
-    function SdkUser() {
-    }
-    SdkUser.prototype.findUser = function (user_id, callback) {
+class SdkUser {
+    findUser(user_id, callback) {
         modelUser.model.findById(user_id).exec(callback);
-    };
-    SdkUser.prototype.saveUser = function (user, sessionData, callback) {
+    }
+    saveUser(user, sessionData, callback) {
         if (user._id.toHexString() != sessionData.user.id) {
             callback(typesRest.RestResultType.InvalidCall);
         }
@@ -26,20 +25,19 @@ var SdkUser = (function () {
                 }
             });
         }
-    };
-    SdkUser.prototype.exportUser = function (user) {
+    }
+    exportUser(user) {
         var result = new typesRest.RestUser();
         validFields.forEach(function (key) {
             result[key] = user[key];
         });
         result.id = user._id.toHexString();
-        result.friends = user.friends.map(function (value) { return value.toHexString(); });
+        result.friends = user.friends.map(value => value.toHexString());
         return result;
-    };
-    SdkUser.prototype.getIdFromDatabase = function (value) {
+    }
+    getIdFromDatabase(value) {
         return new typesRest.RestUserId(value._id.toHexString());
-    };
-    return SdkUser;
-})();
+    }
+}
 module.exports = SdkUser;
 //# sourceMappingURL=sdk.user.js.map

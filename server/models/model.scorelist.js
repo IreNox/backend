@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+"use strict";
+const mongoose = require('mongoose');
 var scorelistSchema = new mongoose.Schema({
     name: String
 });

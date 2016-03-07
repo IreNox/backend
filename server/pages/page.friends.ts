@@ -67,7 +67,7 @@ class FriendsPage implements typesPage.Page {
             }
             else {
                 var containsFriend = false;
-                for (var index in currentUser.friends) {
+                for (var index: number = 0; index < currentUser.friends.length; ++index) {
                     if (currentUser.friends[index].toHexString() == userId) {
                         containsFriend = true;
                         currentUser.friends.splice(index, 1);

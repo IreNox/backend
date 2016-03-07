@@ -13,6 +13,7 @@ var OverviewState = (function (_super) {
         var stateObject = this;
         $('#content').load('html/overview.html', function () {
             stateObject.refreshUser();
+            stateObject.refreshScoreLists();
             $('#messages').button().click(function () {
                 sdk.changeState('message');
             });
@@ -58,18 +59,14 @@ var OverviewState = (function (_super) {
         ui.setLoading('friends_list');
         user.getFriends(stateObject.user, function (friendsData) {
             var friendList = $('#friends_list').html(ui.formatFile('overview_friend_list', friendsData));
-            friendList.find("button[id*='friend_remove']").button().click(function (clickEvent) {
-                var item_id = $(clickEvent.target).prop('id');
-                var user_id = /friend_remove_([0-9a-fA-F]+)/.exec(item_id)[1];
-                user.removeFriend(user_id, function (data) {
+            ui.buttonList(friendList, 'friend_remove', function (id) {
+                user.removeFriend(id, function (data) {
                     ui.showStatusMessage(ui.preloadHtml('overview_friend_removed'));
                     stateObject.refreshUser();
                 });
             });
-            friendList.find("button[id*='friend_name']").button().click(function (clickEvent) {
-                var item_id = $(clickEvent.target).prop('id');
-                var user_id = /friend_name_([0-9a-fA-F]+)/.exec(item_id)[1];
-                sdk.changeState("userinfo", { user_id: user_id });
+            ui.buttonList(friendList, 'friend_name', function (id) {
+                sdk.changeState("userinfo", { user_id: id });
             });
         });
     };
@@ -77,6 +74,14 @@ var OverviewState = (function (_super) {
         var getUnreadCountRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
         sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData) {
             $('#messages').button('option', 'label', ui.formatString(ui.preloadHtml('overview_message_count_button'), messageCoundData));
+        });
+    };
+    OverviewState.prototype.refreshScoreLists = function () {
+        var getListsRequest = new RestHighscoreRequest(RestHighscoreActions.GetLists);
+        sdk.serverPostAndParse('highscore', getListsRequest, [], function (getListsData) {
+            var highscoreList = $('#highscore_list').html(ui.formatFile('overview_highscore_list', getListsData));
+            ui.buttonList(highscoreList, 'scorelist_name', function (id) {
+            });
         });
     };
     return OverviewState;

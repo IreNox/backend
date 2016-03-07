@@ -1,10 +1,9 @@
-var sdk = require('../sdk');
-var modelUser = require('../models/model.user');
-var typesRest = require('../../shared/types/types.rest');
-var SignupPage = (function () {
-    function SignupPage() {
-    }
-    SignupPage.prototype.run = function (inputData, sessionData, callback) {
+"use strict";
+const sdk = require('../sdk');
+const modelUser = require('../models/model.user');
+const typesRest = require('../../shared/types/types.rest');
+class SignupPage {
+    run(inputData, sessionData, callback) {
         if (sessionData.user) {
             callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin));
         }
@@ -42,8 +41,7 @@ var SignupPage = (function () {
                 }
             });
         }
-    };
-    return SignupPage;
-})();
+    }
+}
 module.exports = SignupPage;
 //# sourceMappingURL=page.signup.js.map

@@ -5,21 +5,28 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IreNox/tiki3_backend.git"
+    "url": "git+https://github.com/IreNox/tiki3_backend.git"
   },
-  "author": {
-    "name": "Tim Boden",
-    "email": "mail@timboden.de",
-    "url": "https://github.com/IreNox"
-  },
+  "author": "Tim Boden <mail@timboden.de> (https://github.com/IreNox)",
   "dependencies": {
     "express": ">=4.13.3",
-    "async": ">=1.4.3",
     "body-parser": ">=1.14.1",
     "cookie-parser": ">=1.4.0",
     "express-session": ">=1.11.3",
-    "md5": "2.0.0",
     "mongodb": ">=2.0.45",
-    "mongoose": ">=4.1.11"
-  }
+    "mongoose": ">=4.1.11",
+    "connect-mongo": ">=1.1.0",
+	"blueimp-md5": ">=2.3.0",
+  },
+  "devDependencies": {
+	"source-map-support": ">=0.4.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "bugs": {
+    "url": "https://github.com/IreNox/tiki3_backend/issues"
+  },
+  "homepage": "https://github.com/IreNox/tiki3_backend#readme",
+  "license": "ISC"
 }

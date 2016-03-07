@@ -1,9 +1,8 @@
-var sdk = require('../sdk');
-var typesRest = require('../../shared/types/types.rest');
-var FriendsPage = (function () {
-    function FriendsPage() {
-    }
-    FriendsPage.prototype.run = function (inputData, sessionData, callback) {
+"use strict";
+const sdk = require('../sdk');
+const typesRest = require('../../shared/types/types.rest');
+class FriendsPage {
+    run(inputData, sessionData, callback) {
         if (!inputData.action || !inputData.user_id) {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
@@ -19,8 +18,8 @@ var FriendsPage = (function () {
         else {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
-    };
-    FriendsPage.prototype.addFriend = function (userId, sessionData, callback) {
+    }
+    addFriend(userId, sessionData, callback) {
         sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
             if (err || !currentUser) {
                 callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
@@ -54,15 +53,15 @@ var FriendsPage = (function () {
                 });
             }
         });
-    };
-    FriendsPage.prototype.removeFriend = function (userId, sessionData, callback) {
+    }
+    removeFriend(userId, sessionData, callback) {
         sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
             if (err || !currentUser) {
                 callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
             }
             else {
                 var containsFriend = false;
-                for (var index in currentUser.friends) {
+                for (var index = 0; index < currentUser.friends.length; ++index) {
                     if (currentUser.friends[index].toHexString() == userId) {
                         containsFriend = true;
                         currentUser.friends.splice(index, 1);
@@ -79,8 +78,7 @@ var FriendsPage = (function () {
                 }
             }
         });
-    };
-    return FriendsPage;
-})();
+    }
+}
 module.exports = FriendsPage;
 //# sourceMappingURL=page.friends.js.map

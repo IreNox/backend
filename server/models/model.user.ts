@@ -21,4 +21,4 @@ export interface User extends mongoose.Document {
     points: Number;
 }
 
-export var model = mongoose.model('user', userSchema);
+export var model = mongoose.model<User>('user', userSchema);

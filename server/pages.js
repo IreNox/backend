@@ -1,9 +1,10 @@
-var core = require('./core');
-var fs = require('fs');
-var path = require('path');
-var url = require('url');
-var Pages = (function () {
-    function Pages() {
+"use strict";
+const core = require('./core');
+const fs = require('fs');
+const path = require('path');
+const url = require('url');
+class Pages {
+    constructor() {
         this.pages = {};
         var files = fs.readdirSync('./pages');
         for (var index in files) {
@@ -18,13 +19,13 @@ var Pages = (function () {
             this.pages[moduleName] = new page();
         }
     }
-    Pages.prototype.getRequestHandler = function () {
+    getRequestHandler() {
         var pageManager = this;
         return function (req, res, next) {
             pageManager.runRequest(req, res);
         };
-    };
-    Pages.prototype.runRequest = function (request, response) {
+    }
+    runRequest(request, response) {
         var pageName = url.parse(request.url).pathname.substring(1);
         if (pageName in this.pages) {
             var inputData = {};
@@ -48,8 +49,7 @@ var Pages = (function () {
             response.writeHead(404, "Not found", { 'Content-Type': 'text/html' });
             response.end(JSON.stringify({ error: "Not found", pageName: pageName }));
         }
-    };
-    return Pages;
-})();
+    }
+}
 module.exports = Pages;
 //# sourceMappingURL=pages.js.map

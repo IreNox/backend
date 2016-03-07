@@ -24,4 +24,4 @@ export interface Payment extends mongoose.Document {
 	rewardValue: Number
 }
 
-export var model = mongoose.model('payment', paymentSchema);
+export var model = mongoose.model<Payment>('payment', paymentSchema);

@@ -18,4 +18,4 @@ export interface Message extends mongoose.Document {
 	sent_time: Date
 }
 
-export var model = mongoose.model('message', messageSchema);
+export var model = mongoose.model<Message>('message', messageSchema);

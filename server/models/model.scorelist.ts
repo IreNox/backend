@@ -8,4 +8,4 @@ export interface ScoreList extends mongoose.Document {
 	name: string
 }
 
-export var model = mongoose.model('scorelist', scorelistSchema);
+export var model = mongoose.model<ScoreList>('scorelist', scorelistSchema);

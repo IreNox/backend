@@ -1,19 +1,60 @@
-var typesRest = require('../../shared/types/types.rest');
-var HighscorePage = (function () {
-    function HighscorePage() {
-    }
-    HighscorePage.prototype.run = function (inputData, sessionData, callback) {
-        var messagePage = this;
-        if (!sessionData.user) {
-            callback(new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
+"use strict";
+const sdk = require("../sdk");
+const modelHighscore = require("../models/model.highscore");
+const modelScoreList = require("../models/model.scorelist");
+const typesRest = require('../../shared/types/types.rest');
+class HighscorePage {
+    run(inputData, sessionData, callback) {
+        var highscorePage = this;
+        if (inputData.action == 'getlists') {
+            modelScoreList.model.find({}, function (err, lists) {
+                if (sdk.db.checkError(err, callback)) {
+                    var listList = lists.map(list => highscorePage.exportScoreList(list));
+                    callback(new typesRest.RestHighscoreGetListsResult(listList));
+                }
+            });
         }
-        else if (inputData.action == 'getlist') {
+        else if (inputData.action == 'getlist' && inputData.id && inputData.maxCountOrPoints) {
+            modelScoreList.model.findById(inputData.id, function (err, list) {
+                if (sdk.db.checkError(err, callback)) {
+                    var query = modelHighscore.model.find({ list: inputData.id }).sort({ points: 1 }).limit(inputData.maxCountOrPoints).populate('user');
+                    query.exec(function (err, highscores) {
+                        if (sdk.db.checkError(err, callback)) {
+                            var hightscoreList = highscores.map(score => highscorePage.exportHighscore(score));
+                            callback(new typesRest.RestHighscoreGetListResult(highscorePage.exportScoreList(list), hightscoreList));
+                        }
+                    });
+                }
+            });
+        }
+        else if (inputData.action == 'send' && inputData.id && inputData.maxCountOrPoints) {
+            if (sessionData.user) {
+                modelScoreList.model.findById(inputData.id, function (err, list) {
+                    if (sdk.db.checkError(err, callback)) {
+                        var highscore = new modelHighscore.model();
+                        highscore.list = list;
+                        highscore.user = sdk.db.toId(sessionData.user.id);
+                        highscore.points = inputData.maxCountOrPoints;
+                        highscore.time = new Date(Date.now());
+                        highscore.save();
+                        callback(new typesRest.RestResult(typesRest.RestResultType.Ok));
+                    }
+                });
+            }
+            else {
+                callback(new typesRest.RestGetUsersResult(typesRest.RestResultType.NotLoggedin));
+            }
         }
         else {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
-    };
-    return HighscorePage;
-})();
+    }
+    exportScoreList(list) {
+        return { id: list._id.toHexString(), name: list.name };
+    }
+    exportHighscore(highscore) {
+        return { user: sdk.user.exportUser(highscore.user), points: highscore.points };
+    }
+}
 module.exports = HighscorePage;
 //# sourceMappingURL=page.highscore.js.map
