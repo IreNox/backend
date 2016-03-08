@@ -3,8 +3,7 @@ var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
 var typesRest = require('../../shared/types/types.rest');
 var validFields = [
-    'username',
-    'points'
+    'username'
 ];
 var SdkUser = (function () {
     function SdkUser() {
@@ -28,13 +27,17 @@ var SdkUser = (function () {
             });
         }
     };
-    SdkUser.prototype.exportUser = function (user) {
+    SdkUser.prototype.exportUser = function (user, isCurrentUser) {
+        if (isCurrentUser === void 0) { isCurrentUser = false; }
         var result = new typesRest.RestUser();
         validFields.forEach(function (key) {
             result[key] = user[key];
         });
         result.id = user.id;
         result.friends = user.friends.map(function (value) { return value.toHexString(); });
+        if (isCurrentUser) {
+            result.gems = user.gems;
+        }
         return result;
     };
     SdkUser.prototype.getIdFromDatabase = function (value) {

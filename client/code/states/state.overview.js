@@ -14,6 +14,9 @@ var OverviewState = (function (_super) {
         $('#content').load('html/overview.html', function () {
             stateObject.refreshUser();
             stateObject.refreshScoreLists();
+            $('#shop').button().click(function () {
+                sdk.changeState('shop');
+            });
             $('#messages').button().click(function () {
                 sdk.changeState('message');
             });
@@ -53,6 +56,7 @@ var OverviewState = (function (_super) {
         sdk.serverGetAndParse('getuser', [], function (getUserData) {
             stateObject.user = getUserData.user;
             $('#username').html(getUserData.user.username);
+            $('#shop').button('option', 'label', ui.formatFile('overview_shop_button', getUserData.user));
             stateObject.refreshFriendList();
             stateObject.refreshMessages();
         });
@@ -76,7 +80,7 @@ var OverviewState = (function (_super) {
     OverviewState.prototype.refreshMessages = function () {
         var getUnreadCountRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
         sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData) {
-            $('#messages').button('option', 'label', ui.formatString(ui.preloadHtml('overview_message_count_button'), messageCoundData));
+            $('#messages').button('option', 'label', ui.formatFile('overview_message_count_button', messageCoundData));
         });
     };
     OverviewState.prototype.refreshScoreLists = function () {

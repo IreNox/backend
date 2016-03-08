@@ -1,17 +1,18 @@
 "use strict";
-var md5 = require('md5');
 var crypto = require('crypto');
+var hashAlgo = 'md5';
+var hashSize = 128 / 8;
 var SdkCypt = (function () {
     function SdkCypt() {
     }
-    SdkCypt.prototype.md5 = function (str) {
-        return md5(str);
+    SdkCypt.prototype.hash = function (str) {
+        return crypto.createHmac(hashAlgo, str).digest('hex');
     };
-    SdkCypt.prototype.md5_salt = function () {
-        return crypto.randomBytes(128 / 8).toString('hex');
+    SdkCypt.prototype.create_salt = function () {
+        return crypto.randomBytes(hashSize).toString('hex');
     };
     SdkCypt.prototype.salt = function (password, salt) {
-        return md5(password + salt);
+        return this.hash(password + salt);
     };
     return SdkCypt;
 }());

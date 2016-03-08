@@ -10,6 +10,10 @@ class OverviewState extends State {
 			stateObject.refreshUser();
 			stateObject.refreshScoreLists();
 
+			$('#shop').button().click(function () {
+				sdk.changeState('shop');
+			});
+
 			$('#messages').button().click(function () {
 				sdk.changeState('message');
 			});
@@ -17,7 +21,7 @@ class OverviewState extends State {
 			$('#logout').button().click(function () {
 				user.logout();
 			});
-
+			
 			$('#friends_search_form').submit(function (submitEvent: JQueryEventObject) {
 				var obj: any = {};
 				obj.username = $('#friends_search_name').val();
@@ -60,6 +64,7 @@ class OverviewState extends State {
 			stateObject.user = getUserData.user;
 
 			$('#username').html(getUserData.user.username);
+			$('#shop').button('option', 'label', ui.formatFile('overview_shop_button', getUserData.user));
 
 			stateObject.refreshFriendList();
 			stateObject.refreshMessages();
@@ -89,7 +94,7 @@ class OverviewState extends State {
 	private refreshMessages() {
 		var getUnreadCountRequest: RestMessageRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
 		sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData: RestMessageGetUnreadCountResult) {
-			$('#messages').button('option', 'label', ui.formatString(ui.preloadHtml('overview_message_count_button'), messageCoundData));
+			$('#messages').button('option', 'label', ui.formatFile('overview_message_count_button', messageCoundData));
 		});
 	}
 

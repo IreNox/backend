@@ -30,6 +30,7 @@
     <Content Include="html\message_message.html" />
     <Content Include="html\overview.html" />
     <Content Include="html\overview_highscore_list.html" />
+    <Content Include="html\overview_shop_button.html" />
     <Content Include="html\userinfo_friend_list.html" />
     <Content Include="html\overview_friend_removed.html" />
     <Content Include="html\overview_friend_added.html" />

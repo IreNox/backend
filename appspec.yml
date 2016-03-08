@@ -1,0 +1,32 @@
+version: 0.3.0
+os: linux
+files:
+  - source: ./server
+    destination: /home/node/deploy
+permissions:
+  - object: /
+    pattern: "**"
+	owner: node
+	group: node
+	mode: 444
+	type:
+	  - file
+  - opject: /
+	pattern: "**"
+	owner: node
+	group: node
+	mode: 555
+	type:
+	  - directory
+hooks:
+  BeforeInstall:
+    - localtion /deploy/install_create_users.sh
+	  runas: root
+    - localtion /deploy/install_dependencies.sh
+	  runas: root
+  ApplicationStart:
+    - localtion /deploy/application_start.sh
+	  runas: node
+  ApplicationStop:
+    - localtion /deploy/application_stop.sh
+	  runas: node

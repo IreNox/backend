@@ -14,7 +14,7 @@ export class RestUser {
 	public name: string;
 	public username: string;
 	public friends: string[];
-	public points: Number;
+	public gems: number;
 }
 
 export class RestMessageHeader {
@@ -36,7 +36,7 @@ export class RestScoreList {
 
 export class RestHighscore {
 	public user: RestUser;
-	public points: Number;
+	public points: number;
 }
 
 ///////////
@@ -211,9 +211,9 @@ export class RestFriendsResult extends RestResult {
 }
 
 export class RestMessageGetUnreadCountResult extends RestResult {
-	public count: Number;
+	public count: number;
 
-	constructor(_count: Number) {
+	constructor(_count: number) {
 		super(RestResultType.Ok);
 		this.count = _count;
 	}

@@ -9,33 +9,26 @@ export default class LoginPage implements typesPage.Page {
             callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
         }
         else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
-            callback(new typesRest.RestLoginResult(typesRest.RestResultType.InvalidCall, typesRest.InvalidUserId));
+            callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
         else {
 			var regex = new RegExp(inputData.username, "i");
-            modelUser.model.findOne({ username: regex }, function (err, result: modelUser.User) {
-				var resultType: typesRest.RestResultType = typesRest.RestResultType.InvalidCall;
-
-				sessionData.user_id = typesRest.InvalidUserId;
-				sessionData.user = null;
-
-                if (err || !result) {
-                    resultType = typesRest.RestResultType.NotFound;
+            modelUser.model.findOne({ username: regex }, function (err, user: modelUser.User) {
+                if (err || !user) {
+					callback(new typesRest.RestResult(typesRest.RestResultType.NotFound));
                 }
-                else if (inputData.login_token && inputData.login_token != result.login_token) {
-                    resultType = typesRest.RestResultType.InvalidToken;
+                else if (inputData.login_token && inputData.login_token != user.login_token) {
+					callback(new typesRest.RestResult(typesRest.RestResultType.InvalidToken));
                 }
-                else if (sdk.crypt.salt(inputData.password, result.password_salt) != result.password) {
-                    resultType = typesRest.RestResultType.InvalidPassword;
+                else if (sdk.crypt.salt(inputData.password, user.password_salt) != user.password) {
+					callback(new typesRest.RestResult(typesRest.RestResultType.InvalidPassword));
                 }
                 else {
-                    resultType = typesRest.RestResultType.Ok;
+					sessionData.user_id = sdk.user.getIdFromDatabase(user);
+                    sessionData.user = sdk.user.exportUser(user, true);
 
-					sessionData.user_id = sdk.user.getIdFromDatabase(result);
-                    sessionData.user = sdk.user.exportUser(result);
+					callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user_id));
                 }
-
-                callback(new typesRest.RestLoginResult(resultType, sessionData.user_id));
             });
         }
     }

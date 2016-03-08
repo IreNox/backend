@@ -4,8 +4,7 @@ import * as modelUser from '../models/model.user';
 import * as typesRest from '../../shared/types/types.rest';
 
 var validFields = [
-    'username',
-    'points'
+    'username'
 ];
 
 export default class SdkUser {
@@ -30,7 +29,7 @@ export default class SdkUser {
         }
     }
 
-    exportUser(user: modelUser.User): typesRest.RestUser {
+    exportUser(user: modelUser.User, isCurrentUser: boolean = false): typesRest.RestUser {
         var result: typesRest.RestUser = new typesRest.RestUser();
 
 		validFields.forEach(function (key: string) {
@@ -39,6 +38,10 @@ export default class SdkUser {
 
 		result.id = user.id;
 		result.friends = user.friends.map(value => value.toHexString());
+
+		if (isCurrentUser) {
+			result.gems = user.gems;
+		}
 
         return result;
     }

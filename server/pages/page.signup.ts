@@ -24,7 +24,7 @@ export default class SignupPage implements typesPage.Page {
 					user.username = inputData.username;
 
 					if (inputData.password) {
-						user.password_salt = sdk.crypt.md5_salt();
+						user.password_salt = sdk.crypt.create_salt();
 						user.password = sdk.crypt.salt(inputData.password, user.password_salt);
 					}
 
@@ -38,7 +38,7 @@ export default class SignupPage implements typesPage.Page {
 						}
 						else {
 							sessionData.user_id = sdk.user.getIdFromDatabase(user);
-							sessionData.user = sdk.user.exportUser(user);
+							sessionData.user = sdk.user.exportUser(user, true);
 
 							callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user_id));
 						}

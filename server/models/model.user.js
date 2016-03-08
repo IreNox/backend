@@ -7,8 +7,7 @@ var userSchema = new mongoose.Schema({
     password: String,
     password_salt: String,
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
-    gems: Number,
-    points: Number
+    gems: Number
 });
 exports.model = mongoose.model('user', userSchema);
 //# sourceMappingURL=model.user.js.map
