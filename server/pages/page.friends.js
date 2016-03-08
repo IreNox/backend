@@ -1,8 +1,10 @@
 "use strict";
-const sdk = require('../sdk');
-const typesRest = require('../../shared/types/types.rest');
-class FriendsPage {
-    run(inputData, sessionData, callback) {
+var sdk = require('../sdk');
+var typesRest = require('../../shared/types/types.rest');
+var FriendsPage = (function () {
+    function FriendsPage() {
+    }
+    FriendsPage.prototype.run = function (inputData, sessionData, callback) {
         if (!inputData.action || !inputData.user_id) {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
@@ -18,8 +20,8 @@ class FriendsPage {
         else {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
-    }
-    addFriend(userId, sessionData, callback) {
+    };
+    FriendsPage.prototype.addFriend = function (userId, sessionData, callback) {
         sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
             if (err || !currentUser) {
                 callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
@@ -53,8 +55,8 @@ class FriendsPage {
                 });
             }
         });
-    }
-    removeFriend(userId, sessionData, callback) {
+    };
+    FriendsPage.prototype.removeFriend = function (userId, sessionData, callback) {
         sdk.user.findUser(sessionData.user.id, function (err, currentUser) {
             if (err || !currentUser) {
                 callback(new typesRest.RestFriendsResult(typesRest.RestResultType.DatabaseError));
@@ -78,7 +80,8 @@ class FriendsPage {
                 }
             }
         });
-    }
-}
+    };
+    return FriendsPage;
+}());
 module.exports = FriendsPage;
 //# sourceMappingURL=page.friends.js.map

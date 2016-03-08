@@ -1,9 +1,11 @@
 "use strict";
-const sdk = require('../sdk');
-const modelUser = require('../models/model.user');
-const typesRest = require('../../shared/types/types.rest');
-class LoginPage {
-    run(inputData, sessionData, callback) {
+var sdk = require('../sdk');
+var modelUser = require('../models/model.user');
+var typesRest = require('../../shared/types/types.rest');
+var LoginPage = (function () {
+    function LoginPage() {
+    }
+    LoginPage.prototype.run = function (inputData, sessionData, callback) {
         if (sessionData.user) {
             callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
         }
@@ -33,7 +35,8 @@ class LoginPage {
                 callback(new typesRest.RestLoginResult(resultType, sessionData.user_id));
             });
         }
-    }
-}
+    };
+    return LoginPage;
+}());
 module.exports = LoginPage;
 //# sourceMappingURL=page.login.js.map

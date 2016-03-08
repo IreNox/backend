@@ -1,9 +1,9 @@
-﻿import md5 = require('blueimp-md5');
-import crypto = require('crypto');
+﻿import md5 = require('md5');
+import * as crypto from 'crypto';
 
 class SdkCypt {
     md5(str: string): string {
-        return md5.md5(str);
+        return md5(str);
     }
 
     md5_salt(): string {
@@ -11,7 +11,7 @@ class SdkCypt {
     }
 
     salt(password: string, salt: string): string {
-        return md5.md5(password + salt)
+        return md5(password + salt)
     }
 }
 export = SdkCypt;

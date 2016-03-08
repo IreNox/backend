@@ -1,16 +1,19 @@
 "use strict";
-const md5 = require('blueimp-md5');
-const crypto = require('crypto');
-class SdkCypt {
-    md5(str) {
-        return md5.md5(str);
+var md5 = require('md5');
+var crypto = require('crypto');
+var SdkCypt = (function () {
+    function SdkCypt() {
     }
-    md5_salt() {
+    SdkCypt.prototype.md5 = function (str) {
+        return md5(str);
+    };
+    SdkCypt.prototype.md5_salt = function () {
         return crypto.randomBytes(128 / 8).toString('hex');
-    }
-    salt(password, salt) {
-        return md5.md5(password + salt);
-    }
-}
+    };
+    SdkCypt.prototype.salt = function (password, salt) {
+        return md5(password + salt);
+    };
+    return SdkCypt;
+}());
 module.exports = SdkCypt;
 //# sourceMappingURL=sdk.crypt.js.map

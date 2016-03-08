@@ -1,65 +1,99 @@
 "use strict";
-class RestUserId {
-    constructor(_id) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var RestUserId = (function () {
+    function RestUserId(_id) {
         this.id = _id;
     }
-}
+    return RestUserId;
+}());
 exports.RestUserId = RestUserId;
 exports.InvalidUserId = new RestUserId("");
-class RestUser {
-}
+var RestUser = (function () {
+    function RestUser() {
+    }
+    return RestUser;
+}());
 exports.RestUser = RestUser;
-class RestMessageHeader {
-}
+var RestMessageHeader = (function () {
+    function RestMessageHeader() {
+    }
+    return RestMessageHeader;
+}());
 exports.RestMessageHeader = RestMessageHeader;
-class RestMessage extends RestMessageHeader {
-}
+var RestMessage = (function (_super) {
+    __extends(RestMessage, _super);
+    function RestMessage() {
+        _super.apply(this, arguments);
+    }
+    return RestMessage;
+}(RestMessageHeader));
 exports.RestMessage = RestMessage;
-class RestScoreList {
-}
+var RestScoreList = (function () {
+    function RestScoreList() {
+    }
+    return RestScoreList;
+}());
 exports.RestScoreList = RestScoreList;
-class RestHighscore {
-}
+var RestHighscore = (function () {
+    function RestHighscore() {
+    }
+    return RestHighscore;
+}());
 exports.RestHighscore = RestHighscore;
 ///////////
 // Requests
-class RestRequest {
-}
+var RestRequest = (function () {
+    function RestRequest() {
+    }
+    return RestRequest;
+}());
 exports.RestRequest = RestRequest;
-class RestLoginRequest extends RestRequest {
-    constructor(_username, _password) {
-        super();
+var RestLoginRequest = (function (_super) {
+    __extends(RestLoginRequest, _super);
+    function RestLoginRequest(_username, _password) {
+        _super.call(this);
         this.username = _username;
         this.password = _password;
     }
-}
+    return RestLoginRequest;
+}(RestRequest));
 exports.RestLoginRequest = RestLoginRequest;
-class RestGetUserRequest extends RestRequest {
-    constructor(_user_id) {
-        super();
+var RestGetUserRequest = (function (_super) {
+    __extends(RestGetUserRequest, _super);
+    function RestGetUserRequest(_user_id) {
+        _super.call(this);
         this.user_id = _user_id;
     }
-}
+    return RestGetUserRequest;
+}(RestRequest));
 exports.RestGetUserRequest = RestGetUserRequest;
-class RestGetUsersRequest extends RestRequest {
-    constructor(_user_ids) {
-        super();
+var RestGetUsersRequest = (function (_super) {
+    __extends(RestGetUsersRequest, _super);
+    function RestGetUsersRequest(_user_ids) {
+        _super.call(this);
         this.user_ids = _user_ids;
     }
-}
+    return RestGetUsersRequest;
+}(RestRequest));
 exports.RestGetUsersRequest = RestGetUsersRequest;
 (function (RestFriendsActions) {
     RestFriendsActions[RestFriendsActions["Add"] = 0] = "Add";
     RestFriendsActions[RestFriendsActions["Remove"] = 1] = "Remove";
 })(exports.RestFriendsActions || (exports.RestFriendsActions = {}));
 var RestFriendsActions = exports.RestFriendsActions;
-class RestFriendsRequest extends RestRequest {
-    constructor(_action, _user_id) {
-        super();
+var RestFriendsRequest = (function (_super) {
+    __extends(RestFriendsRequest, _super);
+    function RestFriendsRequest(_action, _user_id) {
+        _super.call(this);
         this.action = RestFriendsActions[_action].toLowerCase();
         this.user_id = _user_id;
     }
-}
+    return RestFriendsRequest;
+}(RestRequest));
 exports.RestFriendsRequest = RestFriendsRequest;
 (function (RestMessageActions) {
     RestMessageActions[RestMessageActions["GetUnreadCount"] = 0] = "GetUnreadCount";
@@ -68,15 +102,17 @@ exports.RestFriendsRequest = RestFriendsRequest;
     RestMessageActions[RestMessageActions["Send"] = 3] = "Send";
 })(exports.RestMessageActions || (exports.RestMessageActions = {}));
 var RestMessageActions = exports.RestMessageActions;
-class RestMessageRequest extends RestRequest {
-    constructor(_action, _id, _subject, _message) {
-        super();
+var RestMessageRequest = (function (_super) {
+    __extends(RestMessageRequest, _super);
+    function RestMessageRequest(_action, _id, _subject, _message) {
+        _super.call(this);
         this.action = RestMessageActions[_action].toLowerCase();
         this.id = _id;
         this.subject = _subject;
         this.message = _message;
     }
-}
+    return RestMessageRequest;
+}(RestRequest));
 exports.RestMessageRequest = RestMessageRequest;
 (function (RestHighscoreActions) {
     RestHighscoreActions[RestHighscoreActions["GetLists"] = 0] = "GetLists";
@@ -84,14 +120,16 @@ exports.RestMessageRequest = RestMessageRequest;
     RestHighscoreActions[RestHighscoreActions["Send"] = 2] = "Send";
 })(exports.RestHighscoreActions || (exports.RestHighscoreActions = {}));
 var RestHighscoreActions = exports.RestHighscoreActions;
-class RestHighscoreRequest extends RestRequest {
-    constructor(_action, _id, _maxCountOrPoints) {
-        super();
+var RestHighscoreRequest = (function (_super) {
+    __extends(RestHighscoreRequest, _super);
+    function RestHighscoreRequest(_action, _id, _maxCountOrPoints) {
+        _super.call(this);
         this.action = RestHighscoreActions[_action].toLowerCase();
         this.id = _id;
         this.maxCountOrPoints = _maxCountOrPoints;
     }
-}
+    return RestHighscoreRequest;
+}(RestRequest));
 exports.RestHighscoreRequest = RestHighscoreRequest;
 //////////
 // Results
@@ -110,83 +148,105 @@ exports.RestHighscoreRequest = RestHighscoreRequest;
     RestResultType[RestResultType["Unknown"] = 11] = "Unknown";
 })(exports.RestResultType || (exports.RestResultType = {}));
 var RestResultType = exports.RestResultType;
-class RestResult {
-    constructor(_result) {
+var RestResult = (function () {
+    function RestResult(_result) {
         this.result = RestResultType[_result];
     }
-}
+    return RestResult;
+}());
 exports.RestResult = RestResult;
-class RestLoginResult extends RestResult {
-    constructor(_result, _user_id = exports.InvalidUserId) {
-        super(_result);
+var RestLoginResult = (function (_super) {
+    __extends(RestLoginResult, _super);
+    function RestLoginResult(_result, _user_id) {
+        if (_user_id === void 0) { _user_id = exports.InvalidUserId; }
+        _super.call(this, _result);
         this.user_id = _user_id.id;
     }
-}
+    return RestLoginResult;
+}(RestResult));
 exports.RestLoginResult = RestLoginResult;
-class RestGetUserResult extends RestResult {
-    constructor(_result, _user) {
-        super(_result);
+var RestGetUserResult = (function (_super) {
+    __extends(RestGetUserResult, _super);
+    function RestGetUserResult(_result, _user) {
+        _super.call(this, _result);
         this.user = _user;
     }
-}
+    return RestGetUserResult;
+}(RestResult));
 exports.RestGetUserResult = RestGetUserResult;
-class RestGetUsersResult extends RestResult {
-    constructor(_result, _users) {
-        super(_result);
+var RestGetUsersResult = (function (_super) {
+    __extends(RestGetUsersResult, _super);
+    function RestGetUsersResult(_result, _users) {
+        _super.call(this, _result);
         this.users = _users;
     }
-}
+    return RestGetUsersResult;
+}(RestResult));
 exports.RestGetUsersResult = RestGetUsersResult;
-class RestFindUserResult extends RestResult {
-    constructor(_result, _users) {
-        super(_result);
+var RestFindUserResult = (function (_super) {
+    __extends(RestFindUserResult, _super);
+    function RestFindUserResult(_result, _users) {
+        _super.call(this, _result);
         this.users = _users;
     }
-}
+    return RestFindUserResult;
+}(RestResult));
 exports.RestFindUserResult = RestFindUserResult;
-class RestFriendsResult extends RestResult {
-    constructor(_result, _user_id) {
-        super(_result);
+var RestFriendsResult = (function (_super) {
+    __extends(RestFriendsResult, _super);
+    function RestFriendsResult(_result, _user_id) {
+        _super.call(this, _result);
         if (_user_id) {
             this.user_id = _user_id.id;
         }
     }
-}
+    return RestFriendsResult;
+}(RestResult));
 exports.RestFriendsResult = RestFriendsResult;
-class RestMessageGetUnreadCountResult extends RestResult {
-    constructor(_count) {
-        super(RestResultType.Ok);
+var RestMessageGetUnreadCountResult = (function (_super) {
+    __extends(RestMessageGetUnreadCountResult, _super);
+    function RestMessageGetUnreadCountResult(_count) {
+        _super.call(this, RestResultType.Ok);
         this.count = _count;
     }
-}
+    return RestMessageGetUnreadCountResult;
+}(RestResult));
 exports.RestMessageGetUnreadCountResult = RestMessageGetUnreadCountResult;
-class RestMessageGetListResult extends RestResult {
-    constructor(_messages) {
-        super(RestResultType.Ok);
+var RestMessageGetListResult = (function (_super) {
+    __extends(RestMessageGetListResult, _super);
+    function RestMessageGetListResult(_messages) {
+        _super.call(this, RestResultType.Ok);
         this.messages = _messages;
     }
-}
+    return RestMessageGetListResult;
+}(RestResult));
 exports.RestMessageGetListResult = RestMessageGetListResult;
-class RestMessageGetResult extends RestResult {
-    constructor(_message) {
-        super(RestResultType.Ok);
+var RestMessageGetResult = (function (_super) {
+    __extends(RestMessageGetResult, _super);
+    function RestMessageGetResult(_message) {
+        _super.call(this, RestResultType.Ok);
         this.message = _message;
     }
-}
+    return RestMessageGetResult;
+}(RestResult));
 exports.RestMessageGetResult = RestMessageGetResult;
-class RestHighscoreGetListsResult extends RestResult {
-    constructor(_lists) {
-        super(RestResultType.Ok);
+var RestHighscoreGetListsResult = (function (_super) {
+    __extends(RestHighscoreGetListsResult, _super);
+    function RestHighscoreGetListsResult(_lists) {
+        _super.call(this, RestResultType.Ok);
         this.lists = _lists;
     }
-}
+    return RestHighscoreGetListsResult;
+}(RestResult));
 exports.RestHighscoreGetListsResult = RestHighscoreGetListsResult;
-class RestHighscoreGetListResult extends RestResult {
-    constructor(_list, _highscores) {
-        super(RestResultType.Ok);
+var RestHighscoreGetListResult = (function (_super) {
+    __extends(RestHighscoreGetListResult, _super);
+    function RestHighscoreGetListResult(_list, _highscores) {
+        _super.call(this, RestResultType.Ok);
         this.list = _list;
         this.highscores = _highscores;
     }
-}
+    return RestHighscoreGetListResult;
+}(RestResult));
 exports.RestHighscoreGetListResult = RestHighscoreGetListResult;
 //# sourceMappingURL=types.rest.js.map

@@ -1,5 +1,5 @@
 "use strict";
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 var highscoreSchema = new mongoose.Schema({
     points: Number,
     list: { type: mongoose.Schema.Types.ObjectId, ref: 'scorelist' },

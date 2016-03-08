@@ -1,10 +1,12 @@
 "use strict";
-const sdk = require("../sdk");
-const modelMessage = require("../models/model.message");
-const modelUser = require("../models/model.user");
-const typesRest = require('../../shared/types/types.rest');
-class MessagePage {
-    run(inputData, sessionData, callback) {
+var sdk = require("../sdk");
+var modelMessage = require("../models/model.message");
+var modelUser = require("../models/model.user");
+var typesRest = require('../../shared/types/types.rest');
+var MessagePage = (function () {
+    function MessagePage() {
+    }
+    MessagePage.prototype.run = function (inputData, sessionData, callback) {
         var messagePage = this;
         if (!sessionData.user) {
             callback(new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
@@ -25,13 +27,13 @@ class MessagePage {
                     callback(new typesRest.RestResult(typesRest.RestResultType.DatabaseError));
                 }
                 else {
-                    var user_ids = messages.map(message => message.sender_id);
+                    var user_ids = messages.map(function (message) { return message.sender_id; });
                     modelUser.model.find({ '_id': { $in: user_ids } }).exec(function (err, users) {
                         if (err) {
                             callback(new typesRest.RestResult(typesRest.RestResultType.DatabaseError));
                         }
                         else {
-                            var results = messages.map(message => messagePage.exportMessageHeader(message, users.filter(user => user._id.equals(message.sender_id))[0]));
+                            var results = messages.map(function (message) { return messagePage.exportMessageHeader(message, users.filter(function (user) { return user._id.equals(message.sender_id); })[0]); });
                             callback(new typesRest.RestMessageGetListResult(results));
                         }
                     });
@@ -80,25 +82,26 @@ class MessagePage {
         else {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
-    }
-    fillMessageHeader(header, message, sender) {
+    };
+    MessagePage.prototype.fillMessageHeader = function (header, message, sender) {
         header.id = message._id.toHexString();
         header.sender = sdk.user.exportUser(sender);
         header.subject = message.subject;
         header.read = message.read;
         header.sent_time = message.sent_time;
-    }
-    exportMessageHeader(message, sender) {
+    };
+    MessagePage.prototype.exportMessageHeader = function (message, sender) {
         var result = new typesRest.RestMessageHeader();
         this.fillMessageHeader(result, message, sender);
         return result;
-    }
-    exportMessage(message, sender) {
+    };
+    MessagePage.prototype.exportMessage = function (message, sender) {
         var result = new typesRest.RestMessage();
         this.fillMessageHeader(result, message, sender);
         result.message = message.message;
         return result;
-    }
-}
+    };
+    return MessagePage;
+}());
 module.exports = MessagePage;
 //# sourceMappingURL=page.message.js.map

@@ -1,15 +1,17 @@
 "use strict";
-const sdk = require("../sdk");
-const modelHighscore = require("../models/model.highscore");
-const modelScoreList = require("../models/model.scorelist");
-const typesRest = require('../../shared/types/types.rest');
-class HighscorePage {
-    run(inputData, sessionData, callback) {
+var sdk = require("../sdk");
+var modelHighscore = require("../models/model.highscore");
+var modelScoreList = require("../models/model.scorelist");
+var typesRest = require('../../shared/types/types.rest');
+var HighscorePage = (function () {
+    function HighscorePage() {
+    }
+    HighscorePage.prototype.run = function (inputData, sessionData, callback) {
         var highscorePage = this;
         if (inputData.action == 'getlists') {
             modelScoreList.model.find({}, function (err, lists) {
                 if (sdk.db.checkError(err, callback)) {
-                    var listList = lists.map(list => highscorePage.exportScoreList(list));
+                    var listList = lists.map(function (list) { return highscorePage.exportScoreList(list); });
                     callback(new typesRest.RestHighscoreGetListsResult(listList));
                 }
             });
@@ -20,7 +22,7 @@ class HighscorePage {
                     var query = modelHighscore.model.find({ list: inputData.id }).sort({ points: 1 }).limit(inputData.maxCountOrPoints).populate('user');
                     query.exec(function (err, highscores) {
                         if (sdk.db.checkError(err, callback)) {
-                            var hightscoreList = highscores.map(score => highscorePage.exportHighscore(score));
+                            var hightscoreList = highscores.map(function (score) { return highscorePage.exportHighscore(score); });
                             callback(new typesRest.RestHighscoreGetListResult(highscorePage.exportScoreList(list), hightscoreList));
                         }
                     });
@@ -48,13 +50,14 @@ class HighscorePage {
         else {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
         }
-    }
-    exportScoreList(list) {
+    };
+    HighscorePage.prototype.exportScoreList = function (list) {
         return { id: list._id.toHexString(), name: list.name };
-    }
-    exportHighscore(highscore) {
+    };
+    HighscorePage.prototype.exportHighscore = function (highscore) {
         return { user: sdk.user.exportUser(highscore.user), points: highscore.points };
-    }
-}
+    };
+    return HighscorePage;
+}());
 module.exports = HighscorePage;
 //# sourceMappingURL=page.highscore.js.map

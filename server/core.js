@@ -1,6 +1,6 @@
 "use strict";
-const fs = require('fs');
-const path = require('path');
+var fs = require('fs');
+var path = require('path');
 function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
