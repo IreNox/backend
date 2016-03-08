@@ -2,7 +2,7 @@
 var sdk = require('../sdk');
 var modelHighscore = require('../models/model.highscore');
 var modelScoreList = require('../models/model.scorelist');
-var typesRest = require('../../shared/types/types.rest');
+var typesRest = require('../types/types.rest');
 var HighscorePage = (function () {
     function HighscorePage() {
     }

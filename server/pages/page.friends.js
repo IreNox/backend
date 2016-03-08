@@ -1,6 +1,6 @@
 "use strict";
 var sdk = require('../sdk');
-var typesRest = require('../../shared/types/types.rest');
+var typesRest = require('../types/types.rest');
 var FriendsPage = (function () {
     function FriendsPage() {
     }

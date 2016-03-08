@@ -1,7 +1,7 @@
 "use strict";
 var sdk = require('../sdk');
 var modelUser = require('../models/model.user');
-var typesRest = require('../../shared/types/types.rest');
+var typesRest = require('../types/types.rest');
 var SignupPage = (function () {
     function SignupPage() {
     }

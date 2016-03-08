@@ -1,7 +1,7 @@
 ﻿import * as sdk from '../sdk';
 import * as modelUser from '../models/model.user';
-import * as typesRest from '../../shared/types/types.rest';
 import * as typesPage from '../types/types.page';
+import * as typesRest from '../types/types.rest';
 
 export default class FindUserPage implements typesPage.Page {
     run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {

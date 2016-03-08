@@ -46,13 +46,8 @@
     <TypeScriptCompile Include="server.ts" />
     <TypeScriptCompile Include="types\types.db.ts" />
     <TypeScriptCompile Include="types\types.page.ts" />
+    <TypeScriptCompile Include="types\types.rest.ts" />
     <TypeScriptCompile Include="typings\main.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\shared\shared.csproj">
-      <Project>{4838c814-1df1-4ddd-a4a3-a7c37a82fc7a}</Project>
-      <Name>shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\ssl.cer" />

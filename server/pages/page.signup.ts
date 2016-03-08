@@ -1,6 +1,6 @@
 ﻿import * as sdk from '../sdk';
 import * as modelUser from '../models/model.user';
-import * as typesRest from '../../shared/types/types.rest';
+import * as typesRest from '../types/types.rest';
 import * as typesPage from '../types/types.page';
 
 export default class SignupPage implements typesPage.Page {

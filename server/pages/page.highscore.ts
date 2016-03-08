@@ -3,7 +3,7 @@ import * as modelHighscore from '../models/model.highscore';
 import * as modelScoreList from '../models/model.scorelist';
 import * as modelUser from '../models/model.user';
 import * as typesPage from '../types/types.page';
-import * as typesRest from '../../shared/types/types.rest';
+import * as typesRest from '../types/types.rest';
 
 export default class HighscorePage implements typesPage.Page {
 	run(inputData: typesRest.RestHighscoreRequest, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {

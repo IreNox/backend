@@ -1,6 +1,6 @@
 "use strict";
 var modelPayment = require('../models/model.payment');
-var typesRest = require('../../shared/types/types.rest');
+var typesRest = require('../types/types.rest');
 var PaymentPage = (function () {
     function PaymentPage() {
     }

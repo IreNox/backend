@@ -1,6 +1,6 @@
 ﻿import * as mongoose from 'mongoose';
 import * as typesPage from '../types/types.page';
-import * as typesRest from '../../shared/types/types.rest';
+import * as typesRest from '../types/types.rest';
 
 export default class SdkDb {
 	public toId(id: string): mongoose.Types.ObjectId {

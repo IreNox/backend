@@ -2,7 +2,7 @@
 var sdk = require('../sdk');
 var modelMessage = require('../models/model.message');
 var modelUser = require('../models/model.user');
-var typesRest = require('../../shared/types/types.rest');
+var typesRest = require('../types/types.rest');
 var MessagePage = (function () {
     function MessagePage() {
     }

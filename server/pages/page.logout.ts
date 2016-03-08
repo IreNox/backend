@@ -1,4 +1,4 @@
-﻿import * as typesRest from '../../shared/types/types.rest';
+﻿import * as typesRest from '../types/types.rest';
 import * as typesPage from '../types/types.page';
 
 export default class LogoutPage implements typesPage.Page {

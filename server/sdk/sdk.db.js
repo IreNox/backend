@@ -1,6 +1,6 @@
 "use strict";
 var mongoose = require('mongoose');
-var typesRest = require('../../shared/types/types.rest');
+var typesRest = require('../types/types.rest');
 var SdkDb = (function () {
     function SdkDb() {
     }
