@@ -1,9 +1,9 @@
-﻿import sdk = require("../sdk");
-import modelUser = require("../models/model.user");
-import typesRest = require('../../shared/types/types.rest')
-import typesPage = require('../types/types.page')
+﻿import * as sdk from '../sdk';
+import * as modelUser from '../models/model.user';
+import * as typesRest from '../../shared/types/types.rest';
+import * as typesPage from '../types/types.page';
 
-class FindUserPage implements typesPage.Page {
+export default class FindUserPage implements typesPage.Page {
     run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (!inputData.username) {
             callback(new typesRest.RestFindUserResult(typesRest.RestResultType.InvalidCall));
@@ -22,7 +22,7 @@ class FindUserPage implements typesPage.Page {
 					callback(
 						new typesRest.RestFindUserResult(
 							typesRest.RestResultType.Ok,
-							result.filter(value => value._id.toHexString() != userId).map(value => sdk.user.exportUser(value))
+							result.filter(value => value.id != userId).map(value => sdk.user.exportUser(value))
 						)
 					);
                 }
@@ -30,4 +30,3 @@ class FindUserPage implements typesPage.Page {
         }
     }
 }
-export = FindUserPage;

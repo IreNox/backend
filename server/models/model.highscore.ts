@@ -1,6 +1,6 @@
-﻿import mongoose = require('mongoose');
-import modelScorelist = require("../models/model.scorelist");
-import modelUser = require("../models/model.user");
+﻿import * as mongoose from 'mongoose';
+import * as modelScorelist from "../models/model.scorelist";
+import * as modelUser from '../models/model.user';
 
 var highscoreSchema = new mongoose.Schema({
 	points: Number,

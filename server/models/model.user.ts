@@ -1,4 +1,4 @@
-﻿import mongoose = require('mongoose');
+﻿import * as mongoose from 'mongoose';
 
 var userSchema = new mongoose.Schema({
     name: String,

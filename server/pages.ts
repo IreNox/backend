@@ -1,12 +1,12 @@
-﻿import core = require('./core');
-import express = require('express');
-import fs = require('fs');
-import path = require('path');
-import url = require('url');
-import http = require('http');
-import typesPage = require('./types/types.page');
+﻿import * as express from 'express';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as url from 'url';
+import * as http from 'http';
+import * as sdk from './sdk';
+import * as typesPage from './types/types.page';
 
-class Pages {
+export default class Pages {
     private pages: { [s: string]: typesPage.Page; } = {};
 
     constructor() {
@@ -14,7 +14,7 @@ class Pages {
 
         for (var index in files) {
             var file: string = files[index];
-            if (!core.endsWith(file, '.js')) {
+            if (!sdk.core.endsWith(file, '.js')) {
                 continue;
             }
 
@@ -22,7 +22,7 @@ class Pages {
             var moduleName: string = fileParts[1];
             var fileName: string = './' + path.join('./pages', file);
 
-            var page = require(fileName);
+            var page = require(fileName).default;
             this.pages[moduleName] = new page();
         }
     }
@@ -64,4 +64,3 @@ class Pages {
         }
     }
 }
-export = Pages;

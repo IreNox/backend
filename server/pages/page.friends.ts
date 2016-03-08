@@ -1,9 +1,9 @@
-﻿import sdk = require('../sdk');
-import modelUser = require('../models/model.user');
-import typesRest = require('../../shared/types/types.rest');
-import typesPage = require('../types/types.page');
+﻿import * as sdk from '../sdk';
+import * as modelUser from '../models/model.user';
+import * as typesRest from '../../shared/types/types.rest';
+import * as typesPage from '../types/types.page';
 
-class FriendsPage implements typesPage.Page {
+export default class FriendsPage implements typesPage.Page {
     run(inputData: any, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (!inputData.action || !inputData.user_id) {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
@@ -48,7 +48,7 @@ class FriendsPage implements typesPage.Page {
                             sdk.user.saveUser(currentUser, sessionData, function (result: typesRest.RestResultType) {
                                 var obj: typesRest.RestFriendsResult = new typesRest.RestFriendsResult(result);
                                 if (result == typesRest.RestResultType.Ok) {
-                                    obj.user_id = friendUser._id.toHexString();
+                                    obj.user_id = friendUser.id;
                                 }
 
                                 callback(obj);
@@ -87,4 +87,3 @@ class FriendsPage implements typesPage.Page {
         });
     }
 }
-export = FriendsPage;

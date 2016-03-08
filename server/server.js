@@ -7,7 +7,8 @@ var session = require('express-session');
 var connectMongo = require('connect-mongo');
 var https = require('https');
 var fs = require('fs');
-var pages = require('./pages');
+var pages_1 = require('./pages');
+var config = process.env.NODE_ENV || 'development';
 require('source-map-support').install({
     environment: 'node'
 });
@@ -25,7 +26,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 60 * 60 * 1000 /*, secure: true*/ }
 }));
-var pageManager = new pages();
+var pageManager = new pages_1.default();
 app.use(pageManager.getRequestHandler());
 var httpsOptions = {};
 httpsOptions.key = fs.readFileSync('data/ssl.key', 'utf8');

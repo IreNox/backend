@@ -1,20 +1,20 @@
-﻿import mongoose = require('mongoose');
-import sdk = require('../sdk');
-import modelUser = require('../models/model.user');
-import typesRest = require('../../shared/types/types.rest');
+﻿import * as mongoose from 'mongoose';
+import * as sdk from '../sdk';
+import * as modelUser from '../models/model.user';
+import * as typesRest from '../../shared/types/types.rest';
 
 var validFields = [
     'username',
     'points'
 ];
 
-class SdkUser {
+export default class SdkUser {
     findUser(user_id: string, callback) {
         modelUser.model.findById(user_id).exec(callback);
     }
 
     saveUser(user: modelUser.User, sessionData: any, callback: typesRest.RestResultTypeCallback) {
-        if (user._id.toHexString() != sessionData.user.id) {
+        if (user.id != sessionData.user.id) {
             callback(typesRest.RestResultType.InvalidCall);
         }
         else {
@@ -37,15 +37,13 @@ class SdkUser {
 			result[key] = user[key];
 		});
 
-		result.id = user._id.toHexString();
+		result.id = user.id;
 		result.friends = user.friends.map(value => value.toHexString());
 
         return result;
     }
-
-
+	
 	getIdFromDatabase(value: mongoose.Document): typesRest.RestUserId {
-		return new typesRest.RestUserId(value._id.toHexString());
+		return new typesRest.RestUserId(value.id);
 	}
 }
-export = SdkUser;

@@ -25,30 +25,31 @@ class OverviewState extends State {
 				sdk.serverPostAndParse('finduser', obj, [], function (data: RestFindUserResult) {
 					var friendList = $('#friends_search_list').html(ui.formatFile('overview_friend_search_list', data));
 
-					friendList.find("button[id*='friend_add']").button().click(function (clickEvent: JQueryEventObject) {
-						var item_id = $(clickEvent.target).prop('id');
-						var user_id = /friend_add_([0-9a-fA-F]+)/.exec(item_id)[1];
-
-						user.addFriend(user_id, function (data: RestFriendsResult) {
+					ui.buttonList(friendList, 'friend_add', function (id: string) {
+						user.addFriend(id, function (data: RestFriendsResult) {
 							ui.showStatusMessage(ui.preloadHtml('overview_friend_added'));
 							stateObject.refreshUser();
 						});
 					});
 
-					friendList.find("button[id*='friend_name']").button().click(function (clickEvent: JQueryEventObject) {
-						var item_id = $(clickEvent.target).prop('id');
-						var user_id = /friend_name_([0-9a-fA-F]+)/.exec(item_id)[1];
-
-						sdk.changeState("userinfo", { user_id: user_id });
-
-						clickEvent.preventDefault();
+					ui.buttonList(friendList, 'friend_name', function (id: string) {
+						sdk.changeState("userinfo", { user_id: id });
 					});
 				});
 
 				submitEvent.preventDefault();
 			});
-
 			$('#friends_search_button').button();
+
+			$('#highscore_form').submit(function (submitEvent: JQueryEventObject) {
+				var sendRequest = new RestHighscoreRequest(RestHighscoreActions.Send, $('#highscore_list_name').val(), $('#highscore_points').val());
+				sdk.serverPostAndParse('highscore', sendRequest, [], function (data: RestFindUserResult) {
+					stateObject.refreshScoreLists();
+				});
+
+				submitEvent.preventDefault();
+			});
+			$('#highscore_button').button();
 		});
 	}
 

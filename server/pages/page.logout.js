@@ -14,5 +14,6 @@ var LogoutPage = (function () {
     };
     return LogoutPage;
 }());
-module.exports = LogoutPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = LogoutPage;
 //# sourceMappingURL=page.logout.js.map

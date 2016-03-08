@@ -20,5 +20,6 @@ var GetUsersPage = (function () {
     };
     return GetUsersPage;
 }());
-module.exports = GetUsersPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = GetUsersPage;
 //# sourceMappingURL=page.getusers.js.map

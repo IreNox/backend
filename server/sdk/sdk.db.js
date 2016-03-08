@@ -17,5 +17,6 @@ var SdkDb = (function () {
     };
     return SdkDb;
 }());
-module.exports = SdkDb;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = SdkDb;
 //# sourceMappingURL=sdk.db.js.map

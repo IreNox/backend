@@ -116,20 +116,19 @@ class RestMessageRequest extends RestRequest {
 enum RestHighscoreActions {
 	GetLists,
 	GetList,
-	Get,
 	Send
 }
 
 class RestHighscoreRequest extends RestRequest {
 	public action: string;
-	public id: string;
-	public maxCount: number;
+	public list_name: string;
+	public maxCountOrPoints: number;
 
-	constructor(_action: RestHighscoreActions, _id?: string, _maxCount: number = 10) {
+	constructor(_action: RestHighscoreActions, _list_name?: string, _maxCountOrPoints?: number) {
 		super();
 		this.action = RestHighscoreActions[_action].toLowerCase();
-		this.id = _id;
-		this.maxCount = _maxCount;
+		this.list_name = _list_name;
+		this.maxCountOrPoints = _maxCountOrPoints;
 	}
 }
 
@@ -176,8 +175,8 @@ class RestLoginResult extends RestResult {
 class RestGetUserResult extends RestResult {
 	public user: RestUser;
 
-	constructor(_result: RestResultType, _user?: RestUser) {
-		super(_result);
+	constructor(_user: RestUser) {
+		super(RestResultType.Ok);
 		this.user = _user;
 	}
 }

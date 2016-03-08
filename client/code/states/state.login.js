@@ -23,6 +23,6 @@ var LoginState = (function (_super) {
         });
     };
     return LoginState;
-})(State);
+}(State));
 sdk.registerState('login', new LoginState());
 //# sourceMappingURL=state.login.js.map

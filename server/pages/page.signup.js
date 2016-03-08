@@ -46,5 +46,6 @@ var SignupPage = (function () {
     };
     return SignupPage;
 }());
-module.exports = SignupPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = SignupPage;
 //# sourceMappingURL=page.signup.js.map

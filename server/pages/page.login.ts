@@ -1,9 +1,9 @@
-﻿import sdk = require('../sdk');
-import modelUser = require('../models/model.user');
-import typesRest = require('../../shared/types/types.rest');
-import typesPage = require('../types/types.page');
+﻿import * as sdk from '../sdk';
+import * as modelUser from '../models/model.user';
+import * as typesRest from '../../shared/types/types.rest';
+import * as typesPage from '../types/types.page';
 
-class LoginPage implements typesPage.Page {
+export default class LoginPage implements typesPage.Page {
     run(inputData: typesRest.RestLoginRequest, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (sessionData.user) {
             callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
@@ -40,4 +40,3 @@ class LoginPage implements typesPage.Page {
         }
     }
 }
-export = LoginPage;

@@ -122,10 +122,10 @@ exports.RestMessageRequest = RestMessageRequest;
 var RestHighscoreActions = exports.RestHighscoreActions;
 var RestHighscoreRequest = (function (_super) {
     __extends(RestHighscoreRequest, _super);
-    function RestHighscoreRequest(_action, _id, _maxCountOrPoints) {
+    function RestHighscoreRequest(_action, _list_name, _maxCountOrPoints) {
         _super.call(this);
         this.action = RestHighscoreActions[_action].toLowerCase();
-        this.id = _id;
+        this.list_name = _list_name;
         this.maxCountOrPoints = _maxCountOrPoints;
     }
     return RestHighscoreRequest;
@@ -167,8 +167,8 @@ var RestLoginResult = (function (_super) {
 exports.RestLoginResult = RestLoginResult;
 var RestGetUserResult = (function (_super) {
     __extends(RestGetUserResult, _super);
-    function RestGetUserResult(_result, _user) {
-        _super.call(this, _result);
+    function RestGetUserResult(_user) {
+        _super.call(this, RestResultType.Ok);
         this.user = _user;
     }
     return RestGetUserResult;

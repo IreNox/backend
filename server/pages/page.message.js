@@ -1,7 +1,7 @@
 "use strict";
-var sdk = require("../sdk");
-var modelMessage = require("../models/model.message");
-var modelUser = require("../models/model.user");
+var sdk = require('../sdk');
+var modelMessage = require('../models/model.message');
+var modelUser = require('../models/model.user');
 var typesRest = require('../../shared/types/types.rest');
 var MessagePage = (function () {
     function MessagePage() {
@@ -84,7 +84,7 @@ var MessagePage = (function () {
         }
     };
     MessagePage.prototype.fillMessageHeader = function (header, message, sender) {
-        header.id = message._id.toHexString();
+        header.id = message.id;
         header.sender = sdk.user.exportUser(sender);
         header.subject = message.subject;
         header.read = message.read;
@@ -103,5 +103,6 @@ var MessagePage = (function () {
     };
     return MessagePage;
 }());
-module.exports = MessagePage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = MessagePage;
 //# sourceMappingURL=page.message.js.map

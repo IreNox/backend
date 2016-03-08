@@ -12,5 +12,5 @@ var State = (function () {
         $('#error').html(message).show(0).fadeOut(2000);
     };
     return State;
-})();
+}());
 //# sourceMappingURL=types.state.js.map

@@ -38,5 +38,6 @@ var LoginPage = (function () {
     };
     return LoginPage;
 }());
-module.exports = LoginPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = LoginPage;
 //# sourceMappingURL=page.login.js.map

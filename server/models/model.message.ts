@@ -1,4 +1,4 @@
-﻿import mongoose = require('mongoose');
+﻿import * as mongoose from 'mongoose';
 
 var messageSchema = new mongoose.Schema({
     sender_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },

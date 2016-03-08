@@ -33,6 +33,6 @@ var UserInfoState = (function (_super) {
         });
     };
     return UserInfoState;
-})(State);
+}(State));
 sdk.registerState('userinfo', new UserInfoState());
 //# sourceMappingURL=state.userinfo.js.map

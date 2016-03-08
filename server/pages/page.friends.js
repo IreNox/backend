@@ -46,7 +46,7 @@ var FriendsPage = (function () {
                             sdk.user.saveUser(currentUser, sessionData, function (result) {
                                 var obj = new typesRest.RestFriendsResult(result);
                                 if (result == typesRest.RestResultType.Ok) {
-                                    obj.user_id = friendUser._id.toHexString();
+                                    obj.user_id = friendUser.id;
                                 }
                                 callback(obj);
                             });
@@ -83,5 +83,6 @@ var FriendsPage = (function () {
     };
     return FriendsPage;
 }());
-module.exports = FriendsPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = FriendsPage;
 //# sourceMappingURL=page.friends.js.map

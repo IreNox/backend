@@ -25,24 +25,27 @@ var OverviewState = (function (_super) {
                 obj.username = $('#friends_search_name').val();
                 sdk.serverPostAndParse('finduser', obj, [], function (data) {
                     var friendList = $('#friends_search_list').html(ui.formatFile('overview_friend_search_list', data));
-                    friendList.find("button[id*='friend_add']").button().click(function (clickEvent) {
-                        var item_id = $(clickEvent.target).prop('id');
-                        var user_id = /friend_add_([0-9a-fA-F]+)/.exec(item_id)[1];
-                        user.addFriend(user_id, function (data) {
+                    ui.buttonList(friendList, 'friend_add', function (id) {
+                        user.addFriend(id, function (data) {
                             ui.showStatusMessage(ui.preloadHtml('overview_friend_added'));
                             stateObject.refreshUser();
                         });
                     });
-                    friendList.find("button[id*='friend_name']").button().click(function (clickEvent) {
-                        var item_id = $(clickEvent.target).prop('id');
-                        var user_id = /friend_name_([0-9a-fA-F]+)/.exec(item_id)[1];
-                        sdk.changeState("userinfo", { user_id: user_id });
-                        clickEvent.preventDefault();
+                    ui.buttonList(friendList, 'friend_name', function (id) {
+                        sdk.changeState("userinfo", { user_id: id });
                     });
                 });
                 submitEvent.preventDefault();
             });
             $('#friends_search_button').button();
+            $('#highscore_form').submit(function (submitEvent) {
+                var sendRequest = new RestHighscoreRequest(RestHighscoreActions.Send, $('#highscore_list_name').val(), $('#highscore_points').val());
+                sdk.serverPostAndParse('highscore', sendRequest, [], function (data) {
+                    stateObject.refreshScoreLists();
+                });
+                submitEvent.preventDefault();
+            });
+            $('#highscore_button').button();
         });
     };
     OverviewState.prototype.refreshUser = function () {
@@ -85,6 +88,6 @@ var OverviewState = (function (_super) {
         });
     };
     return OverviewState;
-})(State);
+}(State));
 sdk.registerState('overview', new OverviewState());
 //# sourceMappingURL=state.overview.js.map

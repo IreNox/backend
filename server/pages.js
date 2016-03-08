@@ -1,21 +1,21 @@
 "use strict";
-var core = require('./core');
 var fs = require('fs');
 var path = require('path');
 var url = require('url');
+var sdk = require('./sdk');
 var Pages = (function () {
     function Pages() {
         this.pages = {};
         var files = fs.readdirSync('./pages');
         for (var index in files) {
             var file = files[index];
-            if (!core.endsWith(file, '.js')) {
+            if (!sdk.core.endsWith(file, '.js')) {
                 continue;
             }
             var fileParts = file.split('.');
             var moduleName = fileParts[1];
             var fileName = './' + path.join('./pages', file);
-            var page = require(fileName);
+            var page = require(fileName).default;
             this.pages[moduleName] = new page();
         }
     }
@@ -52,5 +52,6 @@ var Pages = (function () {
     };
     return Pages;
 }());
-module.exports = Pages;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Pages;
 //# sourceMappingURL=pages.js.map

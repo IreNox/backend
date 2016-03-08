@@ -8,42 +8,42 @@ var RestUserId = (function () {
         this.id = _id;
     }
     return RestUserId;
-})();
+}());
 var InvalidUserId = new RestUserId("");
 var RestUser = (function () {
     function RestUser() {
     }
     return RestUser;
-})();
+}());
 var RestMessageHeader = (function () {
     function RestMessageHeader() {
     }
     return RestMessageHeader;
-})();
+}());
 var RestMessage = (function (_super) {
     __extends(RestMessage, _super);
     function RestMessage() {
         _super.apply(this, arguments);
     }
     return RestMessage;
-})(RestMessageHeader);
+}(RestMessageHeader));
 var RestScoreList = (function () {
     function RestScoreList() {
     }
     return RestScoreList;
-})();
+}());
 var RestHighscore = (function () {
     function RestHighscore() {
     }
     return RestHighscore;
-})();
+}());
 ///////////
 // Requests
 var RestRequest = (function () {
     function RestRequest() {
     }
     return RestRequest;
-})();
+}());
 var RestLoginRequest = (function (_super) {
     __extends(RestLoginRequest, _super);
     function RestLoginRequest(_username, _password) {
@@ -52,7 +52,7 @@ var RestLoginRequest = (function (_super) {
         this.password = _password;
     }
     return RestLoginRequest;
-})(RestRequest);
+}(RestRequest));
 var RestGetUserRequest = (function (_super) {
     __extends(RestGetUserRequest, _super);
     function RestGetUserRequest(_user_id) {
@@ -60,7 +60,7 @@ var RestGetUserRequest = (function (_super) {
         this.user_id = _user_id;
     }
     return RestGetUserRequest;
-})(RestRequest);
+}(RestRequest));
 var RestGetUsersRequest = (function (_super) {
     __extends(RestGetUsersRequest, _super);
     function RestGetUsersRequest(_user_ids) {
@@ -68,7 +68,7 @@ var RestGetUsersRequest = (function (_super) {
         this.user_ids = _user_ids;
     }
     return RestGetUsersRequest;
-})(RestRequest);
+}(RestRequest));
 var RestFriendsActions;
 (function (RestFriendsActions) {
     RestFriendsActions[RestFriendsActions["Add"] = 0] = "Add";
@@ -82,7 +82,7 @@ var RestFriendsRequest = (function (_super) {
         this.user_id = _user_id;
     }
     return RestFriendsRequest;
-})(RestRequest);
+}(RestRequest));
 var RestMessageActions;
 (function (RestMessageActions) {
     RestMessageActions[RestMessageActions["GetUnreadCount"] = 0] = "GetUnreadCount";
@@ -100,25 +100,23 @@ var RestMessageRequest = (function (_super) {
         this.message = _message;
     }
     return RestMessageRequest;
-})(RestRequest);
+}(RestRequest));
 var RestHighscoreActions;
 (function (RestHighscoreActions) {
     RestHighscoreActions[RestHighscoreActions["GetLists"] = 0] = "GetLists";
     RestHighscoreActions[RestHighscoreActions["GetList"] = 1] = "GetList";
-    RestHighscoreActions[RestHighscoreActions["Get"] = 2] = "Get";
-    RestHighscoreActions[RestHighscoreActions["Send"] = 3] = "Send";
+    RestHighscoreActions[RestHighscoreActions["Send"] = 2] = "Send";
 })(RestHighscoreActions || (RestHighscoreActions = {}));
 var RestHighscoreRequest = (function (_super) {
     __extends(RestHighscoreRequest, _super);
-    function RestHighscoreRequest(_action, _id, _maxCount) {
-        if (_maxCount === void 0) { _maxCount = 10; }
+    function RestHighscoreRequest(_action, _list_name, _maxCountOrPoints) {
         _super.call(this);
         this.action = RestHighscoreActions[_action].toLowerCase();
-        this.id = _id;
-        this.maxCount = _maxCount;
+        this.list_name = _list_name;
+        this.maxCountOrPoints = _maxCountOrPoints;
     }
     return RestHighscoreRequest;
-})(RestRequest);
+}(RestRequest));
 //////////
 // Results
 var RestResultType;
@@ -141,7 +139,7 @@ var RestResult = (function () {
         this.result = RestResultType[_result];
     }
     return RestResult;
-})();
+}());
 var RestLoginResult = (function (_super) {
     __extends(RestLoginResult, _super);
     function RestLoginResult(_result, _user_id) {
@@ -150,15 +148,15 @@ var RestLoginResult = (function (_super) {
         this.user_id = _user_id.id;
     }
     return RestLoginResult;
-})(RestResult);
+}(RestResult));
 var RestGetUserResult = (function (_super) {
     __extends(RestGetUserResult, _super);
-    function RestGetUserResult(_result, _user) {
-        _super.call(this, _result);
+    function RestGetUserResult(_user) {
+        _super.call(this, RestResultType.Ok);
         this.user = _user;
     }
     return RestGetUserResult;
-})(RestResult);
+}(RestResult));
 var RestGetUsersResult = (function (_super) {
     __extends(RestGetUsersResult, _super);
     function RestGetUsersResult(_result, _users) {
@@ -166,7 +164,7 @@ var RestGetUsersResult = (function (_super) {
         this.users = _users;
     }
     return RestGetUsersResult;
-})(RestResult);
+}(RestResult));
 var RestFindUserResult = (function (_super) {
     __extends(RestFindUserResult, _super);
     function RestFindUserResult(_result, _users) {
@@ -174,7 +172,7 @@ var RestFindUserResult = (function (_super) {
         this.users = _users;
     }
     return RestFindUserResult;
-})(RestResult);
+}(RestResult));
 var RestFriendsResult = (function (_super) {
     __extends(RestFriendsResult, _super);
     function RestFriendsResult(_result, _user_id) {
@@ -184,7 +182,7 @@ var RestFriendsResult = (function (_super) {
         }
     }
     return RestFriendsResult;
-})(RestResult);
+}(RestResult));
 var RestMessageGetUnreadCountResult = (function (_super) {
     __extends(RestMessageGetUnreadCountResult, _super);
     function RestMessageGetUnreadCountResult(_count) {
@@ -192,7 +190,7 @@ var RestMessageGetUnreadCountResult = (function (_super) {
         this.count = _count;
     }
     return RestMessageGetUnreadCountResult;
-})(RestResult);
+}(RestResult));
 var RestMessageGetListResult = (function (_super) {
     __extends(RestMessageGetListResult, _super);
     function RestMessageGetListResult(_messages) {
@@ -200,7 +198,7 @@ var RestMessageGetListResult = (function (_super) {
         this.messages = _messages;
     }
     return RestMessageGetListResult;
-})(RestResult);
+}(RestResult));
 var RestMessageGetResult = (function (_super) {
     __extends(RestMessageGetResult, _super);
     function RestMessageGetResult(_message) {
@@ -208,7 +206,7 @@ var RestMessageGetResult = (function (_super) {
         this.message = _message;
     }
     return RestMessageGetResult;
-})(RestResult);
+}(RestResult));
 var RestHighscoreGetListsResult = (function (_super) {
     __extends(RestHighscoreGetListsResult, _super);
     function RestHighscoreGetListsResult(_lists) {
@@ -216,7 +214,7 @@ var RestHighscoreGetListsResult = (function (_super) {
         this.lists = _lists;
     }
     return RestHighscoreGetListsResult;
-})(RestResult);
+}(RestResult));
 var RestHighscoreGetListResult = (function (_super) {
     __extends(RestHighscoreGetListResult, _super);
     function RestHighscoreGetListResult(_list, _highscores) {
@@ -225,5 +223,5 @@ var RestHighscoreGetListResult = (function (_super) {
         this.highscores = _highscores;
     }
     return RestHighscoreGetListResult;
-})(RestResult);
+}(RestResult));
 //# sourceMappingURL=types.rest.js.map

@@ -4,7 +4,7 @@
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
 declare module 'md5' {
-    function md5_func(message: string, options?: md5.Md5Options): string;
+    function md5(message: string, options?: md5.Md5Options): string;
 
 	module md5 {
 		export interface Md5Options {
@@ -14,5 +14,5 @@ declare module 'md5' {
 		}
 	}
 
-	export = md5_func;
+	export = md5;
 }

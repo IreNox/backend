@@ -15,5 +15,6 @@ var SdkCypt = (function () {
     };
     return SdkCypt;
 }());
-module.exports = SdkCypt;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = SdkCypt;
 //# sourceMappingURL=sdk.crypt.js.map

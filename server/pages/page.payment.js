@@ -1,5 +1,5 @@
 "use strict";
-var modelPayment = require("../models/model.payment");
+var modelPayment = require('../models/model.payment');
 var typesRest = require('../../shared/types/types.rest');
 var PaymentPage = (function () {
     function PaymentPage() {
@@ -25,5 +25,6 @@ var PaymentPage = (function () {
     };
     return PaymentPage;
 }());
-module.exports = PaymentPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = PaymentPage;
 //# sourceMappingURL=page.payment.js.map

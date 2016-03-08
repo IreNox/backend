@@ -1,7 +1,7 @@
-﻿import md5 = require('md5');
+﻿import * as md5 from 'md5';
 import * as crypto from 'crypto';
 
-class SdkCypt {
+export default class SdkCypt {
     md5(str: string): string {
         return md5(str);
     }
@@ -14,4 +14,3 @@ class SdkCypt {
         return md5(password + salt)
     }
 }
-export = SdkCypt;

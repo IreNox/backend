@@ -7,18 +7,21 @@ var GetUserPage = (function () {
     }
     GetUserPage.prototype.run = function (inputData, sessionData, callback) {
         if (!sessionData.user) {
-            callback(new typesRest.RestGetUserResult(typesRest.RestResultType.NotLoggedin));
+            callback(new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
         }
         else if (inputData.user_id) {
-            modelUser.model.findById(inputData.user_id).exec(function (err, result) {
-                callback(new typesRest.RestGetUserResult(typesRest.RestResultType.Ok, sdk.user.exportUser(result)));
+            modelUser.model.findById(inputData.user_id).exec(function (err, user) {
+                if (sdk.db.checkError(err, callback)) {
+                    callback(new typesRest.RestGetUserResult(sdk.user.exportUser(user)));
+                }
             });
         }
         else {
-            callback(new typesRest.RestGetUserResult(typesRest.RestResultType.Ok, sessionData.user));
+            callback(new typesRest.RestGetUserResult(sessionData.user));
         }
     };
     return GetUserPage;
 }());
-module.exports = GetUserPage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = GetUserPage;
 //# sourceMappingURL=page.getuser.js.map

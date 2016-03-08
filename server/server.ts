@@ -1,13 +1,15 @@
-﻿import bodyParser = require('body-parser')
-import cookieParser = require('cookie-parser')
-import express = require('express');
-import mongoose = require('mongoose');
-import session = require('express-session')
-import connectMongo = require('connect-mongo')
-import url = require('url');
-import https = require('https');
-import fs = require('fs');
-import pages = require('./pages');
+﻿import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
+import * as mongoose from 'mongoose';
+import * as session from 'express-session';
+import * as connectMongo from 'connect-mongo';
+import * as url from 'url';
+import * as https from 'https';
+import * as fs from 'fs';
+import Pages from './pages';
+
+var config = process.env.NODE_ENV || 'development';
 
 require('source-map-support').install({
 	environment: 'node'
@@ -31,7 +33,7 @@ app.use(session({
     cookie: { maxAge: 60 * 60 * 1000/*, secure: true*/ }
 }));
 
-var pageManager = new pages();
+var pageManager = new Pages();
 app.use(pageManager.getRequestHandler());
 
 

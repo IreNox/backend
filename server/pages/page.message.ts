@@ -1,10 +1,10 @@
-﻿import sdk = require("../sdk");
-import modelMessage = require("../models/model.message");
-import modelUser = require("../models/model.user");
-import typesRest = require('../../shared/types/types.rest');
-import typesPage = require('../types/types.page');
+﻿import * as sdk from '../sdk';
+import * as modelMessage from '../models/model.message';
+import * as modelUser from '../models/model.user';
+import * as typesRest from '../../shared/types/types.rest';
+import * as typesPage from '../types/types.page';
 
-class MessagePage implements typesPage.Page {
+export default class MessagePage implements typesPage.Page {
     run(inputData: typesRest.RestMessageRequest, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
 		var messagePage = this;
 
@@ -87,7 +87,7 @@ class MessagePage implements typesPage.Page {
     }
 
 	private fillMessageHeader(header: typesRest.RestMessageHeader, message: modelMessage.Message, sender: modelUser.User): void {
-		header.id = message._id.toHexString();
+		header.id = message.id;
 		header.sender = sdk.user.exportUser(sender);
 		header.subject = message.subject;
 		header.read = message.read;
@@ -111,4 +111,3 @@ class MessagePage implements typesPage.Page {
 	}
 
 }
-export = MessagePage;

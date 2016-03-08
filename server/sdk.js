@@ -1,8 +1,10 @@
 "use strict";
-var SdkCrypt = require('./sdk/sdk.crypt');
-var SdkDb = require('./sdk/sdk.db');
-var SdkUser = require('./sdk/sdk.user');
-exports.crypt = new SdkCrypt();
-exports.db = new SdkDb();
-exports.user = new SdkUser();
+var sdk_core_1 = require('./sdk/sdk.core');
+var sdk_crypt_1 = require('./sdk/sdk.crypt');
+var sdk_db_1 = require('./sdk/sdk.db');
+var sdk_user_1 = require('./sdk/sdk.user');
+exports.core = new sdk_core_1.default();
+exports.crypt = new sdk_crypt_1.default();
+exports.db = new sdk_db_1.default();
+exports.user = new sdk_user_1.default();
 //# sourceMappingURL=sdk.js.map

@@ -1,7 +1,7 @@
 "use strict";
-var sdk = require("../sdk");
-var modelHighscore = require("../models/model.highscore");
-var modelScoreList = require("../models/model.scorelist");
+var sdk = require('../sdk');
+var modelHighscore = require('../models/model.highscore');
+var modelScoreList = require('../models/model.scorelist');
 var typesRest = require('../../shared/types/types.rest');
 var HighscorePage = (function () {
     function HighscorePage() {
@@ -16,10 +16,10 @@ var HighscorePage = (function () {
                 }
             });
         }
-        else if (inputData.action == 'getlist' && inputData.id && inputData.maxCountOrPoints) {
-            modelScoreList.model.findById(inputData.id, function (err, list) {
+        else if (inputData.action == 'getlist' && inputData.list_name && inputData.maxCountOrPoints) {
+            modelScoreList.model.findOne({ name: inputData.list_name }, function (err, list) {
                 if (sdk.db.checkError(err, callback)) {
-                    var query = modelHighscore.model.find({ list: inputData.id }).sort({ points: 1 }).limit(inputData.maxCountOrPoints).populate('user');
+                    var query = modelHighscore.model.find({ list: list.id }).sort({ points: 1 }).limit(inputData.maxCountOrPoints).populate('user');
                     query.exec(function (err, highscores) {
                         if (sdk.db.checkError(err, callback)) {
                             var hightscoreList = highscores.map(function (score) { return highscorePage.exportHighscore(score); });
@@ -29,17 +29,27 @@ var HighscorePage = (function () {
                 }
             });
         }
-        else if (inputData.action == 'send' && inputData.id && inputData.maxCountOrPoints) {
+        else if (inputData.action == 'send' && inputData.list_name && inputData.maxCountOrPoints) {
             if (sessionData.user) {
-                modelScoreList.model.findById(inputData.id, function (err, list) {
-                    if (sdk.db.checkError(err, callback)) {
-                        var highscore = new modelHighscore.model();
-                        highscore.list = list;
-                        highscore.user = sdk.db.toId(sessionData.user.id);
-                        highscore.points = inputData.maxCountOrPoints;
-                        highscore.time = new Date(Date.now());
-                        highscore.save();
-                        callback(new typesRest.RestResult(typesRest.RestResultType.Ok));
+                modelScoreList.model.findOne({ name: inputData.list_name }, function (err, list) {
+                    var saveHighscoreFunc = function (err, list) {
+                        if (sdk.db.checkError(err, callback)) {
+                            var highscore = new modelHighscore.model();
+                            highscore.list = list;
+                            highscore.user = sdk.db.toId(sessionData.user.id);
+                            highscore.points = inputData.maxCountOrPoints;
+                            highscore.time = new Date(Date.now());
+                            highscore.save();
+                            callback(new typesRest.RestResult(typesRest.RestResultType.Ok));
+                        }
+                    };
+                    if (err || list == null) {
+                        list = new modelScoreList.model();
+                        list.name = inputData.list_name;
+                        list.save(saveHighscoreFunc);
+                    }
+                    else {
+                        saveHighscoreFunc(null, list);
                     }
                 });
             }
@@ -52,12 +62,13 @@ var HighscorePage = (function () {
         }
     };
     HighscorePage.prototype.exportScoreList = function (list) {
-        return { id: list._id.toHexString(), name: list.name };
+        return { id: list.id, name: list.name };
     };
     HighscorePage.prototype.exportHighscore = function (highscore) {
         return { user: sdk.user.exportUser(highscore.user), points: highscore.points };
     };
     return HighscorePage;
 }());
-module.exports = HighscorePage;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = HighscorePage;
 //# sourceMappingURL=page.highscore.js.map

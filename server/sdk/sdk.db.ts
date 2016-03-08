@@ -1,8 +1,8 @@
-﻿import mongoose = require('mongoose');
-import typesPage = require('../types/types.page');
-import typesRest = require('../../shared/types/types.rest');
+﻿import * as mongoose from 'mongoose';
+import * as typesPage from '../types/types.page';
+import * as typesRest from '../../shared/types/types.rest';
 
-class SdkDb {
+export default class SdkDb {
 	public toId(id: string): mongoose.Types.ObjectId {
 		return mongoose.Types.ObjectId.createFromHexString(id);
 	}
@@ -18,4 +18,3 @@ class SdkDb {
 		return true;
 	}
 }
-export = SdkDb;
