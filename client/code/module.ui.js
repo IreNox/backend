@@ -69,6 +69,9 @@ var ui;
     }
     function refreshOnlineMenu() {
         $('#menu').html(preloadHtml('menu_online'));
+        $('#menu_overview').button().click(function () {
+            sdk.changeState('overview');
+        });
         $('#menu_shop').button().click(function () {
             sdk.changeState('shop');
         });

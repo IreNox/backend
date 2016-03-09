@@ -1,0 +1,60 @@
+{
+	"items": [
+		{
+			"id": "0",
+			"name": "Test Item 1",
+			"type": "Test Type",
+			"image": "img/item/000.png",
+			"value": 100
+		},
+		{
+			"id": "1",
+			"name": "Test Item 2",
+			"type": "Test Type",
+			"image": "img/item/001.png",
+			"value": 200
+		},
+		{
+			"id": "2",
+			"name": "Test Item 3",
+			"type": "Test Type",
+			"image": "img/item/002.png",
+			"value": 400
+		},
+		{
+			"id": "3",
+			"name": "Test Item 4",
+			"type": "Test Type",
+			"image": "img/item/003.png",
+			"value": 800
+		},
+		{
+			"id": "4",
+			"name": "Dummy Item 1",
+			"type": "Dummy Type",
+			"image": "img/item/004.png",
+			"value": 1000
+		},
+		{
+			"id": "5",
+			"name": "Dummy Item 2",
+			"type": "Dummy Type",
+			"image": "img/item/005.png",
+			"value": 2000
+		},
+		{
+			"id": "6",
+			"name": "Dummy Item 3",
+			"type": "Dummy Type",
+			"image": "img/item/006.png",
+			"value": 4000
+		},
+		{
+			"id": "7",
+			"name": "Dummy Item 4",
+			"type": "Dummy Type",
+			"image": "img/item/007.png",
+			"value": 8000
+		}
+	]
+}

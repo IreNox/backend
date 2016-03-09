@@ -6,9 +6,9 @@
 	<img src="{{image}}" /><br />
 	<br />
 	{{#if bought}}
-	<button id="item_buy_{{id}}" disabled>Buy</button>
+	<button id="item_buy_{{id}}" disabled>Bought</button>
 	{{else}}
-	<button id="item_buy_{{id}}">Buy</button>
+	<button id="item_buy_{{id}}">Buy for {{value}}</button>
 	{{/if}}
 </div>
 {{/each}}

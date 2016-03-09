@@ -23,6 +23,7 @@ module user {
         sdk.serverPostAndParse('login', loginData, ['AlreadyLoggedin'], function (data: RestLoginResult) {
 			onLogin(data.userId);
         }, function () {
+			ui.refreshMenu();
 			sdk.changeState('login');
 		});
     }
@@ -39,6 +40,7 @@ module user {
         sdk.serverGet('logout', function () {
 			Global.userId = null;
 			Global.user = null;
+			ui.refreshMenu();
 
             sdk.changeState('login');
         });

@@ -16,6 +16,7 @@ var user;
         sdk.serverPostAndParse('login', loginData, ['AlreadyLoggedin'], function (data) {
             onLogin(data.userId);
         }, function () {
+            ui.refreshMenu();
             sdk.changeState('login');
         });
     }
@@ -32,6 +33,7 @@ var user;
         sdk.serverGet('logout', function () {
             Global.userId = null;
             Global.user = null;
+            ui.refreshMenu();
             sdk.changeState('login');
         });
     }
