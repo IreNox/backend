@@ -4,25 +4,27 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var RestUserId = (function () {
-    function RestUserId(_id) {
-        this.id = _id;
+var RestObject = (function () {
+    function RestObject() {
     }
-    return RestUserId;
+    return RestObject;
 }());
-exports.RestUserId = RestUserId;
-exports.InvalidUserId = new RestUserId("");
-var RestUser = (function () {
+exports.RestObject = RestObject;
+var RestUser = (function (_super) {
+    __extends(RestUser, _super);
     function RestUser() {
+        _super.apply(this, arguments);
     }
     return RestUser;
-}());
+}(RestObject));
 exports.RestUser = RestUser;
-var RestMessageHeader = (function () {
+var RestMessageHeader = (function (_super) {
+    __extends(RestMessageHeader, _super);
     function RestMessageHeader() {
+        _super.apply(this, arguments);
     }
     return RestMessageHeader;
-}());
+}(RestObject));
 exports.RestMessageHeader = RestMessageHeader;
 var RestMessage = (function (_super) {
     __extends(RestMessage, _super);
@@ -32,11 +34,13 @@ var RestMessage = (function (_super) {
     return RestMessage;
 }(RestMessageHeader));
 exports.RestMessage = RestMessage;
-var RestScoreList = (function () {
+var RestScoreList = (function (_super) {
+    __extends(RestScoreList, _super);
     function RestScoreList() {
+        _super.apply(this, arguments);
     }
     return RestScoreList;
-}());
+}(RestObject));
 exports.RestScoreList = RestScoreList;
 var RestHighscore = (function () {
     function RestHighscore() {
@@ -44,6 +48,14 @@ var RestHighscore = (function () {
     return RestHighscore;
 }());
 exports.RestHighscore = RestHighscore;
+var RestShopItem = (function (_super) {
+    __extends(RestShopItem, _super);
+    function RestShopItem() {
+        _super.apply(this, arguments);
+    }
+    return RestShopItem;
+}(RestObject));
+exports.RestShopItem = RestShopItem;
 ///////////
 // Requests
 var RestRequest = (function () {
@@ -64,18 +76,18 @@ var RestLoginRequest = (function (_super) {
 exports.RestLoginRequest = RestLoginRequest;
 var RestGetUserRequest = (function (_super) {
     __extends(RestGetUserRequest, _super);
-    function RestGetUserRequest(_user_id) {
+    function RestGetUserRequest(_userId) {
         _super.call(this);
-        this.user_id = _user_id;
+        this.userId = _userId;
     }
     return RestGetUserRequest;
 }(RestRequest));
 exports.RestGetUserRequest = RestGetUserRequest;
 var RestGetUsersRequest = (function (_super) {
     __extends(RestGetUsersRequest, _super);
-    function RestGetUsersRequest(_user_ids) {
+    function RestGetUsersRequest(_userIds) {
         _super.call(this);
-        this.user_ids = _user_ids;
+        this.userIds = _userIds;
     }
     return RestGetUsersRequest;
 }(RestRequest));
@@ -87,10 +99,10 @@ exports.RestGetUsersRequest = RestGetUsersRequest;
 var RestFriendsActions = exports.RestFriendsActions;
 var RestFriendsRequest = (function (_super) {
     __extends(RestFriendsRequest, _super);
-    function RestFriendsRequest(_action, _user_id) {
+    function RestFriendsRequest(_action, _userId) {
         _super.call(this);
         this.action = RestFriendsActions[_action].toLowerCase();
-        this.user_id = _user_id;
+        this.userId = _userId;
     }
     return RestFriendsRequest;
 }(RestRequest));
@@ -106,7 +118,7 @@ var RestMessageRequest = (function (_super) {
     __extends(RestMessageRequest, _super);
     function RestMessageRequest(_action, _id, _subject, _message) {
         _super.call(this);
-        this.action = RestMessageActions[_action].toLowerCase();
+        this.action = _action;
         this.id = _id;
         this.subject = _subject;
         this.message = _message;
@@ -124,13 +136,29 @@ var RestHighscoreRequest = (function (_super) {
     __extends(RestHighscoreRequest, _super);
     function RestHighscoreRequest(_action, _list_name, _maxCountOrPoints) {
         _super.call(this);
-        this.action = RestHighscoreActions[_action].toLowerCase();
+        this.action = _action;
         this.list_name = _list_name;
         this.maxCountOrPoints = _maxCountOrPoints;
     }
     return RestHighscoreRequest;
 }(RestRequest));
 exports.RestHighscoreRequest = RestHighscoreRequest;
+(function (RestItemShopAction) {
+    RestItemShopAction[RestItemShopAction["GetList"] = 0] = "GetList";
+    RestItemShopAction[RestItemShopAction["Get"] = 1] = "Get";
+    RestItemShopAction[RestItemShopAction["Buy"] = 2] = "Buy";
+})(exports.RestItemShopAction || (exports.RestItemShopAction = {}));
+var RestItemShopAction = exports.RestItemShopAction;
+var RestItemShopRequest = (function (_super) {
+    __extends(RestItemShopRequest, _super);
+    function RestItemShopRequest(_action, _id) {
+        _super.call(this);
+        this.action = _action;
+        this.id = _id;
+    }
+    return RestItemShopRequest;
+}(RestRequest));
+exports.RestItemShopRequest = RestItemShopRequest;
 //////////
 // Results
 (function (RestResultType) {
@@ -145,7 +173,8 @@ exports.RestHighscoreRequest = RestHighscoreRequest;
     RestResultType[RestResultType["AlreadyInList"] = 8] = "AlreadyInList";
     RestResultType[RestResultType["NotInList"] = 9] = "NotInList";
     RestResultType[RestResultType["AlreadyInUse"] = 10] = "AlreadyInUse";
-    RestResultType[RestResultType["Unknown"] = 11] = "Unknown";
+    RestResultType[RestResultType["NotEnoughGems"] = 11] = "NotEnoughGems";
+    RestResultType[RestResultType["Unknown"] = 12] = "Unknown";
 })(exports.RestResultType || (exports.RestResultType = {}));
 var RestResultType = exports.RestResultType;
 var RestResult = (function () {
@@ -157,10 +186,9 @@ var RestResult = (function () {
 exports.RestResult = RestResult;
 var RestLoginResult = (function (_super) {
     __extends(RestLoginResult, _super);
-    function RestLoginResult(_result, _user_id) {
-        if (_user_id === void 0) { _user_id = exports.InvalidUserId; }
+    function RestLoginResult(_result, _userId) {
         _super.call(this, _result);
-        this.user_id = _user_id.id;
+        this.userId = _userId;
     }
     return RestLoginResult;
 }(RestResult));
@@ -194,11 +222,9 @@ var RestFindUserResult = (function (_super) {
 exports.RestFindUserResult = RestFindUserResult;
 var RestFriendsResult = (function (_super) {
     __extends(RestFriendsResult, _super);
-    function RestFriendsResult(_result, _user_id) {
-        _super.call(this, _result);
-        if (_user_id) {
-            this.user_id = _user_id.id;
-        }
+    function RestFriendsResult(_userId) {
+        _super.call(this, RestResultType.Ok);
+        this.userId = _userId;
     }
     return RestFriendsResult;
 }(RestResult));
@@ -249,4 +275,22 @@ var RestHighscoreGetListResult = (function (_super) {
     return RestHighscoreGetListResult;
 }(RestResult));
 exports.RestHighscoreGetListResult = RestHighscoreGetListResult;
+var RestItemShopGetListResult = (function (_super) {
+    __extends(RestItemShopGetListResult, _super);
+    function RestItemShopGetListResult(_items) {
+        _super.call(this, RestResultType.Ok);
+        this.items = _items;
+    }
+    return RestItemShopGetListResult;
+}(RestResult));
+exports.RestItemShopGetListResult = RestItemShopGetListResult;
+var RestItemShopGetResult = (function (_super) {
+    __extends(RestItemShopGetResult, _super);
+    function RestItemShopGetResult(_item) {
+        _super.call(this, RestResultType.Ok);
+        this.item = _item;
+    }
+    return RestItemShopGetResult;
+}(RestResult));
+exports.RestItemShopGetResult = RestItemShopGetResult;
 //# sourceMappingURL=types.rest.js.map

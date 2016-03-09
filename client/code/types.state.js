@@ -5,6 +5,8 @@ var State = (function () {
     };
     State.prototype.onDeactivate = function () {
     };
+    State.prototype.onRefreshUser = function (user) {
+    };
     State.prototype.onStatusMessage = function (message) {
         $('#status').html(message).show(0).fadeOut(2000);
     };

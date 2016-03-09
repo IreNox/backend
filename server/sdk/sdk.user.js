@@ -21,7 +21,7 @@ var SdkUser = (function () {
                     callback(typesRest.RestResultType.DatabaseError);
                 }
                 else {
-                    sessionData.user = sdk.user.exportUser(user);
+                    sessionData.user = sdk.user.exportUser(user, true);
                     callback(typesRest.RestResultType.Ok);
                 }
             });
@@ -36,12 +36,12 @@ var SdkUser = (function () {
         result.id = user.id;
         result.friends = user.friends.map(function (value) { return value.toHexString(); });
         if (isCurrentUser) {
-            result.gems = user.gems;
+            console.log("items(" + typeof (user.items) + "):");
+            console.log(user.items);
+            result.items = user.items || [];
+            result.gems = user.gems || 0;
         }
         return result;
-    };
-    SdkUser.prototype.getIdFromDatabase = function (value) {
-        return new typesRest.RestUserId(value.id);
     };
     return SdkUser;
 }());

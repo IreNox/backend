@@ -1,27 +1,16 @@
 ﻿/// <reference path="../../thirdparty/jqueryui/jqueryui.d.ts"/>
 
 class OverviewState extends State {
-	public user: RestUser;
-
 	public onActivate() {
 		var stateObject = this;
 
 		$('#content').load('html/overview.html', function () {
-			stateObject.refreshUser();
+			if (Global.user) {
+				stateObject.onRefreshUser(Global.user);
+			}
+
 			stateObject.refreshScoreLists();
 
-			$('#shop').button().click(function () {
-				sdk.changeState('shop');
-			});
-
-			$('#messages').button().click(function () {
-				sdk.changeState('message');
-			});
-
-			$('#logout').button().click(function () {
-				user.logout();
-			});
-			
 			$('#friends_search_form').submit(function (submitEvent: JQueryEventObject) {
 				var obj: any = {};
 				obj.username = $('#friends_search_name').val();
@@ -32,7 +21,7 @@ class OverviewState extends State {
 					ui.buttonList(friendList, 'friend_add', function (id: string) {
 						user.addFriend(id, function (data: RestFriendsResult) {
 							ui.showStatusMessage(ui.preloadHtml('overview_friend_added'));
-							stateObject.refreshUser();
+							user.refreshUser();
 						});
 					});
 
@@ -57,44 +46,31 @@ class OverviewState extends State {
 		});
 	}
 
-	private refreshUser() {
+	public onRefreshUser(user: RestUser) {
 		var stateObject = this;
 
-		sdk.serverGetAndParse('getuser', [], function (getUserData: RestGetUserResult) {
-			stateObject.user = getUserData.user;
+		$('#username').html(user.username);
 
-			$('#username').html(getUserData.user.username);
-			$('#shop').button('option', 'label', ui.formatFile('overview_shop_button', getUserData.user));
-
-			stateObject.refreshFriendList();
-			stateObject.refreshMessages();
-		});
+		stateObject.refreshFriendList();
 	}
 
 	private refreshFriendList() {
 		var stateObject = this;
 
 		ui.setLoading('friends_list');
-		user.getFriends(stateObject.user, function (friendsData: RestGetUsersResult) {
+		user.getFriends(Global.user, function (friendsData: RestGetUsersResult) {
 			var friendList = $('#friends_list').html(ui.formatFile('overview_friend_list', friendsData));
 
 			ui.buttonList(friendList, 'friend_remove', function (id: string) {
 				user.removeFriend(id, function (data: RestFriendsResult) {
 					ui.showStatusMessage(ui.preloadHtml('overview_friend_removed'));
-					stateObject.refreshUser();
+					user.refreshUser();
 				});				
 			});
 
 			ui.buttonList(friendList, 'friend_name', function (id: string) {
 				sdk.changeState("userinfo", { user_id: id });
 			});
-		});
-	}
-
-	private refreshMessages() {
-		var getUnreadCountRequest: RestMessageRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
-		sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData: RestMessageGetUnreadCountResult) {
-			$('#messages').button('option', 'label', ui.formatFile('overview_message_count_button', messageCoundData));
 		});
 	}
 

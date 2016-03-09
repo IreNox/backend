@@ -8,7 +8,7 @@ var HighscorePage = (function () {
     }
     HighscorePage.prototype.run = function (inputData, sessionData, callback) {
         var highscorePage = this;
-        if (inputData.action == 'getlists') {
+        if (inputData.action == typesRest.RestHighscoreActions.GetLists) {
             modelScoreList.model.find({}, function (err, lists) {
                 if (sdk.db.checkError(err, callback)) {
                     var listList = lists.map(function (list) { return highscorePage.exportScoreList(list); });
@@ -16,7 +16,7 @@ var HighscorePage = (function () {
                 }
             });
         }
-        else if (inputData.action == 'getlist' && inputData.list_name && inputData.maxCountOrPoints) {
+        else if (inputData.action == typesRest.RestHighscoreActions.GetList && inputData.list_name && inputData.maxCountOrPoints) {
             modelScoreList.model.findOne({ name: inputData.list_name }, function (err, list) {
                 if (sdk.db.checkError(err, callback)) {
                     var query = modelHighscore.model.find({ list: list.id }).sort({ points: 1 }).limit(inputData.maxCountOrPoints).populate('user');
@@ -29,7 +29,7 @@ var HighscorePage = (function () {
                 }
             });
         }
-        else if (inputData.action == 'send' && inputData.list_name && inputData.maxCountOrPoints) {
+        else if (inputData.action == typesRest.RestHighscoreActions.Send && inputData.list_name && inputData.maxCountOrPoints) {
             if (sessionData.user) {
                 modelScoreList.model.findOne({ name: inputData.list_name }, function (err, list) {
                     var saveHighscoreFunc = function (err, list) {

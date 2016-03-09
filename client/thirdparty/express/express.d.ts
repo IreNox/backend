@@ -17,9 +17,9 @@ declare module Express {
 
     // These open interfaces may be extended in an application-specific manner via declaration merging.
     // See for example method-override.d.ts (https://github.com/borisyankov/DefinitelyTyped/blob/master/method-override/method-override.d.ts)
-    export interface Request { }
-    export interface Response { }
-    export interface Application { }
+    interface Request { }
+    interface Response { }
+    interface Application { }
 }
 
 
@@ -112,9 +112,9 @@ declare module "express" {
             use(path: RegExp, handler: ErrorRequestHandler): T;
         }
 
-        export function Router(options?: any): Router;
+        function Router(options?: any): Router;
 
-        export interface Router extends IRouter<Router> {}
+        interface Router extends IRouter<Router> {}
 
         interface CookieOptions {
             maxAge?: number;

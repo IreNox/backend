@@ -1,7 +1,8 @@
 var Historyjs = History;
 var Global;
 (function (Global) {
-    Global.userId = "";
+    Global.userId = null;
+    Global.user = null;
     Global.stateName = "";
     Global.stateData = null;
     Global.stateObject = null;

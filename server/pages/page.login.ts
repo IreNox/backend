@@ -6,7 +6,7 @@ import * as typesPage from '../types/types.page';
 export default class LoginPage implements typesPage.Page {
     run(inputData: typesRest.RestLoginRequest, sessionData: typesPage.SessionData, callback: typesPage.RestCallback): void {
         if (sessionData.user) {
-            callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
+            callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user.id));
         }
         else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
@@ -24,10 +24,9 @@ export default class LoginPage implements typesPage.Page {
 					callback(new typesRest.RestResult(typesRest.RestResultType.InvalidPassword));
                 }
                 else {
-					sessionData.user_id = sdk.user.getIdFromDatabase(user);
                     sessionData.user = sdk.user.exportUser(user, true);
 
-					callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user_id));
+					callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user.id));
                 }
             });
         }

@@ -1,7 +1,6 @@
 ﻿import * as typesRest from '../types/types.rest';
 
 export class SessionData {
-	public user_id: typesRest.RestUserId;
 	public user: typesRest.RestUser;
 }
 

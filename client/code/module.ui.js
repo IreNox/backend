@@ -1,6 +1,13 @@
+var MenuState;
+(function (MenuState) {
+    MenuState[MenuState["Invalid"] = 0] = "Invalid";
+    MenuState[MenuState["Offline"] = 1] = "Offline";
+    MenuState[MenuState["Online"] = 2] = "Online";
+})(MenuState || (MenuState = {}));
 var ui;
 (function (ui) {
     var preloadedHtml = {};
+    var menuState = MenuState.Invalid;
     function init() {
         ui.preloadHtml('loading');
     }
@@ -54,5 +61,40 @@ var ui;
         });
     }
     ui.buttonList = buttonList;
+    function refreshOfflineMenu() {
+        $('#menu').html(preloadHtml('menu_offline'));
+        $('#menu_login').button().click(function () {
+            sdk.changeState('login');
+        });
+    }
+    function refreshOnlineMenu() {
+        $('#menu').html(preloadHtml('menu_online'));
+        $('#menu_shop').button().click(function () {
+            sdk.changeState('shop');
+        });
+        $('#menu_messages').button().click(function () {
+            sdk.changeState('message');
+        });
+        $('#menu_logout').button().click(function () {
+            user.logout();
+        });
+        var getUnreadCountRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
+        sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData) {
+            $('#menu_messages').button('option', 'label', ui.formatFile('menu_online_message_button', messageCoundData));
+        });
+        $('#menu_shop').button('option', 'label', ui.formatFile('menu_online_shop_button', Global.user));
+    }
+    function refreshMenu(force) {
+        if (force === void 0) { force = false; }
+        if (Global.user == null && (menuState != MenuState.Offline || force)) {
+            refreshOfflineMenu();
+            menuState = MenuState.Offline;
+        }
+        else if (Global.user != null && (menuState != MenuState.Online || force)) {
+            refreshOnlineMenu();
+            menuState = MenuState.Online;
+        }
+    }
+    ui.refreshMenu = refreshMenu;
 })(ui || (ui = {}));
 //# sourceMappingURL=module.ui.js.map

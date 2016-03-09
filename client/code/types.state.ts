@@ -6,6 +6,10 @@ class State {
 	public onDeactivate(): void {
 	}
 
+	public onRefreshUser(user: RestUser) {
+		
+	}
+
 	public onStatusMessage(message: string) {
 		$('#status').html(message).show(0).fadeOut(2000);
 	}

@@ -1,24 +1,17 @@
 ﻿
-class RestUserId {
+class RestObject {
 	public id: string;
-
-	constructor(_id: string) {
-		this.id = _id;
-	}
 }
 
-var InvalidUserId: RestUserId = new RestUserId("");
-
-class RestUser {
-	public id: string;
+class RestUser extends RestObject {
 	public name: string;
 	public username: string;
 	public friends: string[];
-	public points: Number;
+	public items: number[];
+	public gems: number;
 }
 
-class RestMessageHeader {
-	public id: string;
+class RestMessageHeader extends RestObject {
 	public sender: RestUser;
 	public subject: string;
 	public read: boolean;
@@ -29,14 +22,20 @@ class RestMessage extends RestMessageHeader {
 	public message: string;
 }
 
-class RestScoreList {
-	public id: string;
+class RestScoreList extends RestObject {
 	public name: string;
 }
 
 class RestHighscore {
 	public user: RestUser;
-	public points: Number;
+	public points: number;
+}
+
+class RestShopItem extends RestObject {
+	public name: string;
+	public type: string;
+	public image: string;
+	public value: number;
 }
 
 ///////////
@@ -58,20 +57,20 @@ class RestLoginRequest extends RestRequest {
 }
 
 class RestGetUserRequest extends RestRequest {
-	public user_id: string;
+	public userId: string;
 
-	constructor(_user_id?: string) {
+	constructor(_userId?: string) {
 		super();
-		this.user_id = _user_id;
+		this.userId = _userId;
 	}
 }
 
 class RestGetUsersRequest extends RestRequest {
-	public user_ids: string[];
+	public userIds: string[];
 
-	constructor(_user_ids?: string[]) {
+	constructor(_userIds?: string[]) {
 		super();
-		this.user_ids = _user_ids;
+		this.userIds = _userIds;
 	}
 }
 
@@ -82,12 +81,12 @@ enum RestFriendsActions {
 
 class RestFriendsRequest extends RestRequest {
 	public action: string;
-	public user_id: string;
+	public userId: string;
 
-	constructor(_action: RestFriendsActions, _user_id: string) {
+	constructor(_action: RestFriendsActions, _userId: string) {
 		super();
 		this.action = RestFriendsActions[_action].toLowerCase();
-		this.user_id = _user_id;
+		this.userId = _userId;
 	}
 }
 
@@ -99,14 +98,14 @@ enum RestMessageActions {
 }
 
 class RestMessageRequest extends RestRequest {
-	public action: string;
+	public action: RestMessageActions;
 	public id: string;
 	public subject: string;
 	public message: string;
 
 	constructor(_action: RestMessageActions, _id?: string, _subject?: string, _message?: string) {
 		super();
-		this.action = RestMessageActions[_action].toLowerCase();
+		this.action = _action;
 		this.id = _id;
 		this.subject = _subject;
 		this.message = _message;
@@ -120,15 +119,32 @@ enum RestHighscoreActions {
 }
 
 class RestHighscoreRequest extends RestRequest {
-	public action: string;
+	public action: RestHighscoreActions;
 	public list_name: string;
 	public maxCountOrPoints: number;
 
 	constructor(_action: RestHighscoreActions, _list_name?: string, _maxCountOrPoints?: number) {
 		super();
-		this.action = RestHighscoreActions[_action].toLowerCase();
+		this.action = _action;
 		this.list_name = _list_name;
 		this.maxCountOrPoints = _maxCountOrPoints;
+	}
+}
+
+enum RestItemShopAction {
+	GetList,
+	Get,
+	Buy
+}
+
+class RestItemShopRequest extends RestRequest {
+	public action: RestItemShopAction;
+	public id: string;
+
+	constructor(_action: RestItemShopAction, _id?: string) {
+		super();
+		this.action = _action;
+		this.id = _id;
 	}
 }
 
@@ -164,11 +180,11 @@ class RestResult {
 }
 
 class RestLoginResult extends RestResult {
-	public user_id: string;
+	public userId: string;
 
-	constructor(_result: RestResultType, _user_id: RestUserId = InvalidUserId) {
+	constructor(_result: RestResultType, _userId: string) {
 		super(_result);
-		this.user_id = _user_id.id;
+		this.userId = _userId;
 	}
 }
 
@@ -200,20 +216,18 @@ class RestFindUserResult extends RestResult {
 }
 
 class RestFriendsResult extends RestResult {
-	public user_id: string;
+	public userId: string;
 
-	constructor(_result: RestResultType, _user_id?: RestUserId) {
-		super(_result);
-		if (_user_id) {
-			this.user_id = _user_id.id;
-		}
+	constructor(_userId: string) {
+		super(RestResultType.Ok);
+		this.userId = _userId;
 	}
 }
 
 class RestMessageGetUnreadCountResult extends RestResult {
-	public count: Number;
+	public count: number;
 
-	constructor(_count: Number) {
+	constructor(_count: number) {
 		super(RestResultType.Ok);
 		this.count = _count;
 	}
@@ -257,6 +271,21 @@ class RestHighscoreGetListResult extends RestResult {
 	}
 }
 
-interface RestCallback {
-	(data: RestResult): void;
+class RestItemShopGetListResult extends RestResult {
+	public items: RestShopItem[];
+
+	constructor(_items: RestShopItem[]) {
+		super(RestResultType.Ok);
+		this.items = _items;
+	}
 }
+
+class RestItemShopGetResult extends RestResult {
+	public item: RestShopItem;
+
+	constructor(_item: RestShopItem) {
+		super(RestResultType.Ok);
+		this.item = _item;
+	}
+}
+

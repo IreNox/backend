@@ -12,17 +12,10 @@ var OverviewState = (function (_super) {
     OverviewState.prototype.onActivate = function () {
         var stateObject = this;
         $('#content').load('html/overview.html', function () {
-            stateObject.refreshUser();
+            if (Global.user) {
+                stateObject.onRefreshUser(Global.user);
+            }
             stateObject.refreshScoreLists();
-            $('#shop').button().click(function () {
-                sdk.changeState('shop');
-            });
-            $('#messages').button().click(function () {
-                sdk.changeState('message');
-            });
-            $('#logout').button().click(function () {
-                user.logout();
-            });
             $('#friends_search_form').submit(function (submitEvent) {
                 var obj = {};
                 obj.username = $('#friends_search_name').val();
@@ -31,7 +24,7 @@ var OverviewState = (function (_super) {
                     ui.buttonList(friendList, 'friend_add', function (id) {
                         user.addFriend(id, function (data) {
                             ui.showStatusMessage(ui.preloadHtml('overview_friend_added'));
-                            stateObject.refreshUser();
+                            user.refreshUser();
                         });
                     });
                     ui.buttonList(friendList, 'friend_name', function (id) {
@@ -51,36 +44,25 @@ var OverviewState = (function (_super) {
             $('#highscore_button').button();
         });
     };
-    OverviewState.prototype.refreshUser = function () {
+    OverviewState.prototype.onRefreshUser = function (user) {
         var stateObject = this;
-        sdk.serverGetAndParse('getuser', [], function (getUserData) {
-            stateObject.user = getUserData.user;
-            $('#username').html(getUserData.user.username);
-            $('#shop').button('option', 'label', ui.formatFile('overview_shop_button', getUserData.user));
-            stateObject.refreshFriendList();
-            stateObject.refreshMessages();
-        });
+        $('#username').html(user.username);
+        stateObject.refreshFriendList();
     };
     OverviewState.prototype.refreshFriendList = function () {
         var stateObject = this;
         ui.setLoading('friends_list');
-        user.getFriends(stateObject.user, function (friendsData) {
+        user.getFriends(Global.user, function (friendsData) {
             var friendList = $('#friends_list').html(ui.formatFile('overview_friend_list', friendsData));
             ui.buttonList(friendList, 'friend_remove', function (id) {
                 user.removeFriend(id, function (data) {
                     ui.showStatusMessage(ui.preloadHtml('overview_friend_removed'));
-                    stateObject.refreshUser();
+                    user.refreshUser();
                 });
             });
             ui.buttonList(friendList, 'friend_name', function (id) {
                 sdk.changeState("userinfo", { user_id: id });
             });
-        });
-    };
-    OverviewState.prototype.refreshMessages = function () {
-        var getUnreadCountRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
-        sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData) {
-            $('#messages').button('option', 'label', ui.formatFile('overview_message_count_button', messageCoundData));
         });
     };
     OverviewState.prototype.refreshScoreLists = function () {

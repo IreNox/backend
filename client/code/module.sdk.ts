@@ -1,6 +1,10 @@
 ﻿/// <reference path="../thirdparty/history/history.d.ts"/>
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 
+interface RestCallback {
+	(data: RestResult): void;
+}
+
 module sdk {
     var serverUrl: string = 'https://localhost/';
 	var states: { [s: string]: State } = {};

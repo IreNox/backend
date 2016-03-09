@@ -3,8 +3,15 @@ interface IdCallback {
 	(id: string): void;
 }
 
+enum MenuState {
+	Invalid,
+	Offline,
+	Online
+}
+
 module ui {
     var preloadedHtml: { [s: string]: string; } = {};
+	var menuState: MenuState = MenuState.Invalid;
 
     export function init() {
         ui.preloadHtml('loading');
@@ -58,5 +65,47 @@ module ui {
 
 			clickCallback(id);
 		});
+	}
+
+	function refreshOfflineMenu() {
+		$('#menu').html(preloadHtml('menu_offline'));
+
+		$('#menu_login').button().click(function () {
+			sdk.changeState('login');
+		});
+	}
+
+	function refreshOnlineMenu() {
+		$('#menu').html(preloadHtml('menu_online'));
+
+		$('#menu_shop').button().click(function () {
+			sdk.changeState('shop');
+		});
+
+		$('#menu_messages').button().click(function () {
+			sdk.changeState('message');
+		});
+
+		$('#menu_logout').button().click(function () {
+			user.logout();
+		});
+
+		var getUnreadCountRequest: RestMessageRequest = new RestMessageRequest(RestMessageActions.GetUnreadCount);
+		sdk.serverPostAndParse('message', getUnreadCountRequest, [], function (messageCoundData: RestMessageGetUnreadCountResult) {
+			$('#menu_messages').button('option', 'label', ui.formatFile('menu_online_message_button', messageCoundData));
+		});
+
+		$('#menu_shop').button('option', 'label', ui.formatFile('menu_online_shop_button', Global.user));
+	}
+
+	export function refreshMenu(force: boolean = false) {
+		if (Global.user == null && (menuState != MenuState.Offline || force)) {
+			refreshOfflineMenu();
+			menuState = MenuState.Offline;
+		}
+		else if (Global.user != null && (menuState != MenuState.Online || force)) {
+			refreshOnlineMenu();
+			menuState = MenuState.Online;
+		}
 	}
 }

@@ -22,7 +22,7 @@ export default class SdkUser {
                     callback(typesRest.RestResultType.DatabaseError);
                 }
                 else {
-                    sessionData.user = sdk.user.exportUser(user);
+                    sessionData.user = sdk.user.exportUser(user, true);
                     callback(typesRest.RestResultType.Ok);
                 }
             });
@@ -40,13 +40,12 @@ export default class SdkUser {
 		result.friends = user.friends.map(value => value.toHexString());
 
 		if (isCurrentUser) {
-			result.gems = user.gems;
+			console.log("items(" + typeof (user.items) + "):")
+			console.log(user.items)
+			result.items = user.items || [];
+			result.gems = user.gems || 0;
 		}
 
         return result;
     }
-	
-	getIdFromDatabase(value: mongoose.Document): typesRest.RestUserId {
-		return new typesRest.RestUserId(value.id);
-	}
 }

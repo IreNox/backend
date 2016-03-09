@@ -11,7 +11,7 @@ export default class MessagePage implements typesPage.Page {
         if (!sessionData.user) {
             callback(new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
         }
-        else if (inputData.action == 'getunreadcount') {
+        else if (inputData.action == typesRest.RestMessageActions.GetUnreadCount) {
 			modelMessage.model.find({ receiver_id: sessionData.user.id, read: false }, function (err, messages: modelMessage.Message[]) {
 				if (err) {
 					callback(new typesRest.RestResult(typesRest.RestResultType.DatabaseError));
@@ -21,7 +21,7 @@ export default class MessagePage implements typesPage.Page {
 				}
 			});
 		}
-		else if (inputData.action == 'getlist') {
+		else if (inputData.action == typesRest.RestMessageActions.GetList) {
 			modelMessage.model.find({ receiver_id: sessionData.user.id }, function (err, messages: modelMessage.Message[]) {
 				if (err) {
 					callback(new typesRest.RestResult(typesRest.RestResultType.DatabaseError));
@@ -40,7 +40,7 @@ export default class MessagePage implements typesPage.Page {
 				}
 			});
 		}
-		else if (inputData.action == 'get' && inputData.id) {
+		else if (inputData.action == typesRest.RestMessageActions.Get && inputData.id) {
 			modelMessage.model.findById(inputData.id, function (err, message: modelMessage.Message) {
 				if (err) {
 					callback(new typesRest.RestResult(typesRest.RestResultType.DatabaseError));
@@ -63,7 +63,7 @@ export default class MessagePage implements typesPage.Page {
 				}
 			});
 		}
-		else if (inputData.action == 'send' && inputData.id && inputData.subject && inputData.message) {
+		else if (inputData.action == typesRest.RestMessageActions.Send && inputData.id && inputData.subject && inputData.message) {
 			var message: modelMessage.Message = <modelMessage.Message>new modelMessage.model();
 			message.sender_id = sdk.db.toId(sessionData.user.id);
 			message.receiver_id = sdk.db.toId(inputData.id);

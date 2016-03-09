@@ -9,8 +9,8 @@ var GetUserPage = (function () {
         if (!sessionData.user) {
             callback(new typesRest.RestResult(typesRest.RestResultType.NotLoggedin));
         }
-        else if (inputData.user_id) {
-            modelUser.model.findById(inputData.user_id).exec(function (err, user) {
+        else if (inputData.userId) {
+            modelUser.model.findById(inputData.userId).exec(function (err, user) {
                 if (sdk.db.checkError(err, callback)) {
                     callback(new typesRest.RestGetUserResult(sdk.user.exportUser(user)));
                 }

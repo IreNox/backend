@@ -7,6 +7,7 @@ var userSchema = new mongoose.Schema({
     password: String,
     password_salt: String,
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+	items: [{ type: String }],
 	gems: Number
 });
 
@@ -17,6 +18,7 @@ export interface User extends mongoose.Document {
     password: string;
     password_salt: string;
     friends: mongoose.Types.ObjectId[];
+	items: string[];
     gems: number;
 }
 

@@ -7,7 +7,7 @@ var LoginPage = (function () {
     }
     LoginPage.prototype.run = function (inputData, sessionData, callback) {
         if (sessionData.user) {
-            callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user_id));
+            callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user.id));
         }
         else if (!inputData.username || (!inputData.login_token && !inputData.password)) {
             callback(new typesRest.RestResult(typesRest.RestResultType.InvalidCall));
@@ -25,9 +25,8 @@ var LoginPage = (function () {
                     callback(new typesRest.RestResult(typesRest.RestResultType.InvalidPassword));
                 }
                 else {
-                    sessionData.user_id = sdk.user.getIdFromDatabase(user);
                     sessionData.user = sdk.user.exportUser(user, true);
-                    callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user_id));
+                    callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user.id));
                 }
             });
         }

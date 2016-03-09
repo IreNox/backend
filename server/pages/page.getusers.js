@@ -9,8 +9,8 @@ var GetUsersPage = (function () {
         if (!sessionData.user) {
             callback(new typesRest.RestGetUsersResult(typesRest.RestResultType.NotLoggedin));
         }
-        else if (inputData.user_ids) {
-            modelUser.model.find({ '_id': { $in: inputData.user_ids } }).exec(function (err, result) {
+        else if (inputData.userIds) {
+            modelUser.model.find({ '_id': { $in: inputData.userIds } }).exec(function (err, result) {
                 callback(new typesRest.RestGetUsersResult(typesRest.RestResultType.Ok, result.map(function (value) { return sdk.user.exportUser(value); })));
             });
         }

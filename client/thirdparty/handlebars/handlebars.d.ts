@@ -5,26 +5,26 @@
 
 
 declare module Handlebars {
-    export function registerHelper(name: string, fn: Function, inverse?: boolean): void;
-    export function registerHelper(name: Object): void;
-    export function registerPartial(name: string, str: any): void;
-    export function unregisterHelper(name: string): void;
-    export function unregisterPartial(name: string): void;
-    export function K(): void;
-    export function createFrame(object: any): any;
-    export function Exception(message: string): void;
-    export function log(level: number, obj: any): void;
-    export function parse(input: string): hbs.AST.Program;
-    export function compile(input: any, options?: any): HandlebarsTemplateDelegate;
+    function registerHelper(name: string, fn: Function, inverse?: boolean): void;
+    function registerHelper(name: Object): void;
+    function registerPartial(name: string, str: any): void;
+    function unregisterHelper(name: string): void;
+    function unregisterPartial(name: string): void;
+    function K(): void;
+    function createFrame(object: any): any;
+    function Exception(message: string): void;
+    function log(level: number, obj: any): void;
+    function parse(input: string): hbs.AST.Program;
+    function compile(input: any, options?: any): HandlebarsTemplateDelegate;
 
-    export var SafeString: typeof hbs.SafeString;
-    export var Utils: typeof hbs.Utils;
-    export var logger: Logger;
-    export var templates: HandlebarsTemplates;
-    export var helpers: any;
+    var SafeString: typeof hbs.SafeString;
+    var Utils: typeof hbs.Utils;
+    var logger: Logger;
+    var templates: HandlebarsTemplates;
+    var helpers: any;
 
-    export module AST {
-        export var helpers: hbs.AST.helpers;
+    module AST {
+        var helpers: hbs.AST.helpers;
     }
 
     interface ICompiler {
@@ -45,7 +45,7 @@ declare module Handlebars {
         Hash(hash: hbs.AST.Hash): void;
     }
 
-    export class Visitor implements ICompiler {
+    class Visitor implements ICompiler {
         accept(node: hbs.AST.Node): void;
         acceptKey(node: hbs.AST.Node, name: string): void;
         acceptArray(arr: hbs.AST.Expression[]): void;
