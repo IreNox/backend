@@ -18,7 +18,7 @@ var UserInfoState = (function (_super) {
                     friendList.find("button[id*='friend_name']").button().click(function (clickEvent) {
                         var item_id = $(clickEvent.target).prop('id');
                         var user_id = /friend_name_([0-9a-fA-F]+)/.exec(item_id)[1];
-                        sdk.changeState("userinfo", { user_id: user_id });
+                        sdk.changeState(StateType.UserInfo, { user_id: user_id });
                     });
                 });
                 $('#message_write_form').submit(function (eventObject) {
@@ -34,5 +34,5 @@ var UserInfoState = (function (_super) {
     };
     return UserInfoState;
 }(State));
-sdk.registerState('userinfo', new UserInfoState());
+sdk.registerState(StateType.UserInfo, new UserInfoState());
 //# sourceMappingURL=state.userinfo.js.map

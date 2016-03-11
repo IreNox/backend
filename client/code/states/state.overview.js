@@ -28,7 +28,7 @@ var OverviewState = (function (_super) {
                         });
                     });
                     ui.buttonList(friendList, 'friend_name', function (id) {
-                        sdk.changeState("userinfo", { user_id: id });
+                        sdk.changeState(StateType.UserInfo, { user_id: id });
                     });
                 });
                 submitEvent.preventDefault();
@@ -61,7 +61,7 @@ var OverviewState = (function (_super) {
                 });
             });
             ui.buttonList(friendList, 'friend_name', function (id) {
-                sdk.changeState("userinfo", { user_id: id });
+                sdk.changeState(StateType.UserInfo, { user_id: id });
             });
         });
     };
@@ -75,5 +75,5 @@ var OverviewState = (function (_super) {
     };
     return OverviewState;
 }(State));
-sdk.registerState('overview', new OverviewState());
+sdk.registerState(StateType.Overview, new OverviewState());
 //# sourceMappingURL=state.overview.js.map

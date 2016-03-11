@@ -10,9 +10,10 @@ var sdk;
         });
     }
     sdk.init = init;
-    function changeState(stateName, stateData) {
+    function changeState(stateType, stateData) {
         if (stateData === void 0) { stateData = null; }
-        var url = encodeUrl({ state_name: stateName }, stateData);
+        var stateName = StateType[stateType];
+        var url = encodeUrl({ state_type: stateName }, stateData);
         var currentUrl = '?' + new URI(Historyjs.getState().url).query();
         if (url == currentUrl) {
             sdk.activateState();
@@ -73,7 +74,7 @@ var sdk;
         acceptedResults.push('Ok');
         if ($.inArray(data.result, acceptedResults) < 0) {
             if (data.result == "NotLoggedin") {
-                sdk.changeState("login");
+                sdk.changeState(StateType.Login);
             }
             else {
                 ui.showErrorMessage(data.result);
@@ -95,15 +96,16 @@ var sdk;
         return query.search(true);
     }
     sdk.decodeUrl = decodeUrl;
-    function registerState(stateName, stateObject) {
-        states[stateName] = stateObject;
+    function registerState(stateType, stateObject) {
+        states[stateType] = stateObject;
     }
     sdk.registerState = registerState;
     function activateState() {
         var state = Historyjs.getState();
         var stateData = decodeUrl(state.url);
-        var stateName = stateData.state_name;
-        delete stateData.state_name;
+        var stateName = stateData.state_type;
+        var stateType = StateType[stateName];
+        delete stateData.state_type;
         if (!stateName) {
             return false;
         }
@@ -112,17 +114,17 @@ var sdk;
         }
         ui.setLoading();
         var startState = function () {
-            if (stateName in states) {
-                var stateObject = states[stateName];
-                Global.stateName = stateName;
+            if (stateType in states) {
+                var stateObject = states[stateType];
+                Global.stateType = stateType;
                 Global.stateData = stateData;
                 Global.stateObject = stateObject;
                 stateObject.onActivate(stateData);
             }
         };
-        if (!(stateName in states)) {
+        if (!(stateType in states)) {
             $.ajax({
-                url: 'code/states/state.' + stateName + '.js',
+                url: 'code/states/state.' + stateName.toLowerCase() + '.js',
                 dataType: 'script',
                 success: function (data) {
                     eval(data);

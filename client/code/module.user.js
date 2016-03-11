@@ -3,12 +3,12 @@ var user;
     function onLogin(userId) {
         Global.userId = userId;
         var hasValidState = sdk.activateState();
-        if (hasValidState && Global.stateName == 'login') {
+        if (hasValidState && Global.stateType == StateType.Login) {
             hasValidState = false;
         }
         user.refreshUser(function (user) {
             if (!hasValidState) {
-                sdk.changeState('overview');
+                sdk.changeState(StateType.Overview);
             }
         });
     }
@@ -17,7 +17,7 @@ var user;
             onLogin(data.userId);
         }, function () {
             ui.refreshMenu();
-            sdk.changeState('login');
+            sdk.changeState(StateType.Login);
         });
     }
     user_1.login = login;
@@ -25,7 +25,7 @@ var user;
         sdk.serverPostAndParse('signup', loginData, [], function (data) {
             onLogin(data.userId);
         }, function () {
-            sdk.changeState('login');
+            sdk.changeState(StateType.Login);
         });
     }
     user_1.signUp = signUp;
@@ -34,7 +34,7 @@ var user;
             Global.userId = null;
             Global.user = null;
             ui.refreshMenu();
-            sdk.changeState('login');
+            sdk.changeState(StateType.Login);
         });
     }
     user_1.logout = logout;

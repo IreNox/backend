@@ -64,19 +64,22 @@ var ui;
     function refreshOfflineMenu() {
         $('#menu').html(preloadHtml('menu_offline'));
         $('#menu_login').button().click(function () {
-            sdk.changeState('login');
+            sdk.changeState(StateType.Login);
         });
     }
     function refreshOnlineMenu() {
         $('#menu').html(preloadHtml('menu_online'));
         $('#menu_overview').button().click(function () {
-            sdk.changeState('overview');
+            sdk.changeState(StateType.Overview);
         });
-        $('#menu_shop').button().click(function () {
-            sdk.changeState('shop');
+        $('#menu_itemshop').button().click(function () {
+            sdk.changeState(StateType.ItemShop);
+        });
+        $('#menu_gemsshop').button().click(function () {
+            sdk.changeState(StateType.GemsShop);
         });
         $('#menu_messages').button().click(function () {
-            sdk.changeState('message');
+            sdk.changeState(StateType.Message);
         });
         $('#menu_logout').button().click(function () {
             user.logout();

@@ -9,6 +9,9 @@ var LoginState = (function (_super) {
         _super.apply(this, arguments);
     }
     LoginState.prototype.onActivate = function () {
+        if (Global.user) {
+            sdk.changeState(StateType.Overview);
+        }
         $('#content').load('html/login.html', function () {
             $('#login_form').submit(function (eventObject) {
                 user.login(new RestLoginRequest($('#login_username').val(), $('#login_password').val()));
@@ -24,5 +27,5 @@ var LoginState = (function (_super) {
     };
     return LoginState;
 }(State));
-sdk.registerState('login', new LoginState());
+sdk.registerState(StateType.Login, new LoginState());
 //# sourceMappingURL=state.login.js.map

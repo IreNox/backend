@@ -1,4 +1,15 @@
 ﻿
+enum StateType {
+	Invalid,
+
+	Login,
+	Overview,
+	Message,
+	ItemShop,
+	GemsShop,
+	UserInfo
+}
+
 class State {
     public onActivate(stateData: any): void {
 	}

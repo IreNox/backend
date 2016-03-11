@@ -4,7 +4,7 @@ module Global {
 	export var userId: string = null;
     export var user: RestUser = null;
 
-    export var stateName: string = "";
+    export var stateType: StateType = StateType.Invalid;
     export var stateData: any = null;
 	export var stateObject: State = null;
 }

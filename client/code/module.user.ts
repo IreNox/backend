@@ -8,13 +8,13 @@ module user {
 		Global.userId = userId;
 
 		var hasValidState: boolean = sdk.activateState();
-		if (hasValidState && Global.stateName == 'login') {
+		if (hasValidState && Global.stateType == StateType.Login) {
 			hasValidState = false;
 		}
 
 		user.refreshUser(function (user: RestUser) {
 			if (!hasValidState) {
-				sdk.changeState('overview');
+				sdk.changeState(StateType.Overview);
 			}
 		});
 	}
@@ -24,7 +24,7 @@ module user {
 			onLogin(data.userId);
         }, function () {
 			ui.refreshMenu();
-			sdk.changeState('login');
+			sdk.changeState(StateType.Login);
 		});
     }
 
@@ -32,7 +32,7 @@ module user {
 		sdk.serverPostAndParse('signup', loginData, [], function (data: RestLoginResult) {
             onLogin(data.userId);
         }, function () {
-			sdk.changeState('login');
+			sdk.changeState(StateType.Login);
 		});
 	}
 
@@ -42,7 +42,7 @@ module user {
 			Global.user = null;
 			ui.refreshMenu();
 
-            sdk.changeState('login');
+            sdk.changeState(StateType.Login);
         });
     }
 

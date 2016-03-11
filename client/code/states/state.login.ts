@@ -1,6 +1,10 @@
 ﻿
 class LoginState extends State {
 	public onActivate(): void {
+		if (Global.user) {
+			sdk.changeState(StateType.Overview);
+		}
+
 		$('#content').load('html/login.html', function () {
 			$('#login_form').submit(function (eventObject: JQueryEventObject) {
 				user.login(new RestLoginRequest($('#login_username').val(), $('#login_password').val()));				
@@ -17,4 +21,4 @@ class LoginState extends State {
 	}
 }
 
-sdk.registerState('login', new LoginState());
+sdk.registerState(StateType.Login, new LoginState());

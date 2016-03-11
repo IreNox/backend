@@ -7,7 +7,7 @@ interface RestCallback {
 
 module sdk {
     var serverUrl: string = 'https://localhost/';
-	var states: { [s: string]: State } = {};
+	var states: { [s: number]: State } = {};
     
     export function init() {
         Historyjs.Adapter.bind(window, 'statechange', function () {
@@ -15,8 +15,9 @@ module sdk {
         });
     }
 	
-    export function changeState(stateName: string, stateData: any = null) {
-        var url: string = encodeUrl({ state_name: stateName }, stateData);
+    export function changeState(stateType: StateType, stateData: any = null) {
+		var stateName: string = StateType[stateType];
+        var url: string = encodeUrl({ state_type: stateName }, stateData);
 		var currentUrl: string = '?' + new URI(Historyjs.getState().url).query();
 
 		if (url == currentUrl) {
@@ -80,7 +81,7 @@ module sdk {
 
         if ($.inArray(data.result, acceptedResults) < 0) {
             if (data.result == "NotLoggedin") {
-                sdk.changeState("login")
+                sdk.changeState(StateType.Login);
             }
             else {
 				ui.showErrorMessage(data.result);
@@ -101,16 +102,17 @@ module sdk {
         return query.search(true);
     }
 
-	export function registerState(stateName: string, stateObject: State): void {
-		states[stateName] = stateObject;
+	export function registerState(stateType: StateType, stateObject: State): void {
+		states[stateType] = stateObject;
 	}
 
     export function activateState(): boolean {
         var state: HistoryState = Historyjs.getState();
 
         var stateData: any = decodeUrl(state.url);
-        var stateName: string = stateData.state_name;
-        delete stateData.state_name;
+        var stateName: string = stateData.state_type;
+		var stateType: StateType = StateType[stateName];
+        delete stateData.state_type;
 
         if (!stateName) {
             return false;
@@ -123,10 +125,10 @@ module sdk {
 		ui.setLoading();
 
 		var startState = function () {
-			if (stateName in states) {
-				var stateObject: State = states[stateName];
+			if (stateType in states) {
+				var stateObject: State = states[stateType];
 
-				Global.stateName = stateName;
+				Global.stateType = stateType;
 				Global.stateData = stateData;
 				Global.stateObject = stateObject;
 
@@ -134,9 +136,9 @@ module sdk {
 			}
 		}
 
-		if (!(stateName in states)) {
+		if (!(stateType in states)) {
 			$.ajax({
-				url: 'code/states/state.' + stateName + '.js',
+				url: 'code/states/state.' + stateName.toLowerCase() + '.js',
 				dataType: 'script',
 				success: function (data: string) {
 					eval(data);

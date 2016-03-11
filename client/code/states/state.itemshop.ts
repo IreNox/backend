@@ -1,5 +1,5 @@
 ﻿
-class ShopState extends State {
+class ItemShopState extends State {
 	public onActivate() {
 		var stateObject = this;
 		$('#content').load('html/shop.html', function () {
@@ -26,4 +26,4 @@ class ShopState extends State {
 	}
 }
 
-sdk.registerState('shop', new ShopState());
+sdk.registerState(StateType.ItemShop, new ItemShopState());

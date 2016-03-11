@@ -74,8 +74,9 @@
     <TypeScriptCompile Include="code\module.sdk.ts" />
     <TypeScriptCompile Include="code\module.ui.ts" />
     <TypeScriptCompile Include="code\module.user.ts" />
+    <TypeScriptCompile Include="code\states\state.gemsshop.ts" />
     <TypeScriptCompile Include="code\states\state.message.ts" />
-    <TypeScriptCompile Include="code\states\state.shop.ts" />
+    <TypeScriptCompile Include="code\states\state.itemshop.ts" />
     <TypeScriptCompile Include="code\types.base.ts" />
     <TypeScriptCompile Include="code\main.ts" />
     <TypeScriptCompile Include="code\states\state.login.ts" />

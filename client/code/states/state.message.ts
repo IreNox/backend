@@ -19,4 +19,4 @@ class MessageState extends State {
 	}
 }
 
-sdk.registerState('message', new MessageState());
+sdk.registerState(StateType.Message, new MessageState());

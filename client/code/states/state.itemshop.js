@@ -3,12 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var ShopState = (function (_super) {
-    __extends(ShopState, _super);
-    function ShopState() {
+var ItemShopState = (function (_super) {
+    __extends(ItemShopState, _super);
+    function ItemShopState() {
         _super.apply(this, arguments);
     }
-    ShopState.prototype.onActivate = function () {
+    ItemShopState.prototype.onActivate = function () {
         var stateObject = this;
         $('#content').load('html/shop.html', function () {
             if (Global.user) {
@@ -16,7 +16,7 @@ var ShopState = (function (_super) {
             }
         });
     };
-    ShopState.prototype.onRefreshUser = function (currentUser) {
+    ItemShopState.prototype.onRefreshUser = function (currentUser) {
         var getListRequest = new RestItemShopRequest(RestItemShopAction.GetList);
         sdk.serverPostAndParse('itemshop', getListRequest, [], function (getListData) {
             var itemList = $('#items').html(ui.formatFile('shop_items', getListData));
@@ -29,7 +29,7 @@ var ShopState = (function (_super) {
             });
         });
     };
-    return ShopState;
+    return ItemShopState;
 }(State));
-sdk.registerState('shop', new ShopState());
-//# sourceMappingURL=state.shop.js.map
+sdk.registerState(StateType.ItemShop, new ItemShopState());
+//# sourceMappingURL=state.itemshop.js.map

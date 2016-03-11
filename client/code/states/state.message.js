@@ -23,5 +23,5 @@ var MessageState = (function (_super) {
     };
     return MessageState;
 }(State));
-sdk.registerState('message', new MessageState());
+sdk.registerState(StateType.Message, new MessageState());
 //# sourceMappingURL=state.message.js.map

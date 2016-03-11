@@ -12,7 +12,7 @@ class UserInfoState extends State {
 						var item_id = $(clickEvent.target).prop('id');
 						var user_id = /friend_name_([0-9a-fA-F]+)/.exec(item_id)[1];
 
-						sdk.changeState("userinfo", { user_id: user_id });
+						sdk.changeState(StateType.UserInfo, { user_id: user_id });
 					});
 				});
 
@@ -35,4 +35,4 @@ class UserInfoState extends State {
 	}
 }
 
-sdk.registerState('userinfo', new UserInfoState());
+sdk.registerState(StateType.UserInfo, new UserInfoState());

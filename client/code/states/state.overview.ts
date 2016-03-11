@@ -26,7 +26,7 @@ class OverviewState extends State {
 					});
 
 					ui.buttonList(friendList, 'friend_name', function (id: string) {
-						sdk.changeState("userinfo", { user_id: id });
+						sdk.changeState(StateType.UserInfo, { user_id: id });
 					});
 				});
 
@@ -69,7 +69,7 @@ class OverviewState extends State {
 			});
 
 			ui.buttonList(friendList, 'friend_name', function (id: string) {
-				sdk.changeState("userinfo", { user_id: id });
+				sdk.changeState(StateType.UserInfo, { user_id: id });
 			});
 		});
 	}
@@ -84,4 +84,4 @@ class OverviewState extends State {
 	}
 }
 
-sdk.registerState('overview', new OverviewState());
+sdk.registerState(StateType.Overview, new OverviewState());

@@ -3,7 +3,7 @@ var Global;
 (function (Global) {
     Global.userId = null;
     Global.user = null;
-    Global.stateName = "";
+    Global.stateType = StateType.Invalid;
     Global.stateData = null;
     Global.stateObject = null;
 })(Global || (Global = {}));
