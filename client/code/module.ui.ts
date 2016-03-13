@@ -103,7 +103,7 @@ module ui {
 			$('#menu_messages').button('option', 'label', ui.formatFile('menu_online_message_button', messageCoundData));
 		});
 
-		$('#menu_shop').button('option', 'label', ui.formatFile('menu_online_shop_button', Global.user));
+		$('#menu_gemsshop').button('option', 'label', ui.formatFile('menu_online_shop_button', Global.user));
 	}
 
 	export function refreshMenu(force: boolean = false) {

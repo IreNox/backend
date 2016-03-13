@@ -10,7 +10,7 @@ var ItemShopState = (function (_super) {
     }
     ItemShopState.prototype.onActivate = function () {
         var stateObject = this;
-        $('#content').load('html/shop.html', function () {
+        $('#content').load('html/itemshop.html', function () {
             if (Global.user) {
                 stateObject.onRefreshUser(Global.user);
             }
@@ -19,11 +19,11 @@ var ItemShopState = (function (_super) {
     ItemShopState.prototype.onRefreshUser = function (currentUser) {
         var getListRequest = new RestItemShopRequest(RestItemShopAction.GetList);
         sdk.serverPostAndParse('itemshop', getListRequest, [], function (getListData) {
-            var itemList = $('#items').html(ui.formatFile('shop_items', getListData));
+            var itemList = $('#items').html(ui.formatFile('itemshop_items', getListData));
             ui.buttonList(itemList, 'item_buy', function (id) {
                 var buyRequest = new RestItemShopRequest(RestItemShopAction.Buy, id);
                 sdk.serverPostAndParse('itemshop', buyRequest, [], function (result) {
-                    ui.showStatusMessage(ui.preloadHtml('shop_bought'));
+                    ui.showStatusMessage(ui.preloadHtml('itemshop_bought'));
                     user.refreshUser(null, true);
                 });
             });

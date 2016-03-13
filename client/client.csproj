@@ -23,6 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\main.css" />
+    <Content Include="html\gemshop.html" />
+    <Content Include="html\gemshop_bought.html" />
+    <Content Include="html\gemshop_items.html" />
     <Content Include="html\loading.html" />
     <Content Include="html\login.html" />
     <Content Include="html\menu_offline.html" />
@@ -33,9 +36,9 @@
     <Content Include="html\overview.html" />
     <Content Include="html\overview_highscore_list.html" />
     <Content Include="html\menu_online_shop_button.html" />
-    <Content Include="html\shop.html" />
-    <Content Include="html\shop_bought.html" />
-    <Content Include="html\shop_items.html" />
+    <Content Include="html\itemshop.html" />
+    <Content Include="html\itemshop_bought.html" />
+    <Content Include="html\itemshop_items.html" />
     <Content Include="html\userinfo_friend_list.html" />
     <Content Include="html\overview_friend_removed.html" />
     <Content Include="html\overview_friend_added.html" />

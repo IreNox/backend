@@ -2,7 +2,7 @@
 class ItemShopState extends State {
 	public onActivate() {
 		var stateObject = this;
-		$('#content').load('html/shop.html', function () {
+		$('#content').load('html/itemshop.html', function () {
 			if (Global.user) {
 				stateObject.onRefreshUser(Global.user);
 			}
@@ -12,12 +12,12 @@ class ItemShopState extends State {
 	public onRefreshUser(currentUser: RestUser) {
 		var getListRequest = new RestItemShopRequest(RestItemShopAction.GetList);
 		sdk.serverPostAndParse('itemshop', getListRequest, [], function (getListData: RestItemShopGetListResult) {
-			var itemList = $('#items').html(ui.formatFile('shop_items', getListData));
+			var itemList = $('#items').html(ui.formatFile('itemshop_items', getListData));
 
 			ui.buttonList(itemList, 'item_buy', function (id: string) {
 				var buyRequest = new RestItemShopRequest(RestItemShopAction.Buy, id);
 				sdk.serverPostAndParse('itemshop', buyRequest, [], function (result: RestResult) {
-					ui.showStatusMessage(ui.preloadHtml('shop_bought'));
+					ui.showStatusMessage(ui.preloadHtml('itemshop_bought'));
 										
 					user.refreshUser(null, true);
 				});

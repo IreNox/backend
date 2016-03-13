@@ -1,0 +1,15 @@
+﻿{{#each items}}
+<div class="ui-widget-content ui-corner-all" style="margin-right: 20px; margin-bottom: 20px; padding: 20px; float: left;">
+	<b>{{name}}</b><br />
+	{{type}}<br />
+	<br />
+	<img src="{{image}}" /><br />
+	<br />
+	{{value}} Gems<br />
+	{{#if bought}}
+	<button id="item_buy_{{id}}" disabled>Bought</button>
+	{{else}}
+	<button id="item_buy_{{id}}">Buy</button>
+	{{/if}}
+</div>
+{{/each}}

@@ -6,7 +6,7 @@ enum StateType {
 	Overview,
 	Message,
 	ItemShop,
-	GemsShop,
+	GemShop,
 	UserInfo
 }
 
