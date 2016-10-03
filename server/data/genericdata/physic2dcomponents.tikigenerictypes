@@ -10,13 +10,13 @@
 	</enum>
 	<struct name="Physics2dComponentShapeInitData">
 		<field type="Physics3dShapeType" name="type" />
-		<field type="float3" name="boxSize" />
+		<field type="float3" name="boxSize">
 			<filter fieldName="type" value="{enum Physics2dShapeType.Box}" />
 		</field>
-		<field type="float" name="circleRadius" />
+		<field type="float" name="circleRadius">
 			<filter fieldName="type" value="{enum Physics2dShapeType.Circle}" />
 		</field>
-		<field type="{array float2}" name="vertices" />
+		<field type="{array float2}" name="vertices">
 			<filter fieldName="type" value="{enum Physics2dShapeType.Polygon}" />
 		</field>
 	</struct>

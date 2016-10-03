@@ -2,7 +2,7 @@
 /// <reference path="../thirdparty/urijs/urijs.d.ts"/>
 var sdk;
 (function (sdk) {
-    var serverUrl = 'https://localhost/';
+    var serverUrl = ""; //'https://localhost/';
     var states = {};
     function init() {
         Historyjs.Adapter.bind(window, 'statechange', function () {

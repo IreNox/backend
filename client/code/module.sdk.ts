@@ -6,7 +6,7 @@ interface RestCallback {
 }
 
 module sdk {
-    var serverUrl: string = 'https://localhost/';
+    var serverUrl: string = ""; //'https://localhost/';
 	var states: { [s: number]: State } = {};
     
     export function init() {

@@ -7,6 +7,7 @@ export enum GenericDataTypeType {
 
 export class GenericDataType {
 	public name: string;
+	public module: string;
 	public type: GenericDataTypeType;
 }
 
