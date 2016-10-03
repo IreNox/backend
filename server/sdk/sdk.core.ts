@@ -3,7 +3,7 @@ export default class SdkCore {
 	getFilenameWithExtension(path: string): string {
 		var lastSlash: number = path.lastIndexOf("/");
 		if (lastSlash == -1) {
-			return null;
+			return path;
 		}
 
 		return path.substring(lastSlash + 1);
@@ -16,7 +16,7 @@ export default class SdkCore {
 			return filename;
 		}
 
-		return filename.substr(0, lastDot - 1);
+		return filename.substr(0, lastDot);
 	}
 
 	endsWith(str: string, suffix: string): boolean {

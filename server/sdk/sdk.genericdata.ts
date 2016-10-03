@@ -12,7 +12,7 @@ export default class SdkGenericData {
 	private types: typesGenericData.GenericDataType;
 
 	constructor() {
-		var queue: GenericDataFile[];
+		var queue: GenericDataFile[] = [];
 
 		var files: string[] = fs.readdirSync("./data/genericdata");
 		files.forEach(function (file: string): void {
@@ -21,7 +21,7 @@ export default class SdkGenericData {
 			}
 
 			var filename: string = sdk.core.getFilename(file);
-			var fileContent: string = fs.readFileSync(file, "utf8");
+			var fileContent: string = fs.readFileSync("./data/genericdata/" + file, "utf8");
 			var xmlDoc: libxmljs.XMLDocument = libxmljs.parseXml(fileContent);
 
 			queue.push({ filename: filename, document: xmlDoc });

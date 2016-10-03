@@ -9,14 +9,14 @@ var GenericDataFile = (function () {
 }());
 var SdkGenericData = (function () {
     function SdkGenericData() {
-        var queue;
+        var queue = [];
         var files = fs.readdirSync("./data/genericdata");
         files.forEach(function (file) {
             if (!sdk.core.endsWith(file, ".tikigenerictypes")) {
                 return;
             }
             var filename = sdk.core.getFilename(file);
-            var fileContent = fs.readFileSync(file, "utf8");
+            var fileContent = fs.readFileSync("./data/genericdata/" + file, "utf8");
             var xmlDoc = libxmljs.parseXml(fileContent);
             queue.push({ filename: filename, document: xmlDoc });
         });

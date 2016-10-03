@@ -5,7 +5,7 @@ var SdkCore = (function () {
     SdkCore.prototype.getFilenameWithExtension = function (path) {
         var lastSlash = path.lastIndexOf("/");
         if (lastSlash == -1) {
-            return null;
+            return path;
         }
         return path.substring(lastSlash + 1);
     };
@@ -15,7 +15,7 @@ var SdkCore = (function () {
         if (lastDot == -1) {
             return filename;
         }
-        return filename.substr(0, lastDot - 1);
+        return filename.substr(0, lastDot);
     };
     SdkCore.prototype.endsWith = function (str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;

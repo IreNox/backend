@@ -9,17 +9,19 @@
   },
   "author": "Tim Boden <mail@timboden.de> (https://github.com/IreNox)",
   "dependencies": {
-    "express": ">=4.13.3",
+    "async": "^2.0.1",
     "body-parser": ">=1.14.1",
+    "connect-mongo": ">=1.1.0",
     "cookie-parser": ">=1.4.0",
+    "express": ">=4.13.3",
     "express-session": ">=1.11.3",
+    "libxmljs": ">=0.18.0",
     "mongodb": ">=2.0.45",
     "mongoose": ">=4.1.11",
-    "connect-mongo": ">=1.1.0",
-    "libxmljs": ">=0.18.0"
+    "typescript": "^2.0.3"
   },
   "devDependencies": {
-	"source-map-support": ">=0.4.0"
+    "source-map-support": ">=0.4.0"
   },
   "scripts": {
     "start": "node server.js"
