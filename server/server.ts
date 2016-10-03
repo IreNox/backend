@@ -36,7 +36,6 @@ app.use(session({
 var pageManager = new Pages();
 app.use(pageManager.getRequestHandler());
 
-
 var httpsOptions: https.ServerOptions = {};
 httpsOptions.key = fs.readFileSync('data/ssl.key', 'utf8');
 httpsOptions.cert = fs.readFileSync('data/ssl.cer', 'utf8');

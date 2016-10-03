@@ -23,9 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\main.css" />
-    <Content Include="html\gemshop.html" />
-    <Content Include="html\gemshop_bought.html" />
-    <Content Include="html\gemshop_items.html" />
+    <Content Include="html\editor_entity.html" />
+    <Content Include="html\gemsshop.html" />
+    <Content Include="html\gemsshop_bought.html" />
+    <Content Include="html\gemsshop_items.html" />
     <Content Include="html\loading.html" />
     <Content Include="html\login.html" />
     <Content Include="html\menu_offline.html" />
@@ -77,6 +78,8 @@
     <TypeScriptCompile Include="code\module.sdk.ts" />
     <TypeScriptCompile Include="code\module.ui.ts" />
     <TypeScriptCompile Include="code\module.user.ts" />
+    <TypeScriptCompile Include="code\states\state.editorentity.ts" />
+    <TypeScriptCompile Include="code\states\state.editor.level.ts" />
     <TypeScriptCompile Include="code\states\state.gemsshop.ts" />
     <TypeScriptCompile Include="code\states\state.message.ts" />
     <TypeScriptCompile Include="code\states\state.itemshop.ts" />

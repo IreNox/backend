@@ -3,10 +3,11 @@ var StateType;
     StateType[StateType["Invalid"] = 0] = "Invalid";
     StateType[StateType["Login"] = 1] = "Login";
     StateType[StateType["Overview"] = 2] = "Overview";
-    StateType[StateType["Message"] = 3] = "Message";
-    StateType[StateType["ItemShop"] = 4] = "ItemShop";
-    StateType[StateType["GemsShop"] = 5] = "GemsShop";
-    StateType[StateType["UserInfo"] = 6] = "UserInfo";
+    StateType[StateType["EditorEntity"] = 3] = "EditorEntity";
+    StateType[StateType["Message"] = 4] = "Message";
+    StateType[StateType["ItemShop"] = 5] = "ItemShop";
+    StateType[StateType["GemsShop"] = 6] = "GemsShop";
+    StateType[StateType["UserInfo"] = 7] = "UserInfo";
 })(StateType || (StateType = {}));
 var State = (function () {
     function State() {

@@ -82,6 +82,10 @@ module ui {
 			sdk.changeState(StateType.Overview);
 		});
 
+		$('#menu_editor_entity').button().click(function () {
+			sdk.changeState(StateType.EditorEntity);
+		});
+
 		$('#menu_itemshop').button().click(function () {
 			sdk.changeState(StateType.ItemShop);
 		});

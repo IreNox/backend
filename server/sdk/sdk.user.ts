@@ -40,8 +40,6 @@ export default class SdkUser {
 		result.friends = user.friends.map(value => value.toHexString());
 
 		if (isCurrentUser) {
-			console.log("items(" + typeof (user.items) + "):")
-			console.log(user.items)
 			result.items = user.items || [];
 			result.gems = user.gems || 0;
 		}

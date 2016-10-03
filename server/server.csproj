@@ -22,6 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="pages\page.entities.ts" />
     <TypeScriptCompile Include="pages\page.itemshop.ts" />
     <TypeScriptCompile Include="sdk\sdk.core.ts" />
     <TypeScriptCompile Include="models\model.message.ts" />
@@ -43,9 +44,11 @@
     <TypeScriptCompile Include="sdk.ts" />
     <TypeScriptCompile Include="sdk\sdk.crypt.ts" />
     <TypeScriptCompile Include="sdk\sdk.db.ts" />
+    <TypeScriptCompile Include="sdk\sdk.genericdata.ts" />
     <TypeScriptCompile Include="sdk\sdk.user.ts" />
     <TypeScriptCompile Include="server.ts" />
     <TypeScriptCompile Include="types\types.db.ts" />
+    <TypeScriptCompile Include="types\types.genericdata.ts" />
     <TypeScriptCompile Include="types\types.page.ts" />
     <TypeScriptCompile Include="types\types.rest.ts" />
     <TypeScriptCompile Include="typings\main.d.ts" />
@@ -59,6 +62,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\shop_items.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\genericdata\base.tikigenerictypes" />
+    <Content Include="data\genericdata\components.tikigenerictypes" />
+    <Content Include="data\genericdata\gamecomponents.tikigenerictypes" />
+    <Content Include="data\genericdata\particle.tikigenerictypes" />
+    <Content Include="data\genericdata\particle_resource.tikigenerictypes" />
+    <Content Include="data\genericdata\physic2dcomponents.tikigenerictypes" />
+    <Content Include="data\genericdata\physic3dcomponents.tikigenerictypes" />
+    <Content Include="data\genericdata\renderer.tikigenerictypes" />
+    <Content Include="data\genericdata\ui.tikigenerictypes" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

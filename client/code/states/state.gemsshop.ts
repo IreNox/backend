@@ -1,8 +1,8 @@
 ﻿
-class GemShopState extends State {
+class GemsShopState extends State {
 	public onActivate(stateData: any): void {
 		var stateObject = this;
-		$('#content').load('html/gemshop.html', function () {
+		$('#content').load('html/gemsshop.html', function () {
 			if (Global.user) {
 				stateObject.onRefreshUser(Global.user);
 			}
@@ -11,13 +11,13 @@ class GemShopState extends State {
 
 	public onRefreshUser(currentUser: RestUser) {
 		var getListRequest = new RestItemShopRequest(RestItemShopAction.GetList);
-		sdk.serverPostAndParse('gemshop', getListRequest, [], function (getListData: RestItemShopGetListResult) {
-			var itemList = $('#items').html(ui.formatFile('gemshop_items', getListData));
+		sdk.serverPostAndParse('gemsshop', getListRequest, [], function (getListData: RestItemShopGetListResult) {
+			var itemList = $('#items').html(ui.formatFile('gemsshop_items', getListData));
 
 			ui.buttonList(itemList, 'gems_buy', function (id: string) {
 				var buyRequest = new RestItemShopRequest(RestItemShopAction.Buy, id);
-				sdk.serverPostAndParse('gemshop', buyRequest, [], function (result: RestResult) {
-					ui.showStatusMessage(ui.preloadHtml('gemshop_bought'));
+				sdk.serverPostAndParse('gemsshop', buyRequest, [], function (result: RestResult) {
+					ui.showStatusMessage(ui.preloadHtml('gemsshop_bought'));
 
 					user.refreshUser(null, true);
 				});
@@ -26,4 +26,4 @@ class GemShopState extends State {
 	}
 }
 
-sdk.registerState(StateType.GemShop, new GemShopState());
+sdk.registerState(StateType.GemsShop, new GemsShopState());

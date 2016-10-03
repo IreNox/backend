@@ -39,6 +39,18 @@ export class RestShopItem extends RestObject {
 	public bought: boolean;
 }
 
+export class RestComponent extends RestObject {
+	public type: string;
+	public initData: any;
+}
+
+export class RestEntity extends RestObject {
+	public name: string;
+	public owner: RestUser;
+	public description: string;
+	public components: RestComponent[]
+}
+
 ///////////
 // Requests
 

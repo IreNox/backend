@@ -3,33 +3,33 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var GemShopState = (function (_super) {
-    __extends(GemShopState, _super);
-    function GemShopState() {
+var GemsShopState = (function (_super) {
+    __extends(GemsShopState, _super);
+    function GemsShopState() {
         _super.apply(this, arguments);
     }
-    GemShopState.prototype.onActivate = function (stateData) {
+    GemsShopState.prototype.onActivate = function (stateData) {
         var stateObject = this;
-        $('#content').load('html/gemshop.html', function () {
+        $('#content').load('html/gemsshop.html', function () {
             if (Global.user) {
                 stateObject.onRefreshUser(Global.user);
             }
         });
     };
-    GemShopState.prototype.onRefreshUser = function (currentUser) {
+    GemsShopState.prototype.onRefreshUser = function (currentUser) {
         var getListRequest = new RestItemShopRequest(RestItemShopAction.GetList);
-        sdk.serverPostAndParse('gemshop', getListRequest, [], function (getListData) {
-            var itemList = $('#items').html(ui.formatFile('gemshop_items', getListData));
+        sdk.serverPostAndParse('gemsshop', getListRequest, [], function (getListData) {
+            var itemList = $('#items').html(ui.formatFile('gemsshop_items', getListData));
             ui.buttonList(itemList, 'gems_buy', function (id) {
                 var buyRequest = new RestItemShopRequest(RestItemShopAction.Buy, id);
-                sdk.serverPostAndParse('gemshop', buyRequest, [], function (result) {
-                    ui.showStatusMessage(ui.preloadHtml('gemshop_bought'));
+                sdk.serverPostAndParse('gemsshop', buyRequest, [], function (result) {
+                    ui.showStatusMessage(ui.preloadHtml('gemsshop_bought'));
                     user.refreshUser(null, true);
                 });
             });
         });
     };
-    return GemShopState;
+    return GemsShopState;
 }(State));
-sdk.registerState(StateType.GemShop, new GemShopState());
+sdk.registerState(StateType.GemsShop, new GemsShopState());
 //# sourceMappingURL=state.gemsshop.js.map

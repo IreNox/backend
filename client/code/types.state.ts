@@ -4,9 +4,10 @@ enum StateType {
 
 	Login,
 	Overview,
+	EditorEntity,
 	Message,
 	ItemShop,
-	GemShop,
+	GemsShop,
 	UserInfo
 }
 

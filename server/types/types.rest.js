@@ -56,6 +56,22 @@ var RestShopItem = (function (_super) {
     return RestShopItem;
 }(RestObject));
 exports.RestShopItem = RestShopItem;
+var RestComponent = (function (_super) {
+    __extends(RestComponent, _super);
+    function RestComponent() {
+        _super.apply(this, arguments);
+    }
+    return RestComponent;
+}(RestObject));
+exports.RestComponent = RestComponent;
+var RestEntity = (function (_super) {
+    __extends(RestEntity, _super);
+    function RestEntity() {
+        _super.apply(this, arguments);
+    }
+    return RestEntity;
+}(RestObject));
+exports.RestEntity = RestEntity;
 ///////////
 // Requests
 var RestRequest = (function () {

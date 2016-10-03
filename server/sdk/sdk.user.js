@@ -36,8 +36,6 @@ var SdkUser = (function () {
         result.id = user.id;
         result.friends = user.friends.map(function (value) { return value.toHexString(); });
         if (isCurrentUser) {
-            console.log("items(" + typeof (user.items) + "):");
-            console.log(user.items);
             result.items = user.items || [];
             result.gems = user.gems || 0;
         }
