@@ -23,9 +23,30 @@
     </DebuggerPort>
     <NodejsPort>443</NodejsPort>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Content Include="data\genericdata\base.tikigenerictypes" />
+    <Content Include="data\genericdata\components.tikigenerictypes" />
+    <Content Include="data\genericdata\gamecomponents.tikigenerictypes" />
+    <Content Include="data\genericdata\particle.tikigenerictypes" />
+    <Content Include="data\genericdata\particle_resource.tikigenerictypes" />
+    <Content Include="data\genericdata\physic2dcomponents.tikigenerictypes" />
+    <Content Include="data\genericdata\physic3dcomponents.tikigenerictypes" />
+    <Content Include="data\genericdata\renderer.tikigenerictypes" />
+    <Content Include="data\genericdata\ui.tikigenerictypes" />
     <Content Include="package.json" />
     <Content Include="typings.json" />
     <TypeScriptCompile Include="pages.ts" />

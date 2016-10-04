@@ -41,7 +41,19 @@ var SdkGenericData = (function () {
     }
     SdkGenericData.prototype.addTypes = function (file) {
         var xmlDoc = file.document;
-        xmlDoc.root().childNodes();
+        var typeNodes = xmlDoc.root().childNodes();
+        for (var typeIndex in typeNodes) {
+            var typeNode = typeNodes[typeIndex];
+            var typeNodeType = typeNode.name().toLowerCase();
+            if (typeNodeType == "enum") {
+                var valueNodes = typeNode.childNodes();
+            }
+            else if (typeNodeType == "struct") {
+            }
+            else {
+                throw "Invalid GenericData type";
+            }
+        }
     };
     return SdkGenericData;
 }());
