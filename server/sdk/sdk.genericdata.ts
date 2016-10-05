@@ -9,7 +9,7 @@ class GenericDataFile {
 }
 
 export default class SdkGenericData {
-	private types: gd.GenericDataType[];
+	private types: gd.GenericDataType[] = [];
 
 	constructor() {
 		this.addValueType("bool", gd.GenericDataValueTypeType.Boolean);
@@ -95,7 +95,11 @@ export default class SdkGenericData {
 		let typeNodes: libxmljs.Element[] = xmlDoc.root().childNodes();
 		for (var typeIndex in typeNodes) {
 			let typeNode: libxmljs.Element = typeNodes[typeIndex];
+
 			let typeNodeType = typeNode.name().toLowerCase();
+			if (typeNodeType == "text" || typeNodeType == "comment") {
+				continue;
+			}
 
 			let typeNameAttr = typeNode.attr("name");
 			if (typeNameAttr == null) {
@@ -121,6 +125,9 @@ export default class SdkGenericData {
 				let valueNodes: libxmljs.Element[] = typeNode.childNodes();
 				for (var valueIndex in valueNodes) {
 					let valueNode: libxmljs.Element = valueNodes[valueIndex];
+					if (valueNode.name().toLowerCase() !== "value") {
+						continue;
+					}
 
 					let valueNameAttr = valueNode.attr("name");
 					if (valueNameAttr == null) {
@@ -144,10 +151,55 @@ export default class SdkGenericData {
 				type = enumType;
 			}
 			else if (typeNodeType == "struct") {
+				var structBaseType: gd.GenericDataStruct = null;
+				if (typeBaseType) {
+					structBaseType = typeBaseType.asStruct();
+				}
+
+				let structType: gd.GenericDataStruct = new gd.GenericDataStruct(typeName, file.filename, structBaseType);
+
+				let fieldNodes: libxmljs.Element[] = typeNode.childNodes();
+				for (var fieldIndex in fieldNodes) {
+					let fieldNode: libxmljs.Element = fieldNodes[fieldIndex];
+					if (fieldNode.name().toLowerCase() !== "field") {
+						continue;
+					}
+
+					let fieldNameAttr = fieldNode.attr("name");
+					if (fieldNameAttr == null) {
+						console.log("Field has no name attribute in " + typeName);
+						continue;
+					}
+
+					var fieldType: gd.GenericDataType = null;
+					let fieldTypeAttr = fieldNode.attr("type");
+					if (fieldTypeAttr != null) {
+						fieldType = this.findTypeByName(fieldTypeAttr.value());
+					}
+
+					if (fieldType == null) {
+						console.log("Field has no type in " + typeName);
+						continue;
+					}
+
+					let field: gd.GenericDataStructField = new gd.GenericDataStructField();
+					field.name = fieldNameAttr.value();
+					field.type = fieldType;
+					structType.fields.push(field);
+				}
+
+				type = structType;
 			}
 			else {
-				console.log("Invalid GenericData type: " + typeNodeType);
+				console.log(`Invalid GenericData type ${typeName} in ${file.filename}`);
 			}
+
+			if (!type) {
+				console.log(`Failed to generate ${typeName} in ${file.filename}`);
+				continue;
+			}
+
+			this.types.push(type);
 		}
 	}
 

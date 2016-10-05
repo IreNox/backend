@@ -1,11 +1,16 @@
-﻿import * as mongoose from 'mongoose';
-import * as sdk from '../sdk';
-import * as modelUser from '../models/model.user';
-import * as typesRest from '../types/types.rest';
+﻿import * as mongoose from "mongoose";
+import * as sdk from "../sdk";
+import * as modelUser from "../models/model.user";
+import * as typesRest from "../types/types.rest";
 
-var validFields = [
-    'username'
+let validFields = [
+    "username"
 ];
+
+let validCurrentUserFields = {
+    "items": [],
+	"gems": 0
+};
 
 export default class SdkUser {
     findUser(user_id: string, callback) {
@@ -22,14 +27,22 @@ export default class SdkUser {
                     callback(typesRest.RestResultType.DatabaseError);
                 }
                 else {
-                    sessionData.user = sdk.user.exportUser(user, true);
+                    sessionData.user = sdk.user.exportCurrentUser(user);
                     callback(typesRest.RestResultType.Ok);
                 }
             });
         }
     }
 
-    exportUser(user: modelUser.User, isCurrentUser: boolean = false): typesRest.RestUser {
+	exportUser(user: modelUser.User): typesRest.RestUser {
+		return this.exportUserInternal(user, false);
+	}
+
+	exportCurrentUser(user: modelUser.User): typesRest.RestUser {
+		return this.exportUserInternal(user, true);
+	}
+
+    private exportUserInternal(user: modelUser.User, isCurrentUser: boolean): typesRest.RestUser {
         var result: typesRest.RestUser = new typesRest.RestUser();
 
 		validFields.forEach(function (key: string) {
@@ -40,8 +53,9 @@ export default class SdkUser {
 		result.friends = user.friends.map(value => value.toHexString());
 
 		if (isCurrentUser) {
-			result.items = user.items || [];
-			result.gems = user.gems || 0;
+			for (var field in validCurrentUserFields) {
+				result[field] = user[field].items || validCurrentUserFields[field];
+			}
 		}
 
         return result;

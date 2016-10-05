@@ -32,7 +32,7 @@ export default class SignupPage implements typesPage.Page {
 
 						user.save(function (err) {
 							if (sdk.db.checkError(err, callback)) {
-								sessionData.user = sdk.user.exportUser(user, true);
+								sessionData.user = sdk.user.exportCurrentUser(user);
 
 								callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user.id));
 							}

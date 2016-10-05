@@ -24,7 +24,7 @@
     "source-map-support": ">=0.4.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node --harmony server.js"
   },
   "bugs": {
     "url": "https://github.com/IreNox/tiki3_backend/issues"

@@ -1,10 +1,8 @@
 "use strict";
-var modelPayment = require('../models/model.payment');
-var typesRest = require('../types/types.rest');
-var PaymentPage = (function () {
-    function PaymentPage() {
-    }
-    PaymentPage.prototype.run = function (inputData, sessionData, callback) {
+const modelPayment = require('../models/model.payment');
+const typesRest = require('../types/types.rest');
+class PaymentPage {
+    run(inputData, sessionData, callback) {
         if (!inputData.action) {
             callback(new typesRest.RestFindUserResult(typesRest.RestResultType.InvalidCall));
         }
@@ -22,9 +20,8 @@ var PaymentPage = (function () {
                 });
             }
         }
-    };
-    return PaymentPage;
-}());
+    }
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PaymentPage;
 //# sourceMappingURL=page.payment.js.map

@@ -1,13 +1,13 @@
 "use strict";
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var express = require('express');
-var mongoose = require('mongoose');
-var session = require('express-session');
-var connectMongo = require('connect-mongo');
-var https = require('https');
-var fs = require('fs');
-var pages_1 = require('./pages');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const express = require('express');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const connectMongo = require('connect-mongo');
+const https = require('https');
+const fs = require('fs');
+const pages_1 = require('./pages');
 var config = process.env.NODE_ENV || 'development';
 require('source-map-support').install({
     environment: 'node'

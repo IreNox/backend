@@ -1,11 +1,9 @@
 "use strict";
-var sdk = require('../sdk');
-var modelUser = require('../models/model.user');
-var typesRest = require('../types/types.rest');
-var LoginPage = (function () {
-    function LoginPage() {
-    }
-    LoginPage.prototype.run = function (inputData, sessionData, callback) {
+const sdk = require('../sdk');
+const modelUser = require('../models/model.user');
+const typesRest = require('../types/types.rest');
+class LoginPage {
+    run(inputData, sessionData, callback) {
         if (sessionData.user) {
             callback(new typesRest.RestLoginResult(typesRest.RestResultType.AlreadyLoggedin, sessionData.user.id));
         }
@@ -25,14 +23,13 @@ var LoginPage = (function () {
                     callback(new typesRest.RestResult(typesRest.RestResultType.InvalidPassword));
                 }
                 else {
-                    sessionData.user = sdk.user.exportUser(user, true);
+                    sessionData.user = sdk.user.exportCurrentUser(user);
                     callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user.id));
                 }
             });
         }
-    };
-    return LoginPage;
-}());
+    }
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LoginPage;
 //# sourceMappingURL=page.login.js.map

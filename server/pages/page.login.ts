@@ -24,7 +24,7 @@ export default class LoginPage implements typesPage.Page {
 					callback(new typesRest.RestResult(typesRest.RestResultType.InvalidPassword));
                 }
                 else {
-                    sessionData.user = sdk.user.exportUser(user, true);
+                    sessionData.user = sdk.user.exportCurrentUser(user);
 
 					callback(new typesRest.RestLoginResult(typesRest.RestResultType.Ok, sessionData.user.id));
                 }

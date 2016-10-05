@@ -1,21 +1,18 @@
 "use strict";
-var crypto = require('crypto');
-var hashAlgo = 'md5';
-var hashSize = 128 / 8;
-var SdkCypt = (function () {
-    function SdkCypt() {
-    }
-    SdkCypt.prototype.hash = function (str) {
+const crypto = require('crypto');
+const hashAlgo = 'md5';
+const hashSize = 128 / 8;
+class SdkCypt {
+    hash(str) {
         return crypto.createHmac(hashAlgo, str).digest('hex');
-    };
-    SdkCypt.prototype.create_salt = function () {
+    }
+    create_salt() {
         return crypto.randomBytes(hashSize).toString('hex');
-    };
-    SdkCypt.prototype.salt = function (password, salt) {
+    }
+    salt(password, salt) {
         return this.hash(password + salt);
-    };
-    return SdkCypt;
-}());
+    }
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SdkCypt;
 //# sourceMappingURL=sdk.crypt.js.map

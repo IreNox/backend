@@ -20,21 +20,24 @@ export class GenericDataType {
 		if (this.type !== GenericDataTypeType.Enum) {
 			return null;
 		}
-		return <GenericDataEnum>this;
+		var type: any = this;
+		return type;
 	}
 
 	public asStruct(): GenericDataStruct {
 		if (this.type !== GenericDataTypeType.Struct) {
 			return null;
 		}
-		return <GenericDataStruct>this;
+		var type: any = this;
+		return type;
 	}
 
 	public asValueType(): GenericDataValueType {
 		if (this.type !== GenericDataTypeType.Enum) {
 			return null;
 		}
-		return <GenericDataValueType>this;
+		var type: any = this;
+		return type;
 	}
 }
 

@@ -1,5 +1,5 @@
 "use strict";
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 var PaymentType;
 (function (PaymentType) {
     PaymentType[PaymentType["PayPal"] = 0] = "PayPal";

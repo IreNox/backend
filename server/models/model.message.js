@@ -1,5 +1,5 @@
 "use strict";
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 var messageSchema = new mongoose.Schema({
     sender_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     receiver_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },

@@ -1,9 +1,9 @@
 "use strict";
-var sdk_core_1 = require('./sdk/sdk.core');
-var sdk_crypt_1 = require('./sdk/sdk.crypt');
-var sdk_db_1 = require('./sdk/sdk.db');
-var sdk_user_1 = require('./sdk/sdk.user');
-var sdk_genericdata_1 = require('./sdk/sdk.genericdata');
+const sdk_core_1 = require('./sdk/sdk.core');
+const sdk_crypt_1 = require('./sdk/sdk.crypt');
+const sdk_db_1 = require('./sdk/sdk.db');
+const sdk_user_1 = require('./sdk/sdk.user');
+const sdk_genericdata_1 = require('./sdk/sdk.genericdata');
 exports.core = new sdk_core_1.default();
 exports.crypt = new sdk_crypt_1.default();
 exports.db = new sdk_db_1.default();

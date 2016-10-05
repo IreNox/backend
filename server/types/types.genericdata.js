@@ -1,20 +1,38 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 (function (GenericDataTypeType) {
     GenericDataTypeType[GenericDataTypeType["ValueType"] = 0] = "ValueType";
     GenericDataTypeType[GenericDataTypeType["Enum"] = 1] = "Enum";
     GenericDataTypeType[GenericDataTypeType["Struct"] = 2] = "Struct";
 })(exports.GenericDataTypeType || (exports.GenericDataTypeType = {}));
 var GenericDataTypeType = exports.GenericDataTypeType;
-var GenericDataType = (function () {
-    function GenericDataType() {
+class GenericDataType {
+    constructor(_name, _module, _type) {
+        this.name = _name;
+        this.module = _module;
+        this.type = _type;
     }
-    return GenericDataType;
-}());
+    asEnum() {
+        if (this.type !== GenericDataTypeType.Enum) {
+            return null;
+        }
+        var type = this;
+        return type;
+    }
+    asStruct() {
+        if (this.type !== GenericDataTypeType.Struct) {
+            return null;
+        }
+        var type = this;
+        return type;
+    }
+    asValueType() {
+        if (this.type !== GenericDataTypeType.Enum) {
+            return null;
+        }
+        var type = this;
+        return type;
+    }
+}
 exports.GenericDataType = GenericDataType;
 (function (GenericDataValueTypeType) {
     GenericDataValueTypeType[GenericDataValueTypeType["Boolean"] = 0] = "Boolean";
@@ -32,40 +50,33 @@ exports.GenericDataType = GenericDataType;
     GenericDataValueTypeType[GenericDataValueTypeType["String"] = 12] = "String";
 })(exports.GenericDataValueTypeType || (exports.GenericDataValueTypeType = {}));
 var GenericDataValueTypeType = exports.GenericDataValueTypeType;
-var GenericDataValueType = (function (_super) {
-    __extends(GenericDataValueType, _super);
-    function GenericDataValueType() {
-        _super.apply(this, arguments);
+class GenericDataValueType extends GenericDataType {
+    constructor(_name, _module, _baseType) {
+        super(_name, _module, GenericDataTypeType.ValueType);
+        this.baseType = _baseType;
     }
-    return GenericDataValueType;
-}(GenericDataType));
+}
 exports.GenericDataValueType = GenericDataValueType;
-var GenericDataEnumValue = (function () {
-    function GenericDataEnumValue() {
-    }
-    return GenericDataEnumValue;
-}());
+class GenericDataEnumValue {
+}
 exports.GenericDataEnumValue = GenericDataEnumValue;
-var GenericDataEnum = (function (_super) {
-    __extends(GenericDataEnum, _super);
-    function GenericDataEnum() {
-        _super.apply(this, arguments);
+class GenericDataEnum extends GenericDataType {
+    constructor(_name, _module, _baseType) {
+        super(_name, _module, GenericDataTypeType.Enum);
+        this.baseType = _baseType;
+        this.values = [];
     }
-    return GenericDataEnum;
-}(GenericDataType));
+}
 exports.GenericDataEnum = GenericDataEnum;
-var GenericDataStructField = (function () {
-    function GenericDataStructField() {
-    }
-    return GenericDataStructField;
-}());
+class GenericDataStructField {
+}
 exports.GenericDataStructField = GenericDataStructField;
-var GenericDataStruct = (function (_super) {
-    __extends(GenericDataStruct, _super);
-    function GenericDataStruct() {
-        _super.apply(this, arguments);
+class GenericDataStruct extends GenericDataType {
+    constructor(_name, _module, _baseType) {
+        super(_name, _module, GenericDataTypeType.Struct);
+        this.baseType = _baseType;
+        this.fields = [];
     }
-    return GenericDataStruct;
-}(GenericDataType));
+}
 exports.GenericDataStruct = GenericDataStruct;
 //# sourceMappingURL=types.genericdata.js.map
