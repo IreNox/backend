@@ -1,4 +1,2 @@
-# tiki3_backend
-Back-end for TikiEngine 3
-
-test
+# backend
+A simple node.js Back-end written in Typescript
